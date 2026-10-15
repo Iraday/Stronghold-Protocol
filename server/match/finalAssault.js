@@ -33,7 +33,8 @@
 //   * Hidden Core eligibility (after an R14 win): difficulty in hiddenCore.difficulties, the mode has a hidden round,
 //     Σ activated layers of the alive players measured at the end of the boss round's prep > threshold (solo 350 /
 //     co-op 1200) and team LP > minTeamLpExclusive (1, so at least 2 left: PRTS's user-contributed 「剩余生命值 > 1」,
-//     which the community's measurement 路标月报#2 matches — GitHub #645).
+//     which the community's measurement 路标月报#2 matches — GitHub #645). A server started with SP_HIDDEN_CORE=always
+//     (Match.hiddenCoreAlways) drops the layer and LP conditions: every R14 win of a mode with a hidden round enters it.
 
 import { BOSS_ROW_OFFSET, COLS, BOSS_POOL_MIN_HP } from '../sim/constants.js';
 import { mirrorDir, normDir } from '../sim/dir.js';
@@ -119,10 +120,12 @@ export class SharedBossPool {
  * Hidden-core eligibility.
  * @param {import('./gamedata.js').GameData} gd
  * @param {{ layerSum: number, teamLp: number }} s
+ * @param {{ always?: boolean }} [o] always: no layer / LP condition (the server's SP_HIDDEN_CORE=always)
  */
-export function hiddenEligible(gd, { layerSum, teamLp }) {
+export function hiddenEligible(gd, { layerSum, teamLp }, { always = false } = {}) {
   const hc = gd.hiddenCore;
   if (!gd.hiddenRound || !hc.difficulties.includes(gd.difficulty)) return false;
+  if (always) return true;
   const threshold = gd.isSolo ? hc.single : hc.multi;
   return layerSum > threshold && teamLp > hc.minTeamLpExclusive;
 }

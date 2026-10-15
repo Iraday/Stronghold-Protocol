@@ -177,6 +177,8 @@ export const LOBBY_DEFAULTS = Object.freeze({
   maxMatchesPerAddr: 8,   // matches started from one client network that may run at once (0 = unlimited)
   resyncMinGapMs: 1000,   // heavy resyncs (match state / result replay) per session at most this often on repeated hellos
   soloReconnectWindowMs: null, // a dropped solo run stays resumable this long (null = data singleReconnectTime, 24 h)
+  untimed: false,         // every match untimed outside its battles, like a single-human one (env SP_UNTIMED=1)
+  hiddenCoreAlways: false, // every R14 win enters the Hidden Core, no layer / LP condition (env SP_HIDDEN_CORE=always)
 });
 
 /** Official `singleReconnectTime` (s) when the data lacks it (constData, research 01 §1). */
@@ -1275,6 +1277,10 @@ export class Lobby {
         modeId: room.content?.modeId || modeIdFor(room.mode, room.difficulty),
         // 「AI 队友最后选择」 (GitHub #338): fixed for the match
         aiPicksLast: room.mode !== 'solo' && room.aiPicksLast === true,
+        // the server's SP_UNTIMED (LOBBY_DEFAULTS.untimed): no countdown outside the battles, whoever plays
+        ...(this.opts.untimed === true ? { untimed: true } : {}),
+        // the server's SP_HIDDEN_CORE=always (LOBBY_DEFAULTS.hiddenCoreAlways): an R14 win always unlocks the Hidden Core
+        ...(this.opts.hiddenCoreAlways === true ? { hiddenCoreAlways: true } : {}),
         seats,
         // the spectator seats (header): watched like eliminated players, never players
         spectators: room.spectators.map((s) => s.playerId),

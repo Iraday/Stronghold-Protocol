@@ -236,6 +236,26 @@ test('Hidden Core is skipped at Σ layers ≤ threshold, on FUNNY, or with team 
   m.dispose();
 });
 
+test('opts.hiddenCoreAlways (the server\'s SP_HIDDEN_CORE=always): every R14 win enters the Hidden Core, whatever the layers / LP', () => {
+  const gd = new GameData(DATA, 'mode_multi_normal');
+  assert.equal(hiddenEligible(gd, { layerSum: 0, teamLp: 1 }, { always: true }), true);
+  assert.equal(hiddenEligible(new GameData(DATA, 'mode_single_hard'), { layerSum: 0, teamLp: 1 }, { always: true }), true);
+  assert.equal(hiddenEligible(new GameData(DATA, 'mode_multi_funny'), { layerSum: 0, teamLp: 99 }, { always: true }), false, 'no hidden round on FUNNY');
+  for (const always of [false, true]) {
+    const h = makeMatch({ mode: 'solo', difficulty: 'HARD', seed: 53, fake: true, hiddenCoreAlways: always, script: (b) => (b.kind === 'boss' || b.kind === 'hidden' ? { bossDps: 1e9 } : {}) }).start();
+    const m = h.m;
+    h.drive(() => m.phase === PHASE.PREP && m.round === 14);
+    h.ps('p_0').lp = 1; // fails the official team LP > 1 too
+    h.drive(() => h.ended != null);
+    assert.ok(m.hiddenLayerSum <= m.gd.hiddenCore.single, `layers ${m.hiddenLayerSum} stay under the official threshold`);
+    assert.equal(h.ended.victory, true);
+    assert.equal(h.ended.hiddenReached, always, `hidden core reached with hiddenCoreAlways ${always}`);
+    assert.equal(h.ended.hiddenCleared, always);
+    assert.equal(h.ended.roundsPassed, always ? 15 : 14);
+    m.dispose();
+  }
+});
+
 test('Final Assault: a fighting player may only watch its own boss field; eliminated players spectate any field', () => {
   const h = makeMatch({ mode: 'coop', difficulty: 'FUNNY', humans: 4, seed: 54, fake: true, instant: false, script: (b) => (b.kind === 'boss' ? { bossDps: 1 } : {}) }).start();
   const m = h.m;
