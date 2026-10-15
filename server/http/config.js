@@ -6,6 +6,10 @@
 //   * DEBUG → the console logger's debug level;
 //   * SP_ASSET_INDEX=0 (or the `assetIndex: false` option) → no content-hash index: plain asset URLs, size-mtime ETags
 //     (assetIndex.js); the index of the default public/ persists in .cache/asset-hashes.json;
+//   * SP_UNTIMED=1 (or the `untimed: true` option) → lobby.js Lobby `untimed`: every match is untimed outside its
+//     battles, like a single-human match (Match.soloUntimed);
+//   * SP_HIDDEN_CORE=always (or the `hiddenCoreAlways: true` option) → lobby.js Lobby `hiddenCoreAlways`: every R14 win
+//     enters the Hidden Core, without its layer / LP conditions (finalAssault.js hiddenEligible);
 //   * the served directories (public/, data/, shared/, the content packs' packs/ and the plugins' plugins/ of this
 //     repository unless the options name others), and which startServer() options are handed on to net.js Network and
 //     lobby.js Lobby.
@@ -21,7 +25,7 @@ export const noopLog = { info() {}, warn() {}, error() {}, debug() {} };
 /** startServer() options handed on to net.js Network / lobby.js Lobby (an absent one keeps that module's default). */
 const NET_OPTION_KEYS = ['reconnectWindowMs', 'heartbeatMs', 'helloTimeoutMs', 'ratePerSec', 'rateBurst', 'maxConnections', 'abuseDropsPerSec',
   'maxConnectionsPerAddr', 'heavyPerSec', 'heavyBurst', 'trustProxy'];
-const LOBBY_OPTION_KEYS = ['lobbyGraceMs', 'maxRooms', 'maxRoomsPerAddr', 'maxMatchesPerAddr', 'resyncMinGapMs', 'soloReconnectWindowMs'];
+const LOBBY_OPTION_KEYS = ['lobbyGraceMs', 'maxRooms', 'maxRoomsPerAddr', 'maxMatchesPerAddr', 'resyncMinGapMs', 'soloReconnectWindowMs', 'untimed', 'hiddenCoreAlways'];
 
 /**
  * Bind address used when neither the `host` option nor `HOST` says otherwise: one dual-stack socket, so the server
@@ -100,13 +104,28 @@ export function netOptionsFrom(opts) {
   return netOptions;
 }
 
-/** lobby.js Lobby options out of the startServer() options. */
+/**
+ * lobby.js Lobby options out of the startServer() options; `untimed` falls back to SP_UNTIMED, `hiddenCoreAlways` to
+ * SP_HIDDEN_CORE.
+ */
 export function lobbyOptionsFrom(opts) {
   const lobbyOptions = {};
   for (const k of LOBBY_OPTION_KEYS) {
     if (opts[k] != null) lobbyOptions[k] = opts[k];
   }
+  if (lobbyOptions.untimed == null && parseUntimed(process.env.SP_UNTIMED)) lobbyOptions.untimed = true;
+  if (lobbyOptions.hiddenCoreAlways == null && parseHiddenCore(process.env.SP_HIDDEN_CORE)) lobbyOptions.hiddenCoreAlways = true;
   return lobbyOptions;
+}
+
+/** SP_HIDDEN_CORE env → whether every R14 win enters the Hidden Core (only `always`; anything else: the official rule). */
+export function parseHiddenCore(v) {
+  return String(v ?? '').trim().toLowerCase() === 'always';
+}
+
+/** SP_UNTIMED env → whether every match is untimed outside its battles (on only for 1 / true / yes / on). */
+export function parseUntimed(v) {
+  return ['1', 'true', 'yes', 'on'].includes(String(v ?? '').trim().toLowerCase());
 }
 
 /** TRUST_PROXY env → net.js trustProxy ('auto' unless explicitly on/off). @param {string | undefined} v */

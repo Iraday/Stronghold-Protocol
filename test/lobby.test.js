@@ -15,6 +15,8 @@ import { startServer, parseRange, acceptsGzip, pickEncoding, parseTrustProxy } f
 import { loadData, lookup, getChess, getBond, getBand, getMode, getConfig, INDEXED_FILES } from '../server/data.js';
 import * as dataModule from '../server/data.js';
 import { CODE_ALPHABET, BOT_NAMES } from '../server/lobby.js';
+import { lobbyOptionsFrom, parseUntimed, parseHiddenCore } from '../server/http/config.js';
+import { wireOptions } from '../server/match/host/proxy.js';
 import { sanitizeName, TokenBucket, SessionRegistry, clientAddress, normalizeIp, isLocalIp, limitKeyOf } from '../server/net.js';
 import { StubMatch as Match } from '../server/match/StubMatch.js';
 import { Match as RealMatch } from '../server/match/Match.js';
@@ -2165,6 +2167,42 @@ describe('platform units', () => {
     assert.equal(parseTrustProxy('off'), false);
     assert.equal(parseTrustProxy(undefined), 'auto');
     assert.equal(parseTrustProxy('auto'), 'auto');
+  });
+
+  test('SP_UNTIMED: the lobby option untimed (every match untimed outside battles) and the match-host wire', () => {
+    assert.equal(parseUntimed('1'), true);
+    assert.equal(parseUntimed(' On '), true);
+    assert.equal(parseUntimed('0'), false);
+    assert.equal(parseUntimed(undefined), false);
+    const was = process.env.SP_UNTIMED;
+    try {
+      delete process.env.SP_UNTIMED;
+      assert.equal(lobbyOptionsFrom({}).untimed, undefined, 'off by default');
+      process.env.SP_UNTIMED = '1';
+      assert.equal(lobbyOptionsFrom({}).untimed, true);
+      assert.equal(lobbyOptionsFrom({ untimed: false }).untimed, false, 'the startServer option wins');
+    } finally {
+      if (was === undefined) delete process.env.SP_UNTIMED; else process.env.SP_UNTIMED = was;
+    }
+    assert.equal(wireOptions({ roomCode: 'ABCD', untimed: true }).untimed, true, 'the match host of a plugin room gets it too');
+  });
+
+  test('SP_HIDDEN_CORE=always: the lobby option hiddenCoreAlways (every R14 win enters the Hidden Core) and the match-host wire', () => {
+    assert.equal(parseHiddenCore('always'), true);
+    assert.equal(parseHiddenCore(' Always '), true);
+    assert.equal(parseHiddenCore('1'), false, 'only `always`');
+    assert.equal(parseHiddenCore(undefined), false);
+    const was = process.env.SP_HIDDEN_CORE;
+    try {
+      delete process.env.SP_HIDDEN_CORE;
+      assert.equal(lobbyOptionsFrom({}).hiddenCoreAlways, undefined, 'off by default');
+      process.env.SP_HIDDEN_CORE = 'always';
+      assert.equal(lobbyOptionsFrom({}).hiddenCoreAlways, true);
+      assert.equal(lobbyOptionsFrom({ hiddenCoreAlways: false }).hiddenCoreAlways, false, 'the startServer option wins');
+    } finally {
+      if (was === undefined) delete process.env.SP_HIDDEN_CORE; else process.env.SP_HIDDEN_CORE = was;
+    }
+    assert.equal(wireOptions({ roomCode: 'ABCD', hiddenCoreAlways: true }).hiddenCoreAlways, true, 'the match host of a plugin room gets it too');
   });
 
   test('SessionRegistry: token lookup, expiry sweep, eviction', () => {

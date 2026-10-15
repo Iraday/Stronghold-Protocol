@@ -92,7 +92,9 @@ legal from R14 into R15. The client mirrors it
 A match with a single human seat at the start (独立模拟, or a 同盟 room started alone / with AI teammates only:
 `Match.loneHuman` → `Match.soloUntimed`, user playtest #4 item 3) times nothing outside its battles: no INFO_CHECK /
 band draft / 机变 / PREP deadline, and BATTLE_CHECK / ROUND_START / SETTLE run silently (deadline 0); the co-op rules
-(draft order and skip, 6 机变 cards, 联防) stay.
+(draft order and skip, 6 机变 cards, 联防) stay. A server started with `SP_UNTIMED=1` (lobby option `untimed` →
+`opts.untimed`, also handed to a plugin room's match host) runs every match this way, whoever plays; a disconnected
+human then holds the phase until they reconnect or the reconnect window makes them leave.
 `m.public.deadline` is the absolute end of the current timer (ms epoch, 0 = untimed; combat: estimated end at 2×;
 最终攻势 / 隐秘核心: the boss level's `levelMaxPlayTime` countdown, 120 real s — the battle goes on past it — with
 `m.public.overtimeAt` = when the overtime drain starts: 120 real s for all-human teams, 150 real s with an AI teammate at fight start; both on the field clock).

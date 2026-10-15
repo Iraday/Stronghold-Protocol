@@ -277,3 +277,42 @@ test('a single human (a 同盟 room started alone or with AI teammates only) is 
   assert.ok(h.m.deadline > 0, 'co-op prep is timed');
   h.m.dispose();
 });
+
+test('opts.untimed (the server\'s SP_UNTIMED=1): several humans are never timed outside battles either', () => {
+  const h = makeMatch({ mode: 'coop', difficulty: 'NORMAL', humans: 2, bots: 1, seed: 12, fake: true, instant: false, untimed: true }).start();
+  const m = h.m;
+  assert.equal(m.loneHuman, false);
+  assert.equal(m.soloUntimed, true);
+  const seen = new Map(); // phase → deadlines published
+  const note = (pub) => { if (!seen.has(pub.phase)) seen.set(pub.phase, []); seen.get(pub.phase).push(pub.deadline); };
+  for (const msg of h.bc) if (msg.t === 'm.public') note(msg);
+  h.onBroadcast.push((msg) => { if (msg.t === 'm.public') note(msg); });
+  h.sched.advance(10 * 60_000);
+  assert.equal(m.phase, PHASE.INFO_CHECK, 'briefing waits');
+  for (const id of ['p_0', 'p_1']) m.handle(id, { t: 'g.infoReady' });
+  h.sched.advance(1);
+  // two humans cannot take the same strategy (队友已选): each picks its own on its turn
+  const bands = m.gd.bandIds().filter((id) => m.gd.band(id)?.modeTypeList?.includes('MULTI') ?? true);
+  const pick = () => {
+    const pid = m.draftTurn();
+    if (!pid || m.players.get(pid).isBot) return false;
+    const id = bands.find((b) => !m.bandTaken(b, pid) && !m.handle(pid, { t: 'g.band', bandId: b }).error);
+    assert.ok(id, `${pid} picked a strategy`);
+    return true;
+  };
+  assert.ok(h.run(() => m.phase === PHASE.BAND_DRAFT && !m.players.get(m.draftTurn())?.isBot, { maxTime: 1000 }));
+  h.sched.advance(10 * 60_000);
+  assert.equal(m.phase, PHASE.BAND_DRAFT, 'the strategy draft waits');
+  for (let k = 0; k < 8 && m.phase === PHASE.BAND_DRAFT; k++) { pick(); h.sched.advance(1); }
+  assert.ok(h.drive(() => m.phase === PHASE.PREP && m.round === 2), 'reached PREP R2');
+  h.sched.advance(60 * 60_000);
+  assert.equal(m.phase, PHASE.PREP, 'prep waits');
+  assert.ok(h.drive(() => m.phase === PHASE.PREP && m.round === 4), 'past the R3 机变');
+  h.flushAll();
+  for (const ph of [PHASE.INFO_CHECK, PHASE.BAND_DRAFT, PHASE.BATTLE_CHECK, PHASE.ROUND_START, PHASE.SP_DRAFT, PHASE.PREP, PHASE.SETTLE]) {
+    assert.ok(seen.has(ph), `saw ${ph}`);
+    assert.ok(seen.get(ph).every((d) => d === 0), `${ph}: no countdown with opts.untimed: ${seen.get(ph)}`);
+  }
+  assert.ok(seen.get(PHASE.COMBAT).some((d) => d > 0), 'the battles keep their clock');
+  m.dispose();
+});

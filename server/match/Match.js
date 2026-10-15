@@ -137,6 +137,11 @@
 // phase outside its battles (soloUntimed); the co-op strategy draft has ONE countdown — BAND_TURN_SECONDS per turn,
 // published as m.public.deadline — AI seats pick at once and a turn that runs out takes the highlighted strategy
 // (g.bandFocus → timeoutBand); g.unitStats answers m.unitStats: the stats the board's units start their next battle with.
+//   opts.untimed       true: untimed outside the battles whoever plays, like a single human (soloUntimed; the lobby
+//                      passes it with the server's SP_UNTIMED=1). A disconnected human then holds the phase until they
+//                      come back or the reconnect window makes them leave.
+//   opts.hiddenCoreAlways  true: every R14 win enters the Hidden Core, without its layer / LP conditions
+//                      (finalAssault.js hiddenEligible; the lobby passes it with the server's SP_HIDDEN_CORE=always)
 //   opts.clientCombat  default true (env SP_COMBAT=server → false: the legacy server-run + snapshot streaming mode)
 //   opts.verify        'off' | 'sample' | 'all' (env SP_VERIFY, default 'off'): re-simulate accepted client results
 //                      ('sample': ~1 in 8, in later slices, mismatches logged; 'all': before accepting — the
@@ -426,6 +431,10 @@ export class Match {
      * (draft order and skip, 6 机变 cards, 联防 …) stay.
      */
     this.loneHuman = this.order.filter((p) => !p.isBot).length === 1;
+    /** the server's SP_UNTIMED (opts.untimed): every match untimed like a single human's — soloUntimed */
+    this.untimed = opts.untimed === true;
+    /** the server's SP_HIDDEN_CORE=always (opts.hiddenCoreAlways): an R14 win always unlocks the Hidden Core */
+    this.hiddenCoreAlways = opts.hiddenCoreAlways === true;
 
     // per-match setup (DESIGN §6.5)
     const setup = setupMatchWaves(this.gd, this.rngSetup);
