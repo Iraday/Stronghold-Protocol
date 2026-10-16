@@ -33,7 +33,7 @@
 // Korean and own-language dubs (default: yes, so the 0.3.0 full zip ships them; about +180 MB, measured after download).
 // Left out: test/ except test/helpers/battleHarness.js, the maintainer tools (build-data, golden, botbench, i18n, check-imports, this file …),
 // scripts/make-windows-bundle.mjs, the other docs (DESIGN, SIM, the research notes, docs/img …), public/dev/, handoff/,
-// .github/, types/, lint / editor / Docker files (Docker builds from a git clone).
+// .github/, types/, lint / editor / Docker files (Docker builds from a git clone; scripts/start-docker-lan.bat / .ps1 with them).
 //
 // Checks, all of them in --dry-run too (which writes nothing): the refusal list below; every relative import of a
 // shipped module and every `node <file>` of the player npm scripts resolves to a shipped file; a full zip has every file
