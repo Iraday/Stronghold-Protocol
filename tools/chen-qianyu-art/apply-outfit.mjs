@@ -1,4 +1,4 @@
-// Fit imagegen outfit/identity edits into Spine UV regions. Only skirt position floats move; bones and clips stay intact.
+// Fit the maintained artwork into Spine UV regions and attach a flared skirt to the pelvis, not the leaning torso.
 // node tools/chen-qianyu-art/apply-outfit.mjs [plugin-spine-directory]
 import fs from 'node:fs';
 import path from 'node:path';
@@ -137,7 +137,7 @@ for (const [side, names] of [['front', front], ['back', back]]) {
   }
   writePng(stem + '.png', image);
   fitSkirtMesh(stem + '.skel', side);
-  console.log(`${side}: ${selected.length} outfit regions updated; skirt mesh fitted; other regions and animation data preserved.`);
+  console.log(`${side}: outfit fitted; flared skirt bound to pelvis; other artwork, bones and non-skirt animation preserved.`);
 }
 
 /** Double the UV page once so the new pupils/apron are not reduced to the original tiny texture tiles. */
@@ -158,7 +158,7 @@ function upgradeAtlas(stem, width) {
   fs.writeFileSync(stem + '.atlas', atlas);
 }
 
-/** Patch only the skirt mesh's position floats; keep weights, animations, bones and other attachment bytes. */
+/** Rebind the skirt to the pelvis and remove obsolete shirt deforms; all other rig and clip bytes stay intact. */
 function fitSkirtMesh(file, side) {
   const bytes = Buffer.from(fs.readFileSync(file));
   const loader = {};
@@ -175,10 +175,51 @@ function fitSkirtMesh(file, side) {
     }
     readVertices(input, count) {
       if (this.activeName !== name) return super.readVertices(input, count);
-      this.vertexOffsets = [];
-      const read = input.readFloat;
-      input.readFloat = () => { this.vertexOffsets.push(input.index); return read.call(input); };
-      try { return super.readVertices(input, count); } finally { input.readFloat = read; }
+      this.vertexStart = input.index;
+      const result = super.readVertices(input, count);
+      this.vertexEnd = input.index;
+      return result;
+    }
+    readAnimation(input, clipName, data) {
+      // The legacy waist attachment was a deforming torso panel. Keep its frame times/curves, but zero only
+      // its explicit vertex offsets so the new skirt follows the pelvis instead of bending with the jacket.
+      let context = null;
+      const originals = data.skins.map(skin => skin.getAttachment);
+      const readInt = input.readInt, readFloat = input.readFloat;
+      const finishFrame = () => { context.remaining--; context.phase = context.remaining ? 'time' : 'done'; };
+      data.skins.forEach((skin, i) => {
+        skin.getAttachment = (...args) => {
+          const attachment = originals[i].apply(skin, args);
+          context = attachment?.path === name ? { phase: 'frames' } : null;
+          return attachment;
+        };
+      });
+      input.readInt = positive => {
+        const value = readInt.call(input, positive);
+        if (context?.phase === 'frames') { context.remaining = value; context.phase = 'time'; }
+        else if (context?.phase === 'end') {
+          context.count = value;
+          if (value) context.phase = 'start'; else finishFrame();
+        } else if (context?.phase === 'start') context.phase = 'vertices';
+        return value;
+      };
+      input.readFloat = () => {
+        const offset = input.index, value = readFloat.call(input);
+        if (!this.readingCurve && context?.phase === 'time') context.phase = 'end';
+        else if (!this.readingCurve && context?.phase === 'vertices') {
+          (this.skirtDeformOffsets ??= []).push(offset);
+          if (--context.count === 0) finishFrame();
+        }
+        return value;
+      };
+      try { return super.readAnimation(input, clipName, data); } finally {
+        input.readInt = readInt; input.readFloat = readFloat;
+        data.skins.forEach((skin, i) => { skin.getAttachment = originals[i]; });
+      }
+    }
+    readCurve(input, frame, timeline) {
+      this.readingCurve = true;
+      try { return super.readCurve(input, frame, timeline); } finally { this.readingCurve = false; }
     }
   }
   const reader = new Reader(loader);
@@ -186,20 +227,20 @@ function fitSkirtMesh(file, side) {
   const data = reader.readSkeletonData(new Uint8Array(bytes));
   const model = new spine.Skeleton(data); model.setToSetupPose(); model.updateWorldTransform();
   const entry = data.defaultSkin.getAttachments().find(e => e.attachment.path === name);
-  assert.ok(entry && reader.vertexOffsets.length);
+  assert.ok(entry && Number.isInteger(reader.vertexStart) && reader.vertexEnd > reader.vertexStart);
   const a = entry.attachment;
-  let weightIndex = 0, floatIndex = 0;
+  const pelvis = model.bones.find(b => b.data.name === (side === 'front' ? 'F_Hip' : 'B_Hip'));
+  assert.ok(pelvis && pelvis.data.index < 128);
+  const encoded = [Buffer.from([1])]; // weighted mesh; same UVs, triangle topology and number of world vertices
   for (let i = 0; i < a.regionUVs.length; i += 2) {
-    const count = a.bones ? a.bones[weightIndex++] : 1;
-    for (let j = 0; j < count; j++) {
-      const bone = a.bones ? model.bones[a.bones[weightIndex++]] : model.slots[entry.slotIndex].bone;
-      const point = { x: (a.regionUVs[i] - .5) * 116, y: -156 + a.regionUVs[i + 1] * 75 };
-      bone.worldToLocal(point);
-      bytes.writeFloatBE(point.x, reader.vertexOffsets[floatIndex++]);
-      bytes.writeFloatBE(point.y, reader.vertexOffsets[floatIndex++]);
-      if (a.bones) floatIndex++; // preserve the following weight float
-    }
+    const v = a.regionUVs[i + 1], width = 116 + 64 * Math.min(1, v * 2);
+    const point = { x: (a.regionUVs[i] - .5) * width, y: -156 + v * 75 };
+    pelvis.worldToLocal(point);
+    const vertex = Buffer.alloc(14);
+    vertex[0] = 1; vertex[1] = pelvis.data.index; // one influence, index encoded as a one-byte positive varint
+    vertex.writeFloatBE(point.x, 2); vertex.writeFloatBE(point.y, 6); vertex.writeFloatBE(1, 10);
+    encoded.push(vertex);
   }
-  assert.equal(floatIndex, reader.vertexOffsets.length, 'every skirt coordinate was accounted for');
-  fs.writeFileSync(file, bytes);
+  for (const offset of reader.skirtDeformOffsets ?? []) bytes.writeFloatBE(0, offset);
+  fs.writeFileSync(file, Buffer.concat([bytes.subarray(0, reader.vertexStart), ...encoded, bytes.subarray(reader.vertexEnd)]));
 }

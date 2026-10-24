@@ -6,7 +6,7 @@
     "zh": "陈千语 · 立绘、头像、战斗模型与语音",
     "en": "Chen Qianyu art, battle model and voice"
   },
-  "version": "1.1.8",
+  "version": "1.1.9",
   "app": ">=0.3.0 <0.4.0",
   "api": 1,
   "class": "cosmetic",
@@ -19,8 +19,8 @@
     "Iraday"
   ],
   "description": {
-    "zh": "陈千语的头像、半身像与立绘采用服主提供的图片，以及她正面与背面一致服装的战斗模型：沿用陈的骨骼与动作，按服主提供的参考图修改为柔和炭黑发、灰色虹膜与红色竖瞳、粉色根部的蓝角、浅蓝手套、浅蓝短外套与黑色下袖、加宽加长的白色百褶裙（正面局部浅绿围裙）、黑色长袜与靴子；背面无蓝色兜帽，保留细领口。青色刀刃与品红点缀，正面像琳琅诗怀雅一样微笑。语音来自 OpenPeon 声音包 ae_qianyu（github.com/LiRiu/qianyu-chen-pack，CC-BY-NC-4.0）。© Hypergryph，仅限本服务器私用，请勿分享。",
-    "en": "Chen Qianyu's avatar, portrait and illustration use the owner-supplied image. Both battle views retain Ch'en's bones and animations while following the owner's references: soft charcoal hair, gray irises with red slit pupils, blue horns with pink roots, lighter blue gloves, cropped light-blue jacket with black lower sleeves, wider/longer white pleated skirt with a partial sage apron on the front, and dark long stockings/boots. The back has a thin collar without a blue hood. Teal blades and magenta accents remain; the front smiles like Swire the Elegant Wit. Voice: OpenPeon ae_qianyu (github.com/LiRiu/qianyu-chen-pack, CC-BY-NC-4.0). © Hypergryph; private use on this server only, do not share."
+    "zh": "陈千语的头像、半身像与立绘采用服主提供的图片，以及她正面与背面一致服装的战斗模型：沿用陈的骨骼与动作，按服主提供的参考图修改为柔和炭黑发、灰色虹膜与红色竖瞳、粉色根部的蓝角、浅蓝手套、浅蓝短外套与黑色下袖、包覆髋部并随骨盆移动的宽摆白色百褶裙（正面局部浅绿围裙）、黑色长袜与靴子；背面无蓝色兜帽，保留细领口。青色刀刃与品红点缀，正面像琳琅诗怀雅一样微笑。语音来自 OpenPeon 声音包 ae_qianyu（github.com/LiRiu/qianyu-chen-pack，CC-BY-NC-4.0）。© Hypergryph，仅限本服务器私用，请勿分享。",
+    "en": "Chen Qianyu's avatar, portrait and illustration use the owner-supplied image. Both battle views retain Ch'en's bones and poses while following the owner's references: soft charcoal hair, gray irises with red slit pupils, blue horns with pink roots, lighter blue gloves, cropped light-blue jacket with black lower sleeves, a full flared white pleated skirt wrapping the hips and following the pelvis, with a partial sage apron on the front, and dark long stockings/boots. The back has a thin collar without a blue hood. Teal blades and magenta accents remain; the front smiles like Swire the Elegant Wit. Voice: OpenPeon ae_qianyu (github.com/LiRiu/qianyu-chen-pack, CC-BY-NC-4.0). © Hypergryph; private use on this server only, do not share."
   },
   "permissions": [
     "assets.add"

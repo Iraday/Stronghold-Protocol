@@ -38,11 +38,16 @@ premultiplied alpha and restores atlas rotation. Semantic rig names differ from 
 the generated `Hip` skirt goes into the last-drawn `Waist` attachment, `Calf` skin goes on the upper `Leg`,
 and the existing boots go on `Calf`. The later refinements replace identity, gloves, skirt, collar and stockings.
 Both eye clusters are retained, so connected-component cleanup cannot erase one eye. The collar only occupies
-the top 4/21 of the old hood region. The skirt mesh is positioned at the hips with a 116-unit-wide, 75-unit-long
-UV rectangle, avoiding a skirt drawn on the abdomen or a thigh painted over its hem. Coat textures end at the waist.
+the top 4/21 of the old hood region. The skirt keeps its 116-unit fitted waist but flares to a 180-unit hem by mid-height,
+with the same 75-unit length. Both views bind to the existing hip/pelvis bone, not the leaning torso. The old torso-panel
+deform offsets for this attachment are zeroed while preserving their frame times and curves. This prevents the skirt
+from hanging sideways as a narrow panel over exposed hip roots in attack and skill poses. The mesh still draws after
+both thighs, and a regression test checks opaque cloth coverage of both upper-thigh roots in idle, attack and skill.
+Coat textures end at the waist.
 UV pages are enlarged once to 1024px front / 512px back with nearest-neighbor sampling, then the selected source
-pieces are fitted at higher resolution; untouched pixels keep their exact colors and alpha. Bones, weights and
-animation clips are preserved byte-for-byte; only skirt position floats are patched. Face skin, mouth, weapons and
+pieces are fitted at higher resolution; untouched pixels keep their exact colors and alpha. Existing bone transforms,
+non-skirt attachments and non-skirt animation data remain unchanged. Only the skirt's vertex/weight block and its
+legacy deform offset values change. Face skin, mouth, weapons and
 existing motion-effect regions are not repainted.
 
 Run `node --test test/plugins/chen-qianyu-outfit.test.js`, preview front and back animations, then

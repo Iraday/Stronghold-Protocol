@@ -92,7 +92,7 @@ test('both views use lighter blue gloves and softly highlighted charcoal hair', 
   }
 });
 
-for (const side of ['front', 'back']) test(`${side}: continuous skirt is on the hips and animation clips remain available`, () => {
+function readModel(side) {
   const loader = {};
   for (const kind of ['Region', 'Mesh', 'BoundingBox', 'Path', 'Point', 'Clipping']) {
     loader[`new${kind}Attachment`] = (skin, name, p) => {
@@ -102,18 +102,75 @@ for (const side of ['front', 'back']) test(`${side}: continuous skirt is on the 
   const file = path.join(assets, side === 'front' ? '' : 'back', 'chen_qianyu.skel');
   const data = new spine.SkeletonBinary(loader).readSkeletonData(new Uint8Array(fs.readFileSync(file)));
   const model = new spine.Skeleton(data); model.setToSetupPose(); model.updateWorldTransform();
+  return { data, model };
+}
+
+for (const side of ['front', 'back']) test(`${side}: full flared skirt is bound to the hips, without torso-panel deformation`, () => {
+  const { data, model } = readModel(side);
   const name = side === 'front' ? 'F_Waist_B' : 'B_Waist';
   const entry = data.defaultSkin.getAttachments().find(e => e.attachment.path === name);
   assert.ok(entry);
   const a = entry.attachment, vertices = new Float32Array(a.worldVerticesLength);
   a.computeWorldVertices(model.slots[entry.slotIndex], 0, vertices.length, vertices, 0, 2);
   for (let i = 0; i < vertices.length; i += 2) {
-    assert.ok(Math.abs(vertices[i] - (a.regionUVs[i] - .5) * 116) < .001);
+    const width = 116 + 64 * Math.min(1, a.regionUVs[i + 1] * 2);
+    assert.ok(Math.abs(vertices[i] - (a.regionUVs[i] - .5) * width) < .001);
     assert.ok(Math.abs(vertices[i + 1] - (-156 + a.regionUVs[i + 1] * 75)) < .001);
+  }
+  assert.ok(a.bones, 'both views must use a pelvis-bound skirt');
+  for (let i = 1; i < a.bones.length; i += 2) assert.equal(data.bones[a.bones[i]].name, side === 'front' ? 'F_Hip' : 'B_Hip');
+  for (const clip of data.animations) for (const timeline of clip.timelines) {
+    if (timeline.attachment !== a) continue;
+    assert.ok(timeline.frameVertices.every(frame => frame.every(n => n === 0)), `${clip.name}: no legacy shirt deform`);
   }
   for (const clip of ['Idle', 'Attack', 'Skill', 'Start']) assert.ok(data.findAnimation(clip), clip);
   const order = data.slots.map(s => s.name);
   for (const leg of side === 'front' ? ['F_L_Leg', 'F_R_Leg'] : ['B_L_Leg', 'B_R_Leg']) {
     assert.ok(order.indexOf(name) > order.indexOf(leg), 'skirt must draw over both thighs');
+  }
+});
+
+function weights(points, triangle, point) {
+  const [a, b, c] = triangle.map(i => [points[i * 2], points[i * 2 + 1]]);
+  const det = (b[1] - c[1]) * (a[0] - c[0]) + (c[0] - b[0]) * (a[1] - c[1]);
+  if (Math.abs(det) < 1e-8) return null;
+  const x = ((b[1] - c[1]) * (point[0] - c[0]) + (c[0] - b[0]) * (point[1] - c[1])) / det;
+  const y = ((c[1] - a[1]) * (point[0] - c[0]) + (a[0] - c[0]) * (point[1] - c[1])) / det;
+  return Math.min(x, y, 1 - x - y) >= -.0001 ? [x, y, 1 - x - y] : null;
+}
+
+function mapPoint(slot, point, fromUv) {
+  const a = slot.getAttachment(), world = new Float32Array(a.worldVerticesLength);
+  a.computeWorldVertices(slot, 0, world.length, world, 0, 2);
+  const from = fromUv ? a.regionUVs : world, to = fromUv ? world : a.regionUVs;
+  for (let i = 0; i < a.triangles.length; i += 3) {
+    const triangle = Array.from(a.triangles.slice(i, i + 3)), w = weights(from, triangle, point);
+    if (w) return [0, 1].map(axis => triangle.reduce((sum, vertex, j) => sum + w[j] * to[vertex * 2 + axis], 0));
+  }
+  return null;
+}
+
+for (const side of ['front', 'back']) test(`${side}: skirt covers upper-thigh roots in idle, attack and skill poses`, () => {
+  const { data, model } = readModel(side), prefix = side === 'front' ? 'F' : 'B';
+  const stem = path.join(assets, side === 'front' ? '' : 'back', 'chen_qianyu');
+  const image = readPng(stem + '.png'), region = readAtlas(stem + '.atlas').get(side === 'front' ? 'F_Waist_B' : 'B_Waist');
+  for (const clip of ['Idle', 'Attack', 'Skill']) {
+    model.setToSetupPose();
+    const state = new spine.AnimationState(new spine.AnimationStateData(data));
+    state.setAnimation(0, clip, false); state.update(clip === 'Idle' ? .5 : .35); state.apply(model); model.updateWorldTransform();
+    const skirt = model.slots.find(slot => slot.getAttachment()?.path === (side === 'front' ? 'F_Waist_B' : 'B_Waist'));
+    for (const leg of ['L', 'R']) {
+      const slot = model.slots.find(s => s.getAttachment()?.path === `${prefix}_${leg}_Leg`);
+      for (const v of [.12, .3]) {
+        const world = mapPoint(slot, [.5, v], true); assert.ok(world);
+        const uv = mapPoint(skirt, world, false);
+        assert.ok(uv, `${clip} ${leg}: upper thigh remains inside skirt mesh`);
+        const x = Math.max(0, Math.min(region.sw - 1, Math.round(uv[0] * (region.sw - 1))));
+        const y = Math.max(0, Math.min(region.sh - 1, Math.round(uv[1] * (region.sh - 1))));
+        const xx = region.rotate ? region.x + y : region.x + x;
+        const yy = region.rotate ? region.y + region.h - 1 - x : region.y + y;
+        assert.ok(image.data[(yy * image.w + xx) * 4 + 3] > 127, `${clip} ${leg}: opaque cloth covers upper thigh`);
+      }
+    }
   }
 });
