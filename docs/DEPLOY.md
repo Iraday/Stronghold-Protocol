@@ -264,7 +264,9 @@ docker run -d --name stronghold -p 3000:3000 --restart unless-stopped \
   -v "$PWD/public/assets:/app/public/assets:ro" stronghold-protocol
 ```
 
-镜像从源码（`git clone`）构建，Releases 的整合包不含 `Dockerfile`。镜像基于 `node:22-alpine`，多阶段构建，只含生产依赖（包括 `ses@2.3.0` 和 `acorn@8.18.0`）；`public/vendor`（含 `ses.umd.js` / `acorn.mjs`）在构建时生成。`node_modules` 是镜像安装目录里的实际文件，不是指向镜像外的符号链接，脚本沙箱子进程可以在 `--allow-fs-read` 范围内读取。`.dockerignore` 排除了 `public/assets`（不会把宿主机素材打进构建上下文）；`public/fonts`、`data/assets.json` 和 `data/local-assets.json` 若存在会被复制进去。环境变量同 README（`-e SP_VERIFY=sample` 等）。健康检查：`GET /healthz`。
+**Windows 双击开服（局域网）**：在源码目录里双击 `scripts\start-docker-lan.bat`，用 Docker 在本机开服，给连同一个 Wi-Fi / 局域网的设备玩，本机不需要装 Node.js。需要 Docker Desktop（Linux 容器模式），没运行时脚本会先启动它。首次运行时脚本用 `node:22-alpine` 容器把素材下载到 `public\assets`（约 720 MB，和 setup 一样会重写 `data\assets.json`），之后每次只构建镜像（有缓存，`git pull` 后只重建改动的部分）、替换容器 `stronghold-lan`（素材只读挂载，插件存在卷 `stronghold-plugins`；默认端口 3000 被占用时自动改用下一个空闲端口并提示），第一次还会请求一次管理员授权，为端口添加防火墙规则（仅专用 / 域网络），然后列出其他设备可用的地址并打开浏览器。网络被识别为「公用网络」时其他设备连不上，脚本会提示并给出改成专用网络的命令（1.2）。窗口里输入 S 停止服务器，Q 关闭窗口但让服务器继续运行（之后可加 `-Stop` 再运行一次来停止）。逻辑在同目录的 `start-docker-lan.ps1` 里（cmd 在 `chcp 65001` 下会读错含中文的 .bat 行，所以 .bat 只负责启动 PowerShell）；它开头的 `$Untimed` / `$HiddenCore` 默认开启 `SP_UNTIMED` / `SP_HIDDEN_CORE`（同盟不计时、最终攻势获胜必进隐秘核心，见 README 的环境变量表），设为 `''` 即恢复官方规则。参数：`-Port 3001` 指定端口（被占用时报错，不自动换），`-Assets` 补下素材，`-NoFirewall` 不添加防火墙规则，`-Stop` 停止服务器；`SP_NO_BROWSER=1` 不打开浏览器。
+
+镜像从源码（`git clone`）构建，Releases 的整合包不含 `Dockerfile`（所以也不含 `start-docker-lan.bat` / `.ps1`）。镜像基于 `node:22-alpine`，多阶段构建，只含生产依赖（包括 `ses@2.3.0` 和 `acorn@8.18.0`）；`public/vendor`（含 `ses.umd.js` / `acorn.mjs`）在构建时生成。`node_modules` 是镜像安装目录里的实际文件，不是指向镜像外的符号链接，脚本沙箱子进程可以在 `--allow-fs-read` 范围内读取。`.dockerignore` 排除了 `public/assets`（不会把宿主机素材打进构建上下文）；`public/fonts`、`data/assets.json` 和 `data/local-assets.json` 若存在会被复制进去。环境变量同 README（`-e SP_VERIFY=sample` 等）。健康检查：`GET /healthz`。
 
 **持久化插件**：把命名卷或宿主机目录挂到 `/app/plugins`，例如加 `-v stronghold-plugins:/app/plugins`。
 镜像在 `/app/plugin-resources` 保留只读的 `_template/`、`README.md` 和 `AGENTS.md`，用
