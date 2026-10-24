@@ -22,7 +22,7 @@ folders (manifest, file types, sizes, paths, JSON).
   listeners are allowed. Native `trusted` execution needs review, a lock pin in `config.json` and each player's consent;
   public/wildcard listeners or a public reverse proxy require `trusted-force` (PLUGINS.md §13);
 - this fork also versions the maintained `chen-qianyu/` gameplay plugin (1.0.11) and `chen-qianyu-art/` cosmetic pack
-  (1.1.5), including their matching locks, with the maintainer's explicit authorization. Their source and copyright
+  (1.1.6), including their matching locks, with the maintainer's explicit authorization. Their source and copyright
   notices remain in the manifests. Other installed plugins, policy files, studio keys and packed archives stay ignored.
 
 **Make one in the browser:** open `/studio/` of the running server — the plugin studio 插件工作台 (this machine and the local

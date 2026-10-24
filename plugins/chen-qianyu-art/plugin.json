@@ -6,7 +6,7 @@
     "zh": "陈千语 · 立绘、头像、战斗模型与语音",
     "en": "Chen Qianyu art, battle model and voice"
   },
-  "version": "1.1.5",
+  "version": "1.1.6",
   "app": ">=0.3.0 <0.4.0",
   "api": 1,
   "class": "cosmetic",
@@ -19,8 +19,8 @@
     "Iraday"
   ],
   "description": {
-    "zh": "陈千语的头像、半身像与立绘（来自 endfield.wiki.gg），以及她正面与背面一致配色的战斗模型：陈的模型与动作，按陈千语的配色重新上色（黑发、灰色眼睛、蓝色角、蓝色外套、白色短裙、青色刀刃、品红点缀，正面像琳琅诗怀雅一样微笑）；语音来自 OpenPeon 声音包 ae_qianyu（github.com/LiRiu/qianyu-chen-pack，CC-BY-NC-4.0）。© Hypergryph，仅限本服务器私用，请勿分享。",
-    "en": "Chen Qianyu's avatar, portrait and illustration (from endfield.wiki.gg), and matching front and back battle models: Ch'en's rig and animations recolored to Chen Qianyu's palette (black hair, gray eyes, blue horns, blue jacket, white skirt, teal blade, magenta accents, the front smiling like Swire the Elegant Wit); voice lines from the OpenPeon sound pack ae_qianyu (github.com/LiRiu/qianyu-chen-pack, CC-BY-NC-4.0). © Hypergryph; private use on this server only, do not share."
+    "zh": "陈千语的头像、半身像与立绘采用服主提供的图片，以及她正面与背面一致配色的战斗模型：陈的模型与动作，按陈千语的配色重新上色（黑发、灰色眼睛、蓝色角、蓝色外套、白色短裙、青色刀刃、品红点缀，正面像琳琅诗怀雅一样微笑）；语音来自 OpenPeon 声音包 ae_qianyu（github.com/LiRiu/qianyu-chen-pack，CC-BY-NC-4.0）。© Hypergryph，仅限本服务器私用，请勿分享。",
+    "en": "Chen Qianyu's avatar, portrait and illustration use the image supplied by the server owner, alongside matching front and back battle models: Ch'en's rig and animations recolored to Chen Qianyu's palette (black hair, gray eyes, blue horns, blue jacket, white skirt, teal blade, magenta accents, the front smiling like Swire the Elegant Wit); voice lines from the OpenPeon sound pack ae_qianyu (github.com/LiRiu/qianyu-chen-pack, CC-BY-NC-4.0). © Hypergryph; private use on this server only, do not share."
   },
   "permissions": [
     "assets.add"

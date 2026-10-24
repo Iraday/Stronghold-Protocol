@@ -1,20 +1,20 @@
 {
   "lock": 1,
   "id": "chen-qianyu-art",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "generator": "tools/plugin.mjs pack",
   "files": {
     "art/avatar.png": {
-      "sha256": "04e8f416fc2de1b420ac619220dec291187780935a21d61ec79b50f54c940ec7",
-      "bytes": 93479
+      "sha256": "f868d068ce3cb2145fab4757073e5cab1b5c299a6c61033a8f3f980c48254038",
+      "bytes": 70484
     },
     "art/illust.png": {
-      "sha256": "2c5ae57d05086a4ad2ae080977e7c28540d70b148187d380ae8961d1f02f63be",
-      "bytes": 1488080
+      "sha256": "adaef7a804516b45e1b46e34ba8c287b2d1def294cfd828646c173b5686ef282",
+      "bytes": 312008
     },
     "art/portrait.png": {
-      "sha256": "efb175b6d8b345c49a1dafe8438d93263ec8d7e734e6015c373e5bbf4088831b",
-      "bytes": 197529
+      "sha256": "3671fa9dd9405de727bd5bfd219c317192671bffdf05c32aafe424881b0eebd8",
+      "bytes": 128659
     },
     "art/skill_blade_gale.png": {
       "sha256": "250a564e055c13164e80224fe754158c017c0403385066a04dfc963d7914a875",
@@ -81,8 +81,8 @@
       "bytes": 27116
     },
     "plugin.json": {
-      "sha256": "8526a45f6e34d70e7c3f709e30489b88f7ff33d1c9ee60d8df3dfda967a88df0",
-      "bytes": 3139
+      "sha256": "d9ee80a071ed99123403c25420c7408912a21e0aa43248a4e5e8feddb8bd0797",
+      "bytes": 3162
     }
   },
   "spine": {
