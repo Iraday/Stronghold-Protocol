@@ -22,7 +22,7 @@ folders (manifest, file types, sizes, paths, JSON).
   listeners are allowed. Native `trusted` execution needs review, a lock pin in `config.json` and each player's consent;
   public/wildcard listeners or a public reverse proxy require `trusted-force` (PLUGINS.md §13);
 - this fork also versions the maintained `chen-qianyu/` gameplay plugin (1.0.11) and `chen-qianyu-art/` cosmetic pack
-  (1.1.4), including their matching locks, with the maintainer's explicit authorization. Their source and copyright
+  (1.1.5), including their matching locks, with the maintainer's explicit authorization. Their source and copyright
   notices remain in the manifests. Other installed plugins, policy files, studio keys and packed archives stay ignored.
 
 **Make one in the browser:** open `/studio/` of the running server — the plugin studio 插件工作台 (this machine and the local
@@ -38,6 +38,11 @@ every finding in plain words, `pack <dir> --zip` writes the `plugin.lock.json` a
 For data, copy `_template/content/` to `data-demo/` (PLUGINS.md §10: a bond patch and a kitRef operator); a server owner
 may limit what rooms take in `config.json` here (PLUGINS.md §11, DEPLOY.md). The same file's `allowDownloadHosts`
 is the operator's https download allowlist (PLUGINS.md §17); it is not a room-policy field.
+
+The Chen Qianyu cosmetic pack includes matching front and back battle models. With the official Ch'en back model
+available locally, `node tools/chen-qianyu-art/recolor-back.mjs` rebuilds the back model using the front's palette
+transforms while preserving the skeleton, atlas layout and alpha. Run `node tools/plugin.mjs pack chen-qianyu-art --zip`
+after changing its assets to refresh the lock.
 
 ```json
 {

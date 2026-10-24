@@ -1,7 +1,7 @@
 {
   "lock": 1,
   "id": "chen-qianyu-art",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "generator": "tools/plugin.mjs pack",
   "files": {
     "art/avatar.png": {
@@ -19,6 +19,18 @@
     "art/skill_blade_gale.png": {
       "sha256": "250a564e055c13164e80224fe754158c017c0403385066a04dfc963d7914a875",
       "bytes": 14518
+    },
+    "art/spine/back/chen_qianyu.atlas": {
+      "sha256": "5244045fe98123fb6a05f8ed9cd74ccbefc6c5cafff8dd89179ee66f3d6f6c58",
+      "bytes": 3966
+    },
+    "art/spine/back/chen_qianyu.png": {
+      "sha256": "37c6d50b0fd6ca79bbc04a8c8653f2d94aaf456102bde4edc343bc2c01a98d7b",
+      "bytes": 35415
+    },
+    "art/spine/back/chen_qianyu.skel": {
+      "sha256": "3253035ba4b6691a64c4f7180c609804356ef682877f8f036d634fda9516ca07",
+      "bytes": 114901
     },
     "art/spine/chen_qianyu.atlas": {
       "sha256": "6b68dd5075b8e9380c023988f5dd0f2caad2da354951496d38e1b690e75d7f00",
@@ -69,8 +81,8 @@
       "bytes": 27116
     },
     "plugin.json": {
-      "sha256": "41d0146e7d7e6599a3e7f49ee16cdad106b8bd2536977017b523f6f429b648c7",
-      "bytes": 2817
+      "sha256": "8526a45f6e34d70e7c3f709e30489b88f7ff33d1c9ee60d8df3dfda967a88df0",
+      "bytes": 3139
     }
   },
   "spine": {
@@ -168,6 +180,81 @@
         "y": -109.274,
         "width": 663.549,
         "height": 524.806
+      }
+    },
+    "art/spine/back/chen_qianyu.skel": {
+      "sha256": "3253035ba4b6691a64c4f7180c609804356ef682877f8f036d634fda9516ca07",
+      "anims": {
+        "idle": "Idle",
+        "deploy": "Start",
+        "attack": {
+          "begin": null,
+          "loop": "Attack",
+          "end": null
+        },
+        "attackDown": null,
+        "skill": {
+          "begin": null,
+          "loop": "Skill",
+          "end": "Skill_End",
+          "index": 0,
+          "idle": null
+        },
+        "die": null,
+        "move": null,
+        "stun": null,
+        "skills": {
+          "0": {
+            "begin": null,
+            "loop": "Skill",
+            "end": "Skill_End",
+            "index": 0,
+            "idle": null
+          },
+          "1": {
+            "begin": null,
+            "loop": "Skill",
+            "end": "Skill_End",
+            "index": 1,
+            "idle": null
+          },
+          "2": {
+            "begin": null,
+            "loop": "Skill",
+            "end": "Skill_End",
+            "index": 2,
+            "idle": null
+          }
+        }
+      },
+      "animations": {
+        "Attack": 1.5,
+        "Attack_End": 0.6,
+        "Attack_Pre": 0.6,
+        "Default": 0,
+        "Idle": 2,
+        "Skill": 1,
+        "Skill_End": 0.6,
+        "Start": 0.833
+      },
+      "events": [
+        "OnAttack",
+        "OnStart"
+      ],
+      "hits": {
+        "Attack": [
+          0.433,
+          1
+        ],
+        "Skill": [
+          0.467
+        ]
+      },
+      "bounds": {
+        "x": -173.082,
+        "y": -13.829,
+        "width": 315.887,
+        "height": 404.623
       }
     }
   }
