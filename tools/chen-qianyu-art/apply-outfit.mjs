@@ -1,4 +1,4 @@
-// Fit the imagegen outfit into Spine UV regions. Only the skirt mesh moves; bones, clips, face, hair and weapons stay intact.
+// Fit imagegen outfit/identity edits into Spine UV regions. Only skirt position floats move; bones and clips stay intact.
 // node tools/chen-qianyu-art/apply-outfit.mjs [plugin-spine-directory]
 import fs from 'node:fs';
 import path from 'node:path';
@@ -16,16 +16,28 @@ const front = ['F_L_Coat', 'F_R_Coat', 'F_Chest', 'F_Waist_A', 'F_L_Hood', 'F_R_
   'F_L_Leg', 'F_R_Leg', 'F_L_Calf', 'F_R_Calf'];
 const back = ['B_Coat', 'B_Chest', 'B_Hip', 'B_Waist', 'B_Hood', 'B_L_Shoulder',
   'B_R_Shoulder', 'B_L_Arm', 'B_R_Arm', 'B_L_Leg', 'B_R_Leg', 'B_L_Calf', 'B_R_Calf'];
+const refinements = [
+  { file: 'refinement-identity.png', cols: 4, rows: 4, names: ['F_Eyes', 'F_B_Hair', 'F_F_Hair', 'F_L_Hair',
+    'F_R_Hair_A', 'F_R_Hair_B', 'F_L_Braid', 'F_R_Braid', 'F_L_Horn', 'F_R_Horn', 'B_Head', 'B_F_Hair',
+    'B_L_Braid', 'B_R_Braid', 'B_L_Horn', 'B_R_Horn'] },
+  { file: 'refinement-gloves.png', cols: 5, rows: 4, names: ['F_L_Hand', 'F_R_Hand', 'F_L_Hand_B', 'F_L_Hand_C',
+    'F_R_Hand_B', 'F_L_Finger', 'F_L_Finger_1', 'F_L_Finger_2', 'F_L_Finger_3', 'F_L_Finger_4', 'F_L_Finger_5',
+    'B_L_Hand', 'B_R_Hand', 'B_L_Hand_B', 'B_L_Finger', 'B_L_Finger_1', 'B_L_Finger_2', 'B_L_Finger_3',
+    'B_L_Finger_4', 'B_L_Finger_5'] },
+  { file: 'refinement-tailoring.png', cols: 4, rows: 2, names: ['F_Waist_B', 'B_Waist', 'B_Hood', 'F_L_Calf',
+    'F_R_Calf', 'B_L_Calf', 'B_R_Calf'] },
+];
 
 /** Remove detached transparent-edge noise and isolate the largest connected garment inside its fixed sheet cell. */
-function garment(sheet, index) {
-  const cell = sheet.w / 4;
-  const x0 = Math.max(0, Math.floor(index % 4 * cell) - 12);
-  const y0 = Math.max(0, Math.floor(Math.floor(index / 4) * cell) - 8);
-  const x1 = Math.min(sheet.w, Math.ceil((index % 4 + 1) * cell) + 12);
-  const y1 = Math.min(sheet.h, Math.ceil((Math.floor(index / 4) + 1) * cell) + 8);
+function garment(sheet, index, cols = 4, rows = 4, multiple = false) {
+  const cellWidth = sheet.w / cols, cellHeight = sheet.h / rows;
+  const x0 = Math.max(0, Math.floor(index % cols * cellWidth) - 12);
+  const y0 = Math.max(0, Math.floor(Math.floor(index / cols) * cellHeight) - 8);
+  const x1 = Math.min(sheet.w, Math.ceil((index % cols + 1) * cellWidth) + 12);
+  const y1 = Math.min(sheet.h, Math.ceil((Math.floor(index / cols) + 1) * cellHeight) + 8);
   const width = x1 - x0, height = y1 - y0, visited = new Uint8Array(width * height);
   let largest = [];
+  const components = [];
   const alpha = i => sheet.data[((y0 + Math.floor(i / width)) * sheet.w + x0 + i % width) * 4 + 3];
   for (let first = 0; first < visited.length; first++) {
     if (visited[first] || alpha(first) < 128) continue;
@@ -39,8 +51,11 @@ function garment(sheet, index) {
       }
     }
     if (queue.length > largest.length) largest = queue;
+    components.push(queue);
   }
   assert.ok(largest.length > 100, `empty garment cell ${index}`);
+  // Eyes are two separate clusters. Keeping just the largest would silently erase the other eye.
+  if (multiple) largest = components.filter(c => c.length >= largest.length * .03).flat();
   const xs = largest.map(i => i % width), ys = largest.map(i => Math.floor(i / width));
   let left = width, right = 0, top = height, bottom = 0;
   for (let i = 0; i < xs.length; i++) { left = Math.min(left, xs[i]); right = Math.max(right, xs[i]); top = Math.min(top, ys[i]); bottom = Math.max(bottom, ys[i]); }
@@ -76,6 +91,7 @@ for (const [side, names] of [['front', front], ['back', back]]) {
   const sheet = readPng(path.join(here, `sources/outfit-${side}.png`));
   assert.equal(sheet.w, sheet.h, 'garment sheet must be square');
   const stem = path.join(target, side === 'back' ? 'back' : '', 'chen_qianyu');
+  upgradeAtlas(stem, side === 'front' ? 1024 : 512);
   const atlas = readAtlas(stem + '.atlas'), image = readPng(stem + '.png');
   const before = Buffer.from(image.data), allowed = new Uint8Array(image.w * image.h);
   const selected = names.filter(n => !/_Hip$/.test(n) && n !== 'B_Chest');
@@ -99,12 +115,47 @@ for (const [side, names] of [['front', front], ['back', back]]) {
       if (y < tile.h) tile.data.copy(image.data, dst, (y * tile.w + x) * 4, (y * tile.w + x) * 4 + 4);
     }
   }
+  for (const { file, cols, rows, names: parts } of refinements) {
+    const detail = readPng(path.join(here, 'sources', file));
+    for (const [index, name] of parts.entries()) {
+      if (name.startsWith('B_') !== (side === 'back')) continue;
+      const region = atlas.get(name); assert.ok(region, name);
+      // Replace the hood with only a thin collar along its top; do not stretch it back into a hood-sized panel.
+      const height = name === 'B_Hood' ? Math.round(region.sh * 4 / 21) : region.sh;
+      const tile = fit(garment(detail, index, cols, rows, name === 'F_Eyes'), region.sw, height);
+      for (let y = 0; y < region.sh; y++) for (let x = 0; x < region.sw; x++) {
+        const xx = region.rotate ? region.x + y : region.x + x;
+        const yy = region.rotate ? region.y + region.h - 1 - x : region.y + y;
+        const dst = (yy * image.w + xx) * 4; allowed[yy * image.w + xx] = 1;
+        image.data.fill(0, dst, dst + 4);
+        if (y < height) tile.data.copy(image.data, dst, (y * tile.w + x) * 4, (y * tile.w + x) * 4 + 4);
+      }
+    }
+  }
   for (let i = 0; i < allowed.length; i++) if (!allowed[i]) {
     assert.ok(image.data.subarray(i * 4, i * 4 + 4).equals(before.subarray(i * 4, i * 4 + 4)), 'a protected atlas pixel changed');
   }
   writePng(stem + '.png', image);
   fitSkirtMesh(stem + '.skel', side);
   console.log(`${side}: ${selected.length} outfit regions updated; skirt mesh fitted; other regions and animation data preserved.`);
+}
+
+/** Double the UV page once so the new pupils/apron are not reduced to the original tiny texture tiles. */
+function upgradeAtlas(stem, width) {
+  const image = readPng(stem + '.png');
+  if (image.w === width) return;
+  assert.equal(image.w * 2, width, 'only a one-time 2x UV upgrade is supported');
+  const result = { w: image.w * 2, h: image.h * 2, data: Buffer.alloc(image.data.length * 4) };
+  // Nearest-neighbor preserves every original pixel/alpha value, including unaffected weapon and VFX pieces.
+  for (let y = 0; y < result.h; y++) for (let x = 0; x < result.w; x++) {
+    const src = (Math.floor(y / 2) * image.w + Math.floor(x / 2)) * 4;
+    image.data.copy(result.data, (y * result.w + x) * 4, src, src + 4);
+  }
+  const atlas = fs.readFileSync(stem + '.atlas', 'utf8').replace(
+    /^(\s*(?:size|xy|orig|offset):\s*)(-?\d+)\s*,\s*(-?\d+)/gm,
+    (_, key, a, b) => `${key}${Number(a) * 2},${Number(b) * 2}`);
+  writePng(stem + '.png', result);
+  fs.writeFileSync(stem + '.atlas', atlas);
 }
 
 /** Patch only the skirt mesh's position floats; keep weights, animations, bones and other attachment bytes. */
@@ -142,7 +193,7 @@ function fitSkirtMesh(file, side) {
     const count = a.bones ? a.bones[weightIndex++] : 1;
     for (let j = 0; j < count; j++) {
       const bone = a.bones ? model.bones[a.bones[weightIndex++]] : model.slots[entry.slotIndex].bone;
-      const point = { x: (a.regionUVs[i] - .5) * 96, y: -156 + a.regionUVs[i + 1] * 59 };
+      const point = { x: (a.regionUVs[i] - .5) * 116, y: -156 + a.regionUVs[i + 1] * 75 };
       bone.worldToLocal(point);
       bytes.writeFloatBE(point.x, reader.vertexOffsets[floatIndex++]);
       bytes.writeFloatBE(point.y, reader.vertexOffsets[floatIndex++]);

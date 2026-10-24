@@ -1,7 +1,7 @@
 {
   "lock": 1,
   "id": "chen-qianyu-art",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "generator": "tools/plugin.mjs pack",
   "files": {
     "art/avatar.png": {
@@ -21,27 +21,27 @@
       "bytes": 14518
     },
     "art/spine/back/chen_qianyu.atlas": {
-      "sha256": "5244045fe98123fb6a05f8ed9cd74ccbefc6c5cafff8dd89179ee66f3d6f6c58",
-      "bytes": 3966
+      "sha256": "02b6272315497ae52d98278d9f3fb421a539975a788f7a315783369d777f2f26",
+      "bytes": 3840
     },
     "art/spine/back/chen_qianyu.png": {
-      "sha256": "102481c109014ffc7cf41ba5fc1e095435d7a325da8b247da18965edf5657045",
-      "bytes": 45333
+      "sha256": "60dea816ba1ce053996364710f903916e741445a48ca092b42c3b689adc4a40e",
+      "bytes": 187241
     },
     "art/spine/back/chen_qianyu.skel": {
-      "sha256": "4a1d348bae80ea549baab1c129c485ed55d3479baef2a890cbb54021310a06af",
+      "sha256": "973b39daaedde50905cf207e8a31c0da309892fc7f35b860c4ef54fc6c2d420e",
       "bytes": 114901
     },
     "art/spine/chen_qianyu.atlas": {
-      "sha256": "6b68dd5075b8e9380c023988f5dd0f2caad2da354951496d38e1b690e75d7f00",
-      "bytes": 6700
+      "sha256": "404aa190bea889535a1dc255204692095d004357275199c8bf0e9d9f4304a612",
+      "bytes": 6472
     },
     "art/spine/chen_qianyu.png": {
-      "sha256": "e99f485d525880f9453698b3284e0dfa9218b1c378bce9ca01f0cc8350603581",
-      "bytes": 139538
+      "sha256": "30459f8e4f790b9db718dc4aac35bd85ffc6da7c464e4544b18807526376dd5c",
+      "bytes": 358319
     },
     "art/spine/chen_qianyu.skel": {
-      "sha256": "d28ec539ae2297d37876277de083287e2557f40ddff74794e1704cd76fc62870",
+      "sha256": "a9bde4eaa357a7fde702a89c4d68fd93a8f4d08bf5a57fbb8d0054e506a01344",
       "bytes": 328066
     },
     "art/voice/faceenemy_kewu.mp3": {
@@ -81,13 +81,13 @@
       "bytes": 27116
     },
     "plugin.json": {
-      "sha256": "c3f22c4c3c893bbf8c446b8832e2073c4b120be4d28ccc193d74b2ef2b1f2e7c",
-      "bytes": 3309
+      "sha256": "889168cbea5bdd5ec55bf3bdc22f05b724b1cce5002518d0a1687d14d3eca896",
+      "bytes": 3546
     }
   },
   "spine": {
     "art/spine/chen_qianyu.skel": {
-      "sha256": "d28ec539ae2297d37876277de083287e2557f40ddff74794e1704cd76fc62870",
+      "sha256": "a9bde4eaa357a7fde702a89c4d68fd93a8f4d08bf5a57fbb8d0054e506a01344",
       "anims": {
         "idle": "Idle",
         "deploy": "Start",
@@ -183,7 +183,7 @@
       }
     },
     "art/spine/back/chen_qianyu.skel": {
-      "sha256": "4a1d348bae80ea549baab1c129c485ed55d3479baef2a890cbb54021310a06af",
+      "sha256": "973b39daaedde50905cf207e8a31c0da309892fc7f35b860c4ef54fc6c2d420e",
       "anims": {
         "idle": "Idle",
         "deploy": "Start",

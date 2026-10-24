@@ -22,7 +22,7 @@ folders (manifest, file types, sizes, paths, JSON).
   listeners are allowed. Native `trusted` execution needs review, a lock pin in `config.json` and each player's consent;
   public/wildcard listeners or a public reverse proxy require `trusted-force` (PLUGINS.md §13);
 - this fork also versions the maintained `chen-qianyu/` gameplay plugin (1.0.11) and `chen-qianyu-art/` cosmetic pack
-  (1.1.7), including their matching locks, with the maintainer's explicit authorization. Their source and copyright
+  (1.1.8), including their matching locks, with the maintainer's explicit authorization. Their source and copyright
   notices remain in the manifests. Other installed plugins, policy files, studio keys and packed archives stay ignored.
 
 **Make one in the browser:** open `/studio/` of the running server — the plugin studio 插件工作台 (this machine and the local
@@ -42,9 +42,11 @@ is the operator's https download allowlist (PLUGINS.md §17); it is not a room-p
 The Chen Qianyu cosmetic pack includes matching front and back battle models. With the official Ch'en back model
 available locally, `node tools/chen-qianyu-art/recolor-back.mjs` rebuilds the back model using the front's palette
 transforms while preserving the original skeleton and atlas layout. Then run
-`node tools/chen-qianyu-art/apply-outfit.mjs` to fit the lighter cropped jacket, black lower sleeves, white pleated
-skirt and bare thighs in both views. This moves only the skirt mesh's position floats, preserving bones, weights and
-animation data; the remaining atlas regions stay untouched. The editable garment sheets and generation prompt are
+`node tools/chen-qianyu-art/apply-outfit.mjs` to fit the lighter cropped jacket, black lower sleeves, blue gloves,
+wider/longer white skirt with a sage front apron, soft charcoal hair, red slit pupils, pink horn roots and dark long
+stockings in both views; a thin back collar replaces the hood. It upgrades the UV pages once to 1024px front / 512px
+back for detail. Only the skirt mesh's position floats move; bones, weights and animation data are unchanged.
+Unselected atlas regions preserve their original pixels by nearest-neighbor enlargement. Editable sheets and exact prompts are
 in [tools/chen-qianyu-art/sources](../tools/chen-qianyu-art/sources/README.md).
 Run `node tools/plugin.mjs pack chen-qianyu-art --zip` after changing its assets to refresh the lock.
 
