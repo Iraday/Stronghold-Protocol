@@ -1,7 +1,7 @@
 {
   "lock": 1,
   "id": "chen-qianyu-art",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "generator": "tools/plugin.mjs pack",
   "files": {
     "art/avatar.png": {
@@ -25,11 +25,11 @@
       "bytes": 3966
     },
     "art/spine/back/chen_qianyu.png": {
-      "sha256": "37c6d50b0fd6ca79bbc04a8c8653f2d94aaf456102bde4edc343bc2c01a98d7b",
-      "bytes": 35415
+      "sha256": "102481c109014ffc7cf41ba5fc1e095435d7a325da8b247da18965edf5657045",
+      "bytes": 45333
     },
     "art/spine/back/chen_qianyu.skel": {
-      "sha256": "3253035ba4b6691a64c4f7180c609804356ef682877f8f036d634fda9516ca07",
+      "sha256": "4a1d348bae80ea549baab1c129c485ed55d3479baef2a890cbb54021310a06af",
       "bytes": 114901
     },
     "art/spine/chen_qianyu.atlas": {
@@ -37,11 +37,11 @@
       "bytes": 6700
     },
     "art/spine/chen_qianyu.png": {
-      "sha256": "79c5202685d714cda30cf16360c316cb8d69dcb9d34939ceb40761fd37100733",
-      "bytes": 127929
+      "sha256": "e99f485d525880f9453698b3284e0dfa9218b1c378bce9ca01f0cc8350603581",
+      "bytes": 139538
     },
     "art/spine/chen_qianyu.skel": {
-      "sha256": "1a9ae833849645839c362b9fbec63dcb558754796e508fbc9e5edd606397cc1e",
+      "sha256": "d28ec539ae2297d37876277de083287e2557f40ddff74794e1704cd76fc62870",
       "bytes": 328066
     },
     "art/voice/faceenemy_kewu.mp3": {
@@ -81,13 +81,13 @@
       "bytes": 27116
     },
     "plugin.json": {
-      "sha256": "d9ee80a071ed99123403c25420c7408912a21e0aa43248a4e5e8feddb8bd0797",
-      "bytes": 3162
+      "sha256": "c3f22c4c3c893bbf8c446b8832e2073c4b120be4d28ccc193d74b2ef2b1f2e7c",
+      "bytes": 3309
     }
   },
   "spine": {
     "art/spine/chen_qianyu.skel": {
-      "sha256": "1a9ae833849645839c362b9fbec63dcb558754796e508fbc9e5edd606397cc1e",
+      "sha256": "d28ec539ae2297d37876277de083287e2557f40ddff74794e1704cd76fc62870",
       "anims": {
         "idle": "Idle",
         "deploy": "Start",
@@ -183,7 +183,7 @@
       }
     },
     "art/spine/back/chen_qianyu.skel": {
-      "sha256": "3253035ba4b6691a64c4f7180c609804356ef682877f8f036d634fda9516ca07",
+      "sha256": "4a1d348bae80ea549baab1c129c485ed55d3479baef2a890cbb54021310a06af",
       "anims": {
         "idle": "Idle",
         "deploy": "Start",
