@@ -1,7 +1,7 @@
 {
   "lock": 1,
   "id": "chen-qianyu-art",
-  "version": "1.1.9",
+  "version": "1.1.10",
   "generator": "tools/plugin.mjs pack",
   "files": {
     "art/avatar.png": {
@@ -29,8 +29,8 @@
       "bytes": 187241
     },
     "art/spine/back/chen_qianyu.skel": {
-      "sha256": "86dde0c818617f3161a5912046a76b0ec6b54890aa97bc2629d728926facd1e6",
-      "bytes": 114925
+      "sha256": "bb5b35466e460d934106f61291d30aa8f8ba18422de1734061a1759501483862",
+      "bytes": 114951
     },
     "art/spine/chen_qianyu.atlas": {
       "sha256": "404aa190bea889535a1dc255204692095d004357275199c8bf0e9d9f4304a612",
@@ -41,8 +41,8 @@
       "bytes": 358319
     },
     "art/spine/chen_qianyu.skel": {
-      "sha256": "68b424bed56316696b45bf9bd966232248199b585f9cdeaed5ed4c0024956dd1",
-      "bytes": 328066
+      "sha256": "6e4923c392fbb7a7f987f0ca9a3402dee208c5cc311a0c25e26e7253d8216af8",
+      "bytes": 328248
     },
     "art/voice/faceenemy_kewu.mp3": {
       "sha256": "eb11d4cc8900fe656fa2507750a91a2301850bf3133c7baac4be91b39499500b",
@@ -81,13 +81,13 @@
       "bytes": 27116
     },
     "plugin.json": {
-      "sha256": "72f412b9722c62f3fe8b988da45c05fa682c9f4784c9e513e96f7c749d7439ce",
-      "bytes": 3610
+      "sha256": "6dff202c7474c5d457681b21a7af5a32b8a882a2b69d8750cf453653631c642a",
+      "bytes": 3673
     }
   },
   "spine": {
     "art/spine/chen_qianyu.skel": {
-      "sha256": "68b424bed56316696b45bf9bd966232248199b585f9cdeaed5ed4c0024956dd1",
+      "sha256": "6e4923c392fbb7a7f987f0ca9a3402dee208c5cc311a0c25e26e7253d8216af8",
       "anims": {
         "idle": "Idle",
         "deploy": "Start",
@@ -183,7 +183,7 @@
       }
     },
     "art/spine/back/chen_qianyu.skel": {
-      "sha256": "86dde0c818617f3161a5912046a76b0ec6b54890aa97bc2629d728926facd1e6",
+      "sha256": "bb5b35466e460d934106f61291d30aa8f8ba18422de1734061a1759501483862",
       "anims": {
         "idle": "Idle",
         "deploy": "Start",

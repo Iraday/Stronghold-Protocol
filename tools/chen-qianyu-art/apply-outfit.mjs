@@ -1,4 +1,4 @@
-// Fit the maintained artwork into Spine UV regions and attach a flared skirt to the pelvis, not the leaning torso.
+// Fit the maintained artwork into Spine UV regions with a flared skirt blended across the moving waist and legs.
 // node tools/chen-qianyu-art/apply-outfit.mjs [plugin-spine-directory]
 import fs from 'node:fs';
 import path from 'node:path';
@@ -137,7 +137,7 @@ for (const [side, names] of [['front', front], ['back', back]]) {
   }
   writePng(stem + '.png', image);
   fitSkirtMesh(stem + '.skel', side);
-  console.log(`${side}: outfit fitted; flared skirt bound to pelvis; other artwork, bones and non-skirt animation preserved.`);
+  console.log(`${side}: outfit fitted; skirt body/hem weights blended; other artwork, bones and non-skirt animation preserved.`);
 }
 
 /** Double the UV page once so the new pupils/apron are not reduced to the original tiny texture tiles. */
@@ -158,7 +158,7 @@ function upgradeAtlas(stem, width) {
   fs.writeFileSync(stem + '.atlas', atlas);
 }
 
-/** Rebind the skirt to the pelvis and remove obsolete shirt deforms; all other rig and clip bytes stay intact. */
+/** Follow the animated waist and flex the hem with its leg children; never bind to the stationary hip helper. */
 function fitSkirtMesh(file, side) {
   const bytes = Buffer.from(fs.readFileSync(file));
   const loader = {};
@@ -182,7 +182,7 @@ function fitSkirtMesh(file, side) {
     }
     readAnimation(input, clipName, data) {
       // The legacy waist attachment was a deforming torso panel. Keep its frame times/curves, but zero only
-      // its explicit vertex offsets so the new skirt follows the pelvis instead of bending with the jacket.
+      // its explicit vertex offsets; the new multi-bone weights provide cloth movement instead.
       let context = null;
       const originals = data.skins.map(skin => skin.getAttachment);
       const readInt = input.readInt, readFloat = input.readFloat;
@@ -229,17 +229,27 @@ function fitSkirtMesh(file, side) {
   const entry = data.defaultSkin.getAttachments().find(e => e.attachment.path === name);
   assert.ok(entry && Number.isInteger(reader.vertexStart) && reader.vertexEnd > reader.vertexStart);
   const a = entry.attachment;
-  const pelvis = model.bones.find(b => b.data.name === (side === 'front' ? 'F_Hip' : 'B_Hip'));
-  assert.ok(pelvis && pelvis.data.index < 128);
+  const waist = model.slots[entry.slotIndex].bone;
+  const prefix = side === 'front' ? 'F' : 'B';
+  const legs = ['L', 'R'].map(leg => model.bones.find(b => b.data.name === `${prefix}_${leg}_Leg`))
+    .sort((left, right) => left.worldX - right.worldX);
+  assert.ok([waist, ...legs].every(bone => bone && bone.data.index < 128));
   const encoded = [Buffer.from([1])]; // weighted mesh; same UVs, triangle topology and number of world vertices
   for (let i = 0; i < a.regionUVs.length; i += 2) {
-    const v = a.regionUVs[i + 1], width = 116 + 64 * Math.min(1, v * 2);
-    const point = { x: (a.regionUVs[i] - .5) * width, y: -156 + v * 75 };
-    pelvis.worldToLocal(point);
-    const vertex = Buffer.alloc(14);
-    vertex[0] = 1; vertex[1] = pelvis.data.index; // one influence, index encoded as a one-byte positive varint
-    vertex.writeFloatBE(point.x, 2); vertex.writeFloatBE(point.y, 6); vertex.writeFloatBE(1, 10);
-    encoded.push(vertex);
+    const u = a.regionUVs[i], v = a.regionUVs[i + 1], width = 144 + 36 * Math.min(1, v * 2);
+    const legWeight = .45 * v;
+    const influences = [
+      [waist, 1 - legWeight],
+      [legs[0], legWeight * (1 - u)], [legs[1], legWeight * u],
+    ].filter(([, weight]) => weight > .000001);
+    encoded.push(Buffer.from([influences.length]));
+    for (const [bone, weight] of influences) {
+      const point = { x: (u - .5) * width, y: -168 + v * 87 }; bone.worldToLocal(point);
+      const influence = Buffer.alloc(13);
+      influence[0] = bone.data.index; // positive varint; this rig has fewer than 128 bones
+      influence.writeFloatBE(point.x, 1); influence.writeFloatBE(point.y, 5); influence.writeFloatBE(weight, 9);
+      encoded.push(influence);
+    }
   }
   for (const offset of reader.skirtDeformOffsets ?? []) bytes.writeFloatBE(0, offset);
   fs.writeFileSync(file, Buffer.concat([bytes.subarray(0, reader.vertexStart), ...encoded, bytes.subarray(reader.vertexEnd)]));

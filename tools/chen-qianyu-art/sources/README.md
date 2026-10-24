@@ -38,11 +38,18 @@ premultiplied alpha and restores atlas rotation. Semantic rig names differ from 
 the generated `Hip` skirt goes into the last-drawn `Waist` attachment, `Calf` skin goes on the upper `Leg`,
 and the existing boots go on `Calf`. The later refinements replace identity, gloves, skirt, collar and stockings.
 Both eye clusters are retained, so connected-component cleanup cannot erase one eye. The collar only occupies
-the top 4/21 of the old hood region. The skirt keeps its 116-unit fitted waist but flares to a 180-unit hem by mid-height,
-with the same 75-unit length. Both views bind to the existing hip/pelvis bone, not the leaning torso. The old torso-panel
-deform offsets for this attachment are zeroed while preserving their frame times and curves. This prevents the skirt
-from hanging sideways as a narrow panel over exposed hip roots in attack and skill poses. The mesh still draws after
-both thighs, and a regression test checks opaque cloth coverage of both upper-thigh roots in idle, attack and skill.
+the top 4/21 of the old hood region. The skirt uses a 144-unit upper envelope, flaring to the same 180-unit hem by
+mid-height. Its top overlaps beneath the jacket at y=-168, while the hem remains at y=-81 (87-unit envelope length),
+so body bends do not reopen the hip-root gaps.
+
+Bind the waistband completely to `F_Waist_B` / `B_Waist`, the actual animated body pivots. Toward the hem, gradually
+blend 45% of the weight toward the two upper-leg bones (split by horizontal UV position), retaining 55% waist weight.
+All influences therefore inherit the body's entrance translation. Do **not** anchor to `F_Hip` / `B_Hip`: these
+helpers remain stationary while the body jumps in, which leaves a skirt on the ground or stretches a mixed mesh.
+The old torso-panel deform offsets remain zero while their frame times/curves stay intact; blended bone motion now
+provides the cloth movement. The mesh still draws after both thighs. Regression tests check breathing movement,
+opaque upper-thigh coverage, and attachment/stretch limits at 31 samples through every clip. Review a moving preview,
+not only a contact sheet of poses.
 Coat textures end at the waist.
 UV pages are enlarged once to 1024px front / 512px back with nearest-neighbor sampling, then the selected source
 pieces are fitted at higher resolution; untouched pixels keep their exact colors and alpha. Existing bone transforms,

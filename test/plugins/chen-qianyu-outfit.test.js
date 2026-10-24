@@ -105,7 +105,7 @@ function readModel(side) {
   return { data, model };
 }
 
-for (const side of ['front', 'back']) test(`${side}: full flared skirt is bound to the hips, without torso-panel deformation`, () => {
+for (const side of ['front', 'back']) test(`${side}: full flared skirt uses blended body weights, without torso-panel deformation`, () => {
   const { data, model } = readModel(side);
   const name = side === 'front' ? 'F_Waist_B' : 'B_Waist';
   const entry = data.defaultSkin.getAttachments().find(e => e.attachment.path === name);
@@ -113,12 +113,28 @@ for (const side of ['front', 'back']) test(`${side}: full flared skirt is bound 
   const a = entry.attachment, vertices = new Float32Array(a.worldVerticesLength);
   a.computeWorldVertices(model.slots[entry.slotIndex], 0, vertices.length, vertices, 0, 2);
   for (let i = 0; i < vertices.length; i += 2) {
-    const width = 116 + 64 * Math.min(1, a.regionUVs[i + 1] * 2);
+    const width = 144 + 36 * Math.min(1, a.regionUVs[i + 1] * 2);
     assert.ok(Math.abs(vertices[i] - (a.regionUVs[i] - .5) * width) < .001);
-    assert.ok(Math.abs(vertices[i + 1] - (-156 + a.regionUVs[i + 1] * 75)) < .001);
+    assert.ok(Math.abs(vertices[i + 1] - (-168 + a.regionUVs[i + 1] * 87)) < .001);
   }
-  assert.ok(a.bones, 'both views must use a pelvis-bound skirt');
-  for (let i = 1; i < a.bones.length; i += 2) assert.equal(data.bones[a.bones[i]].name, side === 'front' ? 'F_Hip' : 'B_Hip');
+  assert.ok(a.bones, 'both views must use a weighted skirt');
+  const prefix = side === 'front' ? 'F' : 'B';
+  let boneOffset = 0, valueOffset = 0;
+  for (let vertex = 0; vertex < a.regionUVs.length / 2; vertex++) {
+    const count = a.bones[boneOffset++], weights = new Map();
+    for (let influence = 0; influence < count; influence++) {
+      weights.set(data.bones[a.bones[boneOffset++]].name, a.vertices[valueOffset + 2]); valueOffset += 3;
+    }
+    const v = a.regionUVs[vertex * 2 + 1];
+    assert.ok(Math.abs([...weights.values()].reduce((sum, w) => sum + w, 0) - 1) < .00001);
+    if (v < .001) assert.ok(weights.get(name) > .85, 'waistband must follow the torso, not remain a rigid hip plate');
+    if (v > .99) {
+      const legs = (weights.get(`${prefix}_L_Leg`) || 0) + (weights.get(`${prefix}_R_Leg`) || 0);
+      assert.ok(legs > .35 && legs < .55, 'hem must flex with the legs');
+      assert.ok(weights.get(name) > .5, 'hem follows the moving waist');
+    }
+    assert.ok(!weights.has(`${prefix}_Hip`), 'stationary entrance helper must not anchor any skirt vertex');
+  }
   for (const clip of data.animations) for (const timeline of clip.timelines) {
     if (timeline.attachment !== a) continue;
     assert.ok(timeline.frameVertices.every(frame => frame.every(n => n === 0)), `${clip.name}: no legacy shirt deform`);
@@ -127,6 +143,45 @@ for (const side of ['front', 'back']) test(`${side}: full flared skirt is bound 
   const order = data.slots.map(s => s.name);
   for (const leg of side === 'front' ? ['F_L_Leg', 'F_R_Leg'] : ['B_L_Leg', 'B_R_Leg']) {
     assert.ok(order.indexOf(name) > order.indexOf(leg), 'skirt must draw over both thighs');
+  }
+});
+
+for (const side of ['front', 'back']) test(`${side}: skirt flexes with breathing instead of moving as a rigid pelvis card`, () => {
+  const { data, model } = readModel(side), prefix = side === 'front' ? 'F' : 'B';
+  const a = data.defaultSkin.getAttachments().find(e => e.attachment.path === (side === 'front' ? 'F_Waist_B' : 'B_Waist'));
+  const pelvis = model.bones.find(b => b.data.name === `${prefix}_Hip`);
+  const samples = [];
+  for (const time of [0, .25, .5, .75, 1]) {
+    model.setToSetupPose();
+    const state = new spine.AnimationState(new spine.AnimationStateData(data));
+    state.setAnimation(0, 'Idle', true); state.update(time); state.apply(model); model.updateWorldTransform();
+    const vertices = new Float32Array(a.attachment.worldVerticesLength);
+    a.attachment.computeWorldVertices(model.slots[a.slotIndex], 0, vertices.length, vertices, 0, 2);
+    const relative = [];
+    for (let i = 0; i < vertices.length; i += 2) {
+      const point = { x: vertices[i], y: vertices[i + 1] }; pelvis.worldToLocal(point); relative.push(point.x, point.y);
+    }
+    samples.push(relative);
+  }
+  let flex = 0;
+  for (const sample of samples) for (let i = 0; i < sample.length; i++) flex = Math.max(flex, Math.abs(sample[i] - samples[0][i]));
+  assert.ok(flex > .05, `cloth must flex relative to pelvis; measured ${flex}`);
+});
+
+for (const side of ['front', 'back']) test(`${side}: skirt stays with the body without detachment/stretching through every clip`, () => {
+  const { data, model } = readModel(side), name = side === 'front' ? 'F_Waist_B' : 'B_Waist';
+  const entry = data.defaultSkin.getAttachments().find(e => e.attachment.path === name), waist = model.slots[entry.slotIndex].bone;
+  for (const clip of data.animations) for (let i = 0; i <= 30; i++) {
+    model.setToSetupPose();
+    const state = new spine.AnimationState(new spine.AnimationStateData(data));
+    state.setAnimation(0, clip.name, false); state.update(clip.duration * i / 30); state.apply(model); model.updateWorldTransform();
+    const a = entry.attachment, vertices = new Float32Array(a.worldVerticesLength);
+    a.computeWorldVertices(model.slots[entry.slotIndex], 0, vertices.length, vertices, 0, 2);
+    const scale = Math.max(.01, Math.hypot(waist.matrix.a, waist.matrix.b), Math.hypot(waist.matrix.c, waist.matrix.d));
+    for (let vertex = 0; vertex < vertices.length; vertex += 2) {
+      const distance = Math.hypot(vertices[vertex] - waist.worldX, vertices[vertex + 1] - waist.worldY) / scale;
+      assert.ok(distance < 200, `${clip.name} frame ${i}: skirt detached or stretched (${distance})`);
+    }
   }
 });
 
@@ -164,12 +219,12 @@ for (const side of ['front', 'back']) test(`${side}: skirt covers upper-thigh ro
       for (const v of [.12, .3]) {
         const world = mapPoint(slot, [.5, v], true); assert.ok(world);
         const uv = mapPoint(skirt, world, false);
-        assert.ok(uv, `${clip} ${leg}: upper thigh remains inside skirt mesh`);
+        assert.ok(uv, `${clip} ${leg} v=${v} world=${world}: upper thigh remains inside skirt mesh`);
         const x = Math.max(0, Math.min(region.sw - 1, Math.round(uv[0] * (region.sw - 1))));
         const y = Math.max(0, Math.min(region.sh - 1, Math.round(uv[1] * (region.sh - 1))));
         const xx = region.rotate ? region.x + y : region.x + x;
         const yy = region.rotate ? region.y + region.h - 1 - x : region.y + y;
-        assert.ok(image.data[(yy * image.w + xx) * 4 + 3] > 127, `${clip} ${leg}: opaque cloth covers upper thigh`);
+        assert.ok(image.data[(yy * image.w + xx) * 4 + 3] > 127, `${clip} ${leg} v=${v} uv=${uv}: opaque cloth covers upper thigh`);
       }
     }
   }
