@@ -31,7 +31,8 @@ rooms) and a deterministic battle sim shared by the server and the browser. It a
   `npm run golden:update` in the same commit, and the commit / PR names every moved scenario and why
   ([test/golden/README.md](test/golden/README.md)).
 - **Generated data.** Never hand-edit `data/*.json`: change `tools/build-data.mjs` and regenerate.
-- **No game art in git.** `public/assets/` is ignored; never commit extracted or downloaded game files.
+- **Game art in this fork.** `public/assets/` is ignored. The maintainer explicitly authorized versioning
+  `plugins/chen-qianyu-art/`; retain its source and copyright notices. Do not commit other extracted or downloaded game files.
 - **Interface strings** go through `t('…')`, with entries in every pack under `public/i18n/`
   (`node tools/i18n.mjs check --all --strict`).
 - **Docs follow the code.** A rule change updates `docs/design/`, the current `docs/history/` file and the reference

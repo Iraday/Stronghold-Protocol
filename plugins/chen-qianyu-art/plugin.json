@@ -1,0 +1,74 @@
+{
+  "$schema": "../../../schemas/plugin.schema.json",
+  "manifest": 2,
+  "id": "chen-qianyu-art",
+  "name": {
+    "zh": "陈千语 · 立绘、头像、战斗模型与语音",
+    "en": "Chen Qianyu art, battle model and voice"
+  },
+  "version": "1.1.4",
+  "app": ">=0.3.0 <0.4.0",
+  "api": 1,
+  "class": "cosmetic",
+  "scope": [
+    "room",
+    "personal"
+  ],
+  "sourceLang": "zh",
+  "authors": [
+    "Iraday"
+  ],
+  "description": {
+    "zh": "陈千语的头像、半身像与立绘（来自 endfield.wiki.gg），以及她的战斗模型：陈的模型与动作，按陈千语的配色重新上色（黑发、灰色眼睛、蓝色角、蓝色外套、白色短裙、青色刀刃、品红点缀，像琳琅诗怀雅一样微笑）；语音来自 OpenPeon 声音包 ae_qianyu（github.com/LiRiu/qianyu-chen-pack，CC-BY-NC-4.0）。© Hypergryph，仅限本服务器私用，请勿分享。",
+    "en": "Chen Qianyu's avatar, portrait and illustration (from endfield.wiki.gg), and her battle model: Ch'en's rig and animations recolored to Chen Qianyu's palette (black hair, gray eyes, blue horns, blue jacket, white skirt, teal blade, magenta accents, smiling like Swire the Elegant Wit); voice lines from the OpenPeon sound pack ae_qianyu (github.com/LiRiu/qianyu-chen-pack, CC-BY-NC-4.0). © Hypergryph; private use on this server only, do not share."
+  },
+  "permissions": [
+    "assets.add"
+  ],
+  "assets": {
+    "chars": {
+      "char_x_chen_qianyu_chen": {
+        "ref": "char_010_chen",
+        "avatar": "art/avatar.png",
+        "avatarE2": "art/avatar.png",
+        "portrait": "art/portrait.png",
+        "portraitE2": "art/portrait.png",
+        "illust": "art/illust.png",
+        "spine": {
+          "front": {
+            "skel": "art/spine/chen_qianyu.skel",
+            "atlas": "art/spine/chen_qianyu.atlas",
+            "textures": [
+              "art/spine/chen_qianyu.png"
+            ],
+            "pma": false
+          }
+        }
+      }
+    },
+    "skills": {
+      "skx_chen_qianyu_blade_gale": "art/skill_blade_gale.png"
+    },
+    "audio": {
+      "voice": {
+        "char_x_chen_qianyu_chen": {
+          "start": "art/voice/start_fang100gexin.mp3",
+          "faceEnemy": "art/voice/faceenemy_kewu.mp3",
+          "select": [
+            "art/voice/select_hello.mp3",
+            "art/voice/select_jiaogeiwo.mp3"
+          ],
+          "place": [
+            "art/voice/place_jiaogeiwoba.mp3",
+            "art/voice/place_jiaogeiwojiuduile.mp3"
+          ],
+          "skill1": "art/voice/skill_kuaiyongzhege.mp3",
+          "resultFour": "art/voice/win_zhecihqingsong.mp3",
+          "resultThree": "art/voice/win_zhecihqingsong.mp3",
+          "resultTwo": "art/voice/win_zhecihqingsong.mp3",
+          "resultLose": "art/voice/lose_xiexie.mp3"
+        }
+      }
+    }
+  }
+}

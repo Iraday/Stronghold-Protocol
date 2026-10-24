@@ -1,0 +1,174 @@
+{
+  "lock": 1,
+  "id": "chen-qianyu-art",
+  "version": "1.1.4",
+  "generator": "tools/plugin.mjs pack",
+  "files": {
+    "art/avatar.png": {
+      "sha256": "04e8f416fc2de1b420ac619220dec291187780935a21d61ec79b50f54c940ec7",
+      "bytes": 93479
+    },
+    "art/illust.png": {
+      "sha256": "2c5ae57d05086a4ad2ae080977e7c28540d70b148187d380ae8961d1f02f63be",
+      "bytes": 1488080
+    },
+    "art/portrait.png": {
+      "sha256": "efb175b6d8b345c49a1dafe8438d93263ec8d7e734e6015c373e5bbf4088831b",
+      "bytes": 197529
+    },
+    "art/skill_blade_gale.png": {
+      "sha256": "250a564e055c13164e80224fe754158c017c0403385066a04dfc963d7914a875",
+      "bytes": 14518
+    },
+    "art/spine/chen_qianyu.atlas": {
+      "sha256": "6b68dd5075b8e9380c023988f5dd0f2caad2da354951496d38e1b690e75d7f00",
+      "bytes": 6700
+    },
+    "art/spine/chen_qianyu.png": {
+      "sha256": "79c5202685d714cda30cf16360c316cb8d69dcb9d34939ceb40761fd37100733",
+      "bytes": 127929
+    },
+    "art/spine/chen_qianyu.skel": {
+      "sha256": "1a9ae833849645839c362b9fbec63dcb558754796e508fbc9e5edd606397cc1e",
+      "bytes": 328066
+    },
+    "art/voice/faceenemy_kewu.mp3": {
+      "sha256": "eb11d4cc8900fe656fa2507750a91a2301850bf3133c7baac4be91b39499500b",
+      "bytes": 47852
+    },
+    "art/voice/lose_xiexie.mp3": {
+      "sha256": "972044a9be853c82f096725cc457a7b7ccf6ff3d71cca0f2ebcd7ea541270793",
+      "bytes": 62828
+    },
+    "art/voice/place_jiaogeiwoba.mp3": {
+      "sha256": "34cac07430f3696f15ed411dbefaab4aad206c395c0e6fc8860b170f57243801",
+      "bytes": 37100
+    },
+    "art/voice/place_jiaogeiwojiuduile.mp3": {
+      "sha256": "6b025293b4cee4b308a853335a3523744bacca194d47ccc147c94fa343cb3a49",
+      "bytes": 23660
+    },
+    "art/voice/select_hello.mp3": {
+      "sha256": "e31a0cd686b0274f933b9ade5d6a7d67d51908b3d5992b3b3c0988d6acc53d16",
+      "bytes": 67820
+    },
+    "art/voice/select_jiaogeiwo.mp3": {
+      "sha256": "041ae3f5840e1844fffd0a12139854423d365c3615dadf997094cd088667a838",
+      "bytes": 37100
+    },
+    "art/voice/skill_kuaiyongzhege.mp3": {
+      "sha256": "ccf1e90fe81c08f76256528402f17328c220728006b0e6372fa1414dbf0993d7",
+      "bytes": 29420
+    },
+    "art/voice/start_fang100gexin.mp3": {
+      "sha256": "9775f8eb05b772f8e1cf76ddec184098542034d1343173928d18b22b47443102",
+      "bytes": 67820
+    },
+    "art/voice/win_zhecihqingsong.mp3": {
+      "sha256": "434ad903def0b0fc111ed0d6e6a530ee6e113fc6611c6d92153bff68b072bcaa",
+      "bytes": 27116
+    },
+    "plugin.json": {
+      "sha256": "41d0146e7d7e6599a3e7f49ee16cdad106b8bd2536977017b523f6f429b648c7",
+      "bytes": 2817
+    }
+  },
+  "spine": {
+    "art/spine/chen_qianyu.skel": {
+      "sha256": "1a9ae833849645839c362b9fbec63dcb558754796e508fbc9e5edd606397cc1e",
+      "anims": {
+        "idle": "Idle",
+        "deploy": "Start",
+        "attack": {
+          "begin": null,
+          "loop": "Attack",
+          "end": null
+        },
+        "attackDown": null,
+        "skill": {
+          "begin": null,
+          "loop": "Skill",
+          "end": "Skill_End",
+          "index": 0,
+          "idle": null
+        },
+        "die": "Die",
+        "move": null,
+        "stun": null,
+        "skills": {
+          "0": {
+            "begin": null,
+            "loop": "Skill",
+            "end": "Skill_End",
+            "index": 0,
+            "idle": null
+          },
+          "1": {
+            "begin": null,
+            "loop": "Skill_2",
+            "end": null,
+            "index": 1,
+            "idle": null
+          },
+          "2": {
+            "begin": null,
+            "loop": "Skill_3",
+            "end": null,
+            "index": 2,
+            "idle": null
+          }
+        }
+      },
+      "animations": {
+        "Attack": 1.5,
+        "Attack_End": 0.6,
+        "Attack_Pre": 0.6,
+        "Default": 0,
+        "Die": 1,
+        "Idle": 2,
+        "Skill": 1,
+        "Skill_2": 1.167,
+        "Skill_3": 2.933,
+        "Skill_End": 0.6,
+        "Skill_End_2": 0.6,
+        "Skill_End_3": 0.3,
+        "Start": 0.833
+      },
+      "events": [
+        "OnAttack",
+        "OnStart"
+      ],
+      "hits": {
+        "Attack": [
+          0.433,
+          1
+        ],
+        "Skill": [
+          0.467
+        ],
+        "Skill_2": [
+          0.467
+        ],
+        "Skill_3": [
+          0.6,
+          0.8,
+          1,
+          1.2,
+          1.4,
+          1.6,
+          1.8,
+          2,
+          2.2,
+          2.833,
+          2.933
+        ]
+      },
+      "bounds": {
+        "x": -322.335,
+        "y": -109.274,
+        "width": 663.549,
+        "height": 524.806
+      }
+    }
+  }
+}

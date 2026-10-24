@@ -1,0 +1,22 @@
+{
+  "$schema": "../../../schemas/plugin.schema.json",
+  "manifest": 2,
+  "id": "chen-qianyu",
+  "name": { "zh": "陈千语", "en": "Chen Qianyu" },
+  "version": "1.0.11",
+  "app": ">=0.3.0 <0.4.0",
+  "api": 1,
+  "class": "script",
+  "scope": ["room"],
+  "sourceLang": "zh",
+  "authors": ["Iraday"],
+  "license": "CC0-1.0",
+  "description": {
+    "zh": "明日方舟：终末地的陈千语，改编为卫戍协议的剑豪近卫。赤霄共鸣：她每击杀一名敌人，己方狙击（射手）干员叠加攻击力，每层再使自身攻击范围向前、上、下、后各延伸1格。新盟约【钢板】：陈千语、能天使、新约能天使、蕾缪安、纯烬艾雅法拉、莫斯提马、诗怀雅、琳琅诗怀雅、小满、塑心、缪尔赛思、德克萨斯、拉普兰德，在场2/4/6/8名时攻击速度与防御力提升，盟约激活时每层层数再使防御力+20。特性：每次造成伤害时叠加防御力与法术抗性。",
+    "en": "Chen Qianyu from Arknights: Endfield as a Swordmaster guard. Chi Xiao Resonance: each enemy she kills stacks ATK on your Sniper operators, and each stack widens her range a tile forward, up, down and back. New bond Steel Plate (钢板): Chen Qianyu, Exusiai, Exusiai the New Covenant, Lemuen, Eyjafjalla the Hvít Aska, Mostima, Swire, Swire the Elegant Wit, Xiaoman, Virtuosa, Muelsyse, Texas and Lappland gain attack speed and DEF with 2/4/6/8 on the field, and +20 DEF per layer of the bond while it is active. Trait: every hit she deals stacks DEF and RES on her."
+  },
+  "permissions": ["sim.code", "data.add", "data.patch", "dsl"],
+  "data": ["data/gangban_bond.json", "data/gangban_members.json"],
+  "operators": ["operators/chen_qianyu.json", "data/gangban_talents.json"],
+  "entry": { "sim": "sim/index.js" }
+}

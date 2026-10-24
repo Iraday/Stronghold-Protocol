@@ -21,8 +21,9 @@ folders (manifest, file types, sizes, paths, JSON).
   SES inside browser Workers and restricted server children, without a trusted pin or per-player consent; public
   listeners are allowed. Native `trusted` execution needs review, a lock pin in `config.json` and each player's consent;
   public/wildcard listeners or a public reverse proxy require `trusted-force` (PLUGINS.md §13);
-- nothing in this folder except this readme, AGENTS.md and the templates in `_template/` is committed or shipped: your plugins
-  stay yours, and an update never touches them.
+- this fork also versions the maintained `chen-qianyu/` gameplay plugin (1.0.11) and `chen-qianyu-art/` cosmetic pack
+  (1.1.4), including their matching locks, with the maintainer's explicit authorization. Their source and copyright
+  notices remain in the manifests. Other installed plugins, policy files, studio keys and packed archives stay ignored.
 
 **Make one in the browser:** open `/studio/` of the running server — the plugin studio 插件工作台 (this machine and the local
 network only): pick a template, find what to change by its official name, drop your files on their places, compare with
@@ -56,7 +57,8 @@ is the operator's https download allowlist (PLUGINS.md §17); it is not a room-p
 ```
 
 The id is the folder name: 2–32 lower-case letters, digits and `-`. A folder whose name starts with `_` (the templates)
-is never loaded. Never put files of the official game in a plugin: refer to the art the installation already has.
+is never loaded. For new plugins, refer to the official art the installation already has; the existing `chen-qianyu-art/`
+pack is the explicit publication exception in this fork.
 
 Install a local zip with `node tools/plugin.mjs install <zip>`; an HTTPS URL also needs `--sha256 <hash>`.
 `catalog <file|https URL>` inspects a community catalogue; `/studio/` offers 从目录安装. `--force` preserves the old

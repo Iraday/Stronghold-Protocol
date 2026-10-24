@@ -30,8 +30,8 @@ people read [docs/PLUGIN-GUIDE.md](../docs/PLUGIN-GUIDE.md).
   and its pages in `m/`; or a reference `{ "ref": "<key>" }` to the installation's own entry of the same container.
 - Never write a Spine model's `animations`, `events`, `hits`, `bounds` or `anims` by hand (`"anims": "auto"` at most):
   `pack` reads them. Never hand-edit `plugin.lock.json`.
-- Never put files of the official game into a plugin (the tools do not screen for them; it is the author's
-  responsibility). Use references to borrow the installation's art.
+- Use references to borrow the installation's official art. The maintainer explicitly authorized the existing
+  `chen-qianyu-art/` pack in this fork; retain its source and copyright notices. Do not add official-game files to other plugins.
 - Keys you do not know are found by name: `GET /studio/api/targets?q=德克萨斯` on a running server (local network only;
   a read needs no key), or the template's `--target`.
 
@@ -48,8 +48,8 @@ plugin's state with `check.issues` (the same coded issues as `check --json`).
 - Do not invent fields or permissions (unknown fields are warnings; unknown permissions are problems).
 - Do not copy plugin folders across with links (a link inside a plugin folder keeps it out; a plugin folder that is
   itself a link is never opened by the studio).
-- Do not commit a server's plugins to this repository (`plugins/*` is git-ignored but for this file, the readme and the
-  templates).
+- This fork explicitly tracks `chen-qianyu/` and `chen-qianyu-art/`. Other server plugins, policy files and studio keys
+  remain git-ignored; do not commit them.
 
 
 ## Script plugins

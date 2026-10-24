@@ -1,0 +1,37 @@
+{
+  "lock": 1,
+  "id": "chen-qianyu",
+  "version": "1.0.11",
+  "generator": "tools/plugin.mjs pack",
+  "files": {
+    "data/gangban_bond.json": {
+      "sha256": "a6ba94a73192e40b26fe9bd941c5c0c095601e767b3447d1a1b50447dd8e8a8d",
+      "bytes": 695
+    },
+    "data/gangban_members.json": {
+      "sha256": "8860e9e27f1325cd8858c96d444297879265c996fa3040d3173682696764f466",
+      "bytes": 4688
+    },
+    "data/gangban_talents.json": {
+      "sha256": "7b167b60baf771a6f9236ddea6a1c14e862512448279b94b89a5c2c08def9e18",
+      "bytes": 27711
+    },
+    "operators/chen_qianyu.json": {
+      "sha256": "216686e4e13764d7e660321c37f98b6c49b4252fcc1f4bfc7aa6efaf25d879d5",
+      "bytes": 7871
+    },
+    "plugin.json": {
+      "sha256": "7deb3c07c4293d46598cdb4f2f0089f3ec4dc865418505f43e91bcf144057693",
+      "bytes": 1795
+    },
+    "sim/index.js": {
+      "sha256": "e5b353ca0b6a1f1e62e0d41cd0eab696780aac8809fbcf741ad24498fa2cedb9",
+      "bytes": 7958
+    },
+    "test/chen_qianyu.test.js": {
+      "sha256": "fd71facbef46dcc9bf6752ebc3fce0d027d4bc77afd0609398077c046f2d4b88",
+      "bytes": 10240
+    }
+  },
+  "spine": {}
+}
