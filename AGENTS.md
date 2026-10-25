@@ -18,6 +18,8 @@ rooms) and a deterministic battle sim shared by the server and the browser. It a
 3. The reference for the part you touch: [docs/SIM.md](docs/SIM.md) (battle engine API, hooks, test harness),
    [docs/META.md](docs/META.md) (match flow, shop, protocol), [docs/DATA.md](docs/DATA.md) (generated data),
    [docs/I18N.md](docs/I18N.md) (interface strings), `server/sim/content/kits/README.md` (operator kits).
+4. Artwork/sprite edits: [docs/ARTWORK-WORKBENCH.md](docs/ARTWORK-WORKBENCH.md) — local visual editor,
+   JSON/CLI workflow, 陈千语 detail checklist, cloth motion regressions and isolated reviewed drafts.
 
 ## Hard rules
 

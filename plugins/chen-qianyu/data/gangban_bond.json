@@ -7,6 +7,49 @@
       "value": {
         "name": "钢板",
         "desc": "【钢板】干员攻击速度与防御力提升（防御力受层数影响：每层+20）\n<在场2名不同【钢板】干员>攻击速度+20，防御力+200\n<在场4名不同【钢板】干员>攻击速度+40，防御力+400\n<在场6名不同【钢板】干员>攻击速度+70，防御力+600\n<在场8名不同【钢板】干员>攻击速度+100，防御力+1800",
+        "descRaw": "【钢板】干员<@ba.vup>攻击速度</>与<@ba.vup>防御力</>提升<@autochess.gray>（防御力受层数影响：每层+20）</>\n<在场<@autochess.dgreen>2</>名不同【钢板】干员>攻击速度<@ba.vup>+20</>，防御力<@ba.vup>+200</>\n<在场<@autochess.dgreen>4</>名不同【钢板】干员>攻击速度<@ba.vup>+40</>，防御力<@ba.vup>+400</>\n<在场<@autochess.dgreen>6</>名不同【钢板】干员>攻击速度<@ba.vup>+70</>，防御力<@ba.vup>+600</>\n<在场<@autochess.dgreen>8</>名不同【钢板】干员>攻击速度<@ba.vup>+100</>，防御力<@ba.vup>+1800</>",
+        "effectDesc": "【钢板】干员每层防御力+20，当前共+{0:0}（受层数影响）\n<在场2名不同【钢板】干员>攻击速度+20，防御力+{1:0}\n<在场4名不同【钢板】干员>攻击速度+40，防御力+{2:0}\n<在场6名不同【钢板】干员>攻击速度+70，防御力+{3:0}\n<在场8名不同【钢板】干员>攻击速度+100，防御力+{4:0}",
+        "effectDescRaw": "【钢板】干员每层防御力<@ba.vup>+20</>，当前共<@ba.vup>+{0:0}</><@ba.acrem>（受层数影响）</>\n<在场<@ba.vup>2</>名不同【钢板】干员>攻击速度<@ba.vup>+20</>，防御力<@ba.vup>+{1:0}</>\n<在场<@ba.vup>4</>名不同【钢板】干员>攻击速度<@ba.vup>+40</>，防御力<@ba.vup>+{2:0}</>\n<在场<@ba.vup>6</>名不同【钢板】干员>攻击速度<@ba.vup>+70</>，防御力<@ba.vup>+{3:0}</>\n<在场<@ba.vup>8</>名不同【钢板】干员>攻击速度<@ba.vup>+100</>，防御力<@ba.vup>+{4:0}</>",
+        "effectDescParams": [
+          {
+            "index": 0,
+            "format": "0",
+            "base": "base_def",
+            "perStack": "def_per_stack"
+          },
+          {
+            "index": 1,
+            "format": "0",
+            "base": "def",
+            "perStack": "def_per_stack"
+          },
+          {
+            "index": 2,
+            "format": "0",
+            "base": "stone.def",
+            "perStack": "def_per_stack"
+          },
+          {
+            "index": 3,
+            "format": "0",
+            "base": "enhance.def",
+            "perStack": "def_per_stack"
+          },
+          {
+            "index": 4,
+            "format": "0",
+            "base": "defup.def",
+            "perStack": "def_per_stack"
+          }
+        ],
+        "bb": {
+          "base_def": 0,
+          "def_per_stack": 20,
+          "def": 200,
+          "stone.def": 400,
+          "enhance.def": 600,
+          "defup.def": 1800
+        },
         "thresholds": [
           2,
           4,

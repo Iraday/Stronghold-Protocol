@@ -1,0 +1,26 @@
+{
+  "mode": "built-in image_gen",
+  "kind": "precise-object-edit",
+  "editTarget": "Owner attachment codex-clipboard-22199404-0b72-446a-bfaa-8e3312172222.png",
+  "styleReferences": [
+    "band_bldsk",
+    "band_amiya",
+    "band_orchid"
+  ],
+  "prompt": "Use case: precise-object-edit with style matching. Asset: square strategy portrait icon for Stronghold Protocol. Image 1 is the EDIT TARGET and the exact character drawing to preserve. Images 2, 3, 4 are STYLE REFERENCES ONLY; do not copy their faces or hair. Produce ONE finished 1:1 PNG icon on genuinely transparent background. Remove the white ©GRYPHLINE logo/lettering from the bottom right of Image 1 and reconstruct the underlying hair/neck naturally. Preserve Image 1's chibi Chen Qianyu: charcoal hair, horn silhouette and pink roots, enormous gray/brown eyes with thick black outlines and white eye margins, tiny peach O mouth, small gold hair clip, original head angle and funny surprised expression. Keep this exact source-art character identity; no redrawing into the reference characters' realistic face style. Match the other strategy icon treatment: closely cropped portrait inside a rounded mint/teal holographic badge silhouette, mint green cyan tint, thin dense horizontal scan lines over portrait and badge, luminous mint edge with small pixel/glitch steps on the silhouette, darker lower vignette. Match reference icon composition, green color treatment, proportions and overall frame coverage. Keep face readable at 180 by 180 pixels. No new surrounding panel, square background, text, typography, copyright lettering, watermark, logos or extra characters. Transparent area outside the holographic badge. Final asset only, no contact sheet.",
+  "transparent_background": true,
+  "generatedSize": [
+    1254,
+    1254
+  ],
+  "nativeSize": [
+    180,
+    180
+  ],
+  "resampling": "Premultiplied-alpha bilinear; no additional creative edits",
+  "output": "strategy-dangdang.png",
+  "consumer": "chen-qianyu-art/art/band_chen_qianyu.png",
+  "strategy": "band_x_chen_qianyu_chen",
+  "effectName": "当当",
+  "copyright": "Owner-supplied fan-game artwork. Retain the cosmetic plugin's source/copyright notices; logo removal is only in the rendered icon."
+}

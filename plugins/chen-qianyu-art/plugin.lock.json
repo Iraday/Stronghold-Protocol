@@ -1,12 +1,16 @@
 {
   "lock": 1,
   "id": "chen-qianyu-art",
-  "version": "1.1.10",
+  "version": "1.1.12",
   "generator": "tools/plugin.mjs pack",
   "files": {
     "art/avatar.png": {
       "sha256": "f868d068ce3cb2145fab4757073e5cab1b5c299a6c61033a8f3f980c48254038",
       "bytes": 70484
+    },
+    "art/band_chen_qianyu.png": {
+      "sha256": "1838249fae4008d8ef8d8b60fe6422ef0c0af62bdd3a423a8f7e84ea00f8b228",
+      "bytes": 85483
     },
     "art/illust.png": {
       "sha256": "adaef7a804516b45e1b46e34ba8c287b2d1def294cfd828646c173b5686ef282",
@@ -81,8 +85,8 @@
       "bytes": 27116
     },
     "plugin.json": {
-      "sha256": "6dff202c7474c5d457681b21a7af5a32b8a882a2b69d8750cf453653631c642a",
-      "bytes": 3673
+      "sha256": "abae1d7658dd227bc3fd14575bec3d6bfe75738145558e7f2ea7e5044209308c",
+      "bytes": 3755
     }
   },
   "spine": {

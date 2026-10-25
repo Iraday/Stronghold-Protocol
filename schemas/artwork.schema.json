@@ -1,0 +1,573 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Stronghold Protocol artwork project (format 1)",
+  "description": "Offline cosmetic Spine authoring recipe. Paths are workspace-relative except model members, which are relative to plugins/<plugin>/. Builds create isolated cache drafts. Numeric checks do not approve visual fidelity. Runtime validation also rejects links, hidden paths, mismatched plugin members and unknown bones.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "pattern": "\\S"
+    },
+    "format": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{0,63}$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "pattern": "\\S"
+    },
+    "plugin": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{1,31}$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^(0|[1-9]\\d{0,8})\\.(0|[1-9]\\d{0,8})\\.(0|[1-9]\\d{0,8})$",
+      "description": "Target stable release. Changed artwork requires a newer version before packaging. The installed manifest stays untouched."
+    },
+    "character": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "\\S"
+    },
+    "models": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/model"
+      },
+      "minItems": 1,
+      "maxItems": 2,
+      "description": "Unique front/back ids; runtime enforces membership and identity."
+    },
+    "operations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/operation"
+      },
+      "minItems": 0,
+      "maxItems": 256
+    },
+    "details": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/detail"
+      },
+      "minItems": 1,
+      "maxItems": 100
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/check"
+      },
+      "minItems": 0,
+      "maxItems": 150
+    },
+    "notes": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 5000,
+      "pattern": "\\S"
+    }
+  },
+  "required": [
+    "format",
+    "id",
+    "name",
+    "plugin",
+    "character",
+    "models",
+    "operations",
+    "details",
+    "checks"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500,
+      "pattern": "^(?:\\.cache/artwork/)?[^./\\\\:\\u0000-\\u001f][^/\\\\:\\u0000-\\u001f]*(?:/[^./\\\\:\\u0000-\\u001f][^/\\\\:\\u0000-\\u001f]*)*$"
+    },
+    "profile": {
+      "type": "object",
+      "properties": {
+        "topWidth": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 1000
+        },
+        "hemWidth": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 1500
+        },
+        "flareAt": {
+          "type": "number",
+          "minimum": 0.05,
+          "maximum": 1
+        },
+        "top": {
+          "type": "number",
+          "minimum": -5000,
+          "maximum": 5000
+        },
+        "length": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 1500
+        },
+        "hemLegWeight": {
+          "type": "number",
+          "minimum": 0.01,
+          "maximum": 0.8
+        }
+      },
+      "required": [
+        "topWidth",
+        "hemWidth",
+        "flareAt",
+        "top",
+        "length",
+        "hemLegWeight"
+      ],
+      "additionalProperties": false
+    },
+    "cloth": {
+      "type": "object",
+      "properties": {
+        "attachment": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "\\S"
+        },
+        "bodyBone": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "\\S"
+        },
+        "legBones": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "\\S"
+          },
+          "minItems": 2,
+          "maxItems": 2,
+          "uniqueItems": true
+        },
+        "forbiddenBones": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "\\S"
+          },
+          "minItems": 0,
+          "maxItems": 20
+        },
+        "profile": {
+          "$ref": "#/$defs/profile"
+        },
+        "maxRadius": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 3000
+        },
+        "samples": {
+          "type": "integer",
+          "minimum": 3,
+          "maximum": 120
+        }
+      },
+      "required": [
+        "attachment",
+        "bodyBone",
+        "legBones",
+        "forbiddenBones",
+        "profile",
+        "maxRadius",
+        "samples"
+      ],
+      "additionalProperties": false
+    },
+    "model": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "enum": [
+            "front",
+            "back"
+          ]
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "\\S"
+        },
+        "skel": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500,
+          "pattern": "\\.skel$",
+          "allOf": [
+            {
+              "$ref": "#/$defs/path"
+            }
+          ]
+        },
+        "atlas": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500,
+          "pattern": "\\.atlas$",
+          "allOf": [
+            {
+              "$ref": "#/$defs/path"
+            }
+          ]
+        },
+        "texture": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500,
+          "pattern": "\\.png$",
+          "allOf": [
+            {
+              "$ref": "#/$defs/path"
+            }
+          ]
+        },
+        "groups": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "label": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 100,
+                "pattern": "\\S"
+              },
+              "regions": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128,
+                  "pattern": "\\S"
+                },
+                "minItems": 0,
+                "maxItems": 200
+              }
+            },
+            "required": [
+              "label",
+              "regions"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0,
+          "maxItems": 30
+        },
+        "cloth": {
+          "$ref": "#/$defs/cloth"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "skel",
+        "atlas",
+        "texture"
+      ],
+      "additionalProperties": false
+    },
+    "source": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500,
+          "pattern": "\\.png$",
+          "allOf": [
+            {
+              "$ref": "#/$defs/path"
+            }
+          ]
+        },
+        "columns": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16,
+          "default": 1
+        },
+        "rows": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16,
+          "default": 1
+        },
+        "index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255,
+          "default": 0
+        },
+        "components": {
+          "enum": [
+            "all",
+            "largest"
+          ],
+          "default": "all",
+          "description": "With trim=true, keep meaningful disconnected clusters (>=3% of largest, min 2 pixels) or only largest. Use trim=false to preserve every pixel."
+        },
+        "trim": {
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "additionalProperties": false
+    },
+    "operation": {
+      "type": "object",
+      "properties": {
+        "model": {
+          "enum": [
+            "front",
+            "back"
+          ]
+        },
+        "region": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "\\S"
+        },
+        "source": {
+          "$ref": "#/$defs/source"
+        },
+        "heightRatio": {
+          "type": "number",
+          "minimum": 0.01,
+          "maximum": 1,
+          "default": 1
+        }
+      },
+      "required": [
+        "model",
+        "region",
+        "source"
+      ],
+      "additionalProperties": false
+    },
+    "detail": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "\\S"
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "\\S"
+        },
+        "expected": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "pattern": "\\S"
+        },
+        "reference": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500,
+          "pattern": "\\.png$",
+          "allOf": [
+            {
+              "$ref": "#/$defs/path"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "expected"
+      ],
+      "additionalProperties": false
+    },
+    "check": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "\\S",
+          "description": "Unique within project; checked by the runtime."
+        },
+        "kind": {
+          "enum": [
+            "color",
+            "transparent",
+            "coverage"
+          ]
+        },
+        "model": {
+          "enum": [
+            "front",
+            "back"
+          ]
+        },
+        "region": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "\\S"
+        },
+        "color": {
+          "enum": [
+            "red",
+            "pink",
+            "blue",
+            "sage",
+            "white",
+            "dark",
+            "charcoal"
+          ]
+        },
+        "minCount": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "minFraction": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "split": {
+          "const": "halves"
+        },
+        "fromY": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "under": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "\\S"
+          },
+          "minItems": 1,
+          "maxItems": 8
+        },
+        "clips": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "pattern": "\\S"
+          },
+          "minItems": 1,
+          "maxItems": 64
+        },
+        "uv": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "minItems": 1,
+          "maxItems": 50
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "model",
+        "region"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "color"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "color"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "transparent"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "fromY"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "coverage"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "under",
+              "clips",
+              "uv"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

@@ -7,6 +7,12 @@ people read [docs/PLUGIN-GUIDE.md](../docs/PLUGIN-GUIDE.md).
 
 ## The loop
 
+For texture pieces and rigged outfits, use [the artwork workbench](../docs/ARTWORK-WORKBENCH.md):
+`node tools/artwork.mjs inspect --json` → extract → isolated build → checks → moving render → explicit visual review →
+pack. `artwork/chen-qianyu.json` records the example. Inspect moving bone ancestry before fitting cloth; stationary
+hip helpers made the old skirt stay on the ground during Start. Numeric checks do not approve appearance.
+The workbench writes drafts/locks in its cache and never installs or deploys them.
+
 1. **Start from a template** — never from a blank file:
    `node tools/plugin.mjs new <art|spine|voice|audio|numbers|operator|dsl|meta|mode|ui|script> <id> --target <official name or id> --name "<name>"`
    (`node tools/plugin.mjs new` lists the templates). The default `dsl` template contains one compact caster and one prep income file; `/studio/` edits its DSL through structured controls. The id is the folder name: `^[a-z0-9][a-z0-9-]{1,31}$`.

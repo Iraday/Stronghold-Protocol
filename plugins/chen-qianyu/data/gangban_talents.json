@@ -277,283 +277,7 @@
   },
   {
     "op": 1,
-    "charId": "char_1016_agoat2",
-    "trait": {
-      "desc": "【钢板】在场2/4/6/8名不同【钢板】干员时，攻击速度+20/+40/+70/+100，防御力+200/+400/+600/+1800；盟约激活时，每层【钢板】盟约层数使防御力再+20",
-      "dsl": {
-        "dsl": 1,
-        "talents": [
-          {
-            "when": "deploy",
-            "if": {
-              "bondActive": {
-                "id": "bond_x_chen_qianyu_gangban",
-                "tier": 1
-              }
-            },
-            "do": [
-              {
-                "buff": {
-                  "key": "chen-qianyu:gangban:1",
-                  "mods": {
-                    "aspd": 20,
-                    "defFlat": 200
-                  }
-                }
-              }
-            ]
-          },
-          {
-            "when": "deploy",
-            "if": {
-              "bondActive": {
-                "id": "bond_x_chen_qianyu_gangban",
-                "tier": 2
-              }
-            },
-            "do": [
-              {
-                "buff": {
-                  "key": "chen-qianyu:gangban:2",
-                  "mods": {
-                    "aspd": 20,
-                    "defFlat": 200
-                  }
-                }
-              }
-            ]
-          },
-          {
-            "when": "deploy",
-            "if": {
-              "bondActive": {
-                "id": "bond_x_chen_qianyu_gangban",
-                "tier": 3
-              }
-            },
-            "do": [
-              {
-                "buff": {
-                  "key": "chen-qianyu:gangban:3",
-                  "mods": {
-                    "aspd": 30,
-                    "defFlat": 200
-                  }
-                }
-              }
-            ]
-          },
-          {
-            "when": "deploy",
-            "if": {
-              "bondActive": {
-                "id": "bond_x_chen_qianyu_gangban",
-                "tier": 4
-              }
-            },
-            "do": [
-              {
-                "buff": {
-                  "key": "chen-qianyu:gangban:4",
-                  "mods": {
-                    "aspd": 30,
-                    "defFlat": 1200
-                  }
-                }
-              }
-            ]
-          }
-        ]
-      }
-    }
-  },
-  {
-    "op": 1,
     "charId": "char_213_mostma",
-    "trait": {
-      "desc": "【钢板】在场2/4/6/8名不同【钢板】干员时，攻击速度+20/+40/+70/+100，防御力+200/+400/+600/+1800；盟约激活时，每层【钢板】盟约层数使防御力再+20",
-      "dsl": {
-        "dsl": 1,
-        "talents": [
-          {
-            "when": "deploy",
-            "if": {
-              "bondActive": {
-                "id": "bond_x_chen_qianyu_gangban",
-                "tier": 1
-              }
-            },
-            "do": [
-              {
-                "buff": {
-                  "key": "chen-qianyu:gangban:1",
-                  "mods": {
-                    "aspd": 20,
-                    "defFlat": 200
-                  }
-                }
-              }
-            ]
-          },
-          {
-            "when": "deploy",
-            "if": {
-              "bondActive": {
-                "id": "bond_x_chen_qianyu_gangban",
-                "tier": 2
-              }
-            },
-            "do": [
-              {
-                "buff": {
-                  "key": "chen-qianyu:gangban:2",
-                  "mods": {
-                    "aspd": 20,
-                    "defFlat": 200
-                  }
-                }
-              }
-            ]
-          },
-          {
-            "when": "deploy",
-            "if": {
-              "bondActive": {
-                "id": "bond_x_chen_qianyu_gangban",
-                "tier": 3
-              }
-            },
-            "do": [
-              {
-                "buff": {
-                  "key": "chen-qianyu:gangban:3",
-                  "mods": {
-                    "aspd": 30,
-                    "defFlat": 200
-                  }
-                }
-              }
-            ]
-          },
-          {
-            "when": "deploy",
-            "if": {
-              "bondActive": {
-                "id": "bond_x_chen_qianyu_gangban",
-                "tier": 4
-              }
-            },
-            "do": [
-              {
-                "buff": {
-                  "key": "chen-qianyu:gangban:4",
-                  "mods": {
-                    "aspd": 30,
-                    "defFlat": 1200
-                  }
-                }
-              }
-            ]
-          }
-        ]
-      }
-    }
-  },
-  {
-    "op": 1,
-    "charId": "char_308_swire",
-    "trait": {
-      "desc": "【钢板】在场2/4/6/8名不同【钢板】干员时，攻击速度+20/+40/+70/+100，防御力+200/+400/+600/+1800；盟约激活时，每层【钢板】盟约层数使防御力再+20",
-      "dsl": {
-        "dsl": 1,
-        "talents": [
-          {
-            "when": "deploy",
-            "if": {
-              "bondActive": {
-                "id": "bond_x_chen_qianyu_gangban",
-                "tier": 1
-              }
-            },
-            "do": [
-              {
-                "buff": {
-                  "key": "chen-qianyu:gangban:1",
-                  "mods": {
-                    "aspd": 20,
-                    "defFlat": 200
-                  }
-                }
-              }
-            ]
-          },
-          {
-            "when": "deploy",
-            "if": {
-              "bondActive": {
-                "id": "bond_x_chen_qianyu_gangban",
-                "tier": 2
-              }
-            },
-            "do": [
-              {
-                "buff": {
-                  "key": "chen-qianyu:gangban:2",
-                  "mods": {
-                    "aspd": 20,
-                    "defFlat": 200
-                  }
-                }
-              }
-            ]
-          },
-          {
-            "when": "deploy",
-            "if": {
-              "bondActive": {
-                "id": "bond_x_chen_qianyu_gangban",
-                "tier": 3
-              }
-            },
-            "do": [
-              {
-                "buff": {
-                  "key": "chen-qianyu:gangban:3",
-                  "mods": {
-                    "aspd": 30,
-                    "defFlat": 200
-                  }
-                }
-              }
-            ]
-          },
-          {
-            "when": "deploy",
-            "if": {
-              "bondActive": {
-                "id": "bond_x_chen_qianyu_gangban",
-                "tier": 4
-              }
-            },
-            "do": [
-              {
-                "buff": {
-                  "key": "chen-qianyu:gangban:4",
-                  "mods": {
-                    "aspd": 30,
-                    "defFlat": 1200
-                  }
-                }
-              }
-            ]
-          }
-        ]
-      }
-    }
-  },
-  {
-    "op": 1,
-    "charId": "char_1033_swire2",
     "trait": {
       "desc": "【钢板】在场2/4/6/8名不同【钢板】干员时，攻击速度+20/+40/+70/+100，防御力+200/+400/+600/+1800；盟约激活时，每层【钢板】盟约层数使防御力再+20",
       "dsl": {
@@ -829,7 +553,7 @@
   },
   {
     "op": 1,
-    "charId": "char_249_mlyss",
+    "charId": "char_108_silent",
     "trait": {
       "desc": "【钢板】在场2/4/6/8名不同【钢板】干员时，攻击速度+20/+40/+70/+100，防御力+200/+400/+600/+1800；盟约激活时，每层【钢板】盟约层数使防御力再+20",
       "dsl": {
@@ -921,7 +645,7 @@
   },
   {
     "op": 1,
-    "charId": "char_102_texas",
+    "charId": "char_2015_dusk",
     "trait": {
       "desc": "【钢板】在场2/4/6/8名不同【钢板】干员时，攻击速度+20/+40/+70/+100，防御力+200/+400/+600/+1800；盟约激活时，每层【钢板】盟约层数使防御力再+20",
       "dsl": {
@@ -1013,7 +737,743 @@
   },
   {
     "op": 1,
-    "charId": "char_140_whitew",
+    "charId": "char_171_bldsk",
+    "trait": {
+      "desc": "【钢板】在场2/4/6/8名不同【钢板】干员时，攻击速度+20/+40/+70/+100，防御力+200/+400/+600/+1800；盟约激活时，每层【钢板】盟约层数使防御力再+20",
+      "dsl": {
+        "dsl": 1,
+        "talents": [
+          {
+            "when": "deploy",
+            "if": {
+              "bondActive": {
+                "id": "bond_x_chen_qianyu_gangban",
+                "tier": 1
+              }
+            },
+            "do": [
+              {
+                "buff": {
+                  "key": "chen-qianyu:gangban:1",
+                  "mods": {
+                    "aspd": 20,
+                    "defFlat": 200
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "when": "deploy",
+            "if": {
+              "bondActive": {
+                "id": "bond_x_chen_qianyu_gangban",
+                "tier": 2
+              }
+            },
+            "do": [
+              {
+                "buff": {
+                  "key": "chen-qianyu:gangban:2",
+                  "mods": {
+                    "aspd": 20,
+                    "defFlat": 200
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "when": "deploy",
+            "if": {
+              "bondActive": {
+                "id": "bond_x_chen_qianyu_gangban",
+                "tier": 3
+              }
+            },
+            "do": [
+              {
+                "buff": {
+                  "key": "chen-qianyu:gangban:3",
+                  "mods": {
+                    "aspd": 30,
+                    "defFlat": 200
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "when": "deploy",
+            "if": {
+              "bondActive": {
+                "id": "bond_x_chen_qianyu_gangban",
+                "tier": 4
+              }
+            },
+            "do": [
+              {
+                "buff": {
+                  "key": "chen-qianyu:gangban:4",
+                  "mods": {
+                    "aspd": 30,
+                    "defFlat": 1200
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "op": 1,
+    "charId": "char_381_bubble",
+    "trait": {
+      "desc": "【钢板】在场2/4/6/8名不同【钢板】干员时，攻击速度+20/+40/+70/+100，防御力+200/+400/+600/+1800；盟约激活时，每层【钢板】盟约层数使防御力再+20",
+      "dsl": {
+        "dsl": 1,
+        "talents": [
+          {
+            "when": "deploy",
+            "if": {
+              "bondActive": {
+                "id": "bond_x_chen_qianyu_gangban",
+                "tier": 1
+              }
+            },
+            "do": [
+              {
+                "buff": {
+                  "key": "chen-qianyu:gangban:1",
+                  "mods": {
+                    "aspd": 20,
+                    "defFlat": 200
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "when": "deploy",
+            "if": {
+              "bondActive": {
+                "id": "bond_x_chen_qianyu_gangban",
+                "tier": 2
+              }
+            },
+            "do": [
+              {
+                "buff": {
+                  "key": "chen-qianyu:gangban:2",
+                  "mods": {
+                    "aspd": 20,
+                    "defFlat": 200
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "when": "deploy",
+            "if": {
+              "bondActive": {
+                "id": "bond_x_chen_qianyu_gangban",
+                "tier": 3
+              }
+            },
+            "do": [
+              {
+                "buff": {
+                  "key": "chen-qianyu:gangban:3",
+                  "mods": {
+                    "aspd": 30,
+                    "defFlat": 200
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "when": "deploy",
+            "if": {
+              "bondActive": {
+                "id": "bond_x_chen_qianyu_gangban",
+                "tier": 4
+              }
+            },
+            "do": [
+              {
+                "buff": {
+                  "key": "chen-qianyu:gangban:4",
+                  "mods": {
+                    "aspd": 30,
+                    "defFlat": 1200
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "op": 1,
+    "charId": "char_358_lisa",
+    "trait": {
+      "desc": "【钢板】在场2/4/6/8名不同【钢板】干员时，攻击速度+20/+40/+70/+100，防御力+200/+400/+600/+1800；盟约激活时，每层【钢板】盟约层数使防御力再+20",
+      "dsl": {
+        "dsl": 1,
+        "talents": [
+          {
+            "when": "deploy",
+            "if": {
+              "bondActive": {
+                "id": "bond_x_chen_qianyu_gangban",
+                "tier": 1
+              }
+            },
+            "do": [
+              {
+                "buff": {
+                  "key": "chen-qianyu:gangban:1",
+                  "mods": {
+                    "aspd": 20,
+                    "defFlat": 200
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "when": "deploy",
+            "if": {
+              "bondActive": {
+                "id": "bond_x_chen_qianyu_gangban",
+                "tier": 2
+              }
+            },
+            "do": [
+              {
+                "buff": {
+                  "key": "chen-qianyu:gangban:2",
+                  "mods": {
+                    "aspd": 20,
+                    "defFlat": 200
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "when": "deploy",
+            "if": {
+              "bondActive": {
+                "id": "bond_x_chen_qianyu_gangban",
+                "tier": 3
+              }
+            },
+            "do": [
+              {
+                "buff": {
+                  "key": "chen-qianyu:gangban:3",
+                  "mods": {
+                    "aspd": 30,
+                    "defFlat": 200
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "when": "deploy",
+            "if": {
+              "bondActive": {
+                "id": "bond_x_chen_qianyu_gangban",
+                "tier": 4
+              }
+            },
+            "do": [
+              {
+                "buff": {
+                  "key": "chen-qianyu:gangban:4",
+                  "mods": {
+                    "aspd": 30,
+                    "defFlat": 1200
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "op": 1,
+    "charId": "char_196_sunbr",
+    "trait": {
+      "desc": "【钢板】在场2/4/6/8名不同【钢板】干员时，攻击速度+20/+40/+70/+100，防御力+200/+400/+600/+1800；盟约激活时，每层【钢板】盟约层数使防御力再+20",
+      "dsl": {
+        "dsl": 1,
+        "talents": [
+          {
+            "when": "deploy",
+            "if": {
+              "bondActive": {
+                "id": "bond_x_chen_qianyu_gangban",
+                "tier": 1
+              }
+            },
+            "do": [
+              {
+                "buff": {
+                  "key": "chen-qianyu:gangban:1",
+                  "mods": {
+                    "aspd": 20,
+                    "defFlat": 200
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "when": "deploy",
+            "if": {
+              "bondActive": {
+                "id": "bond_x_chen_qianyu_gangban",
+                "tier": 2
+              }
+            },
+            "do": [
+              {
+                "buff": {
+                  "key": "chen-qianyu:gangban:2",
+                  "mods": {
+                    "aspd": 20,
+                    "defFlat": 200
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "when": "deploy",
+            "if": {
+              "bondActive": {
+                "id": "bond_x_chen_qianyu_gangban",
+                "tier": 3
+              }
+            },
+            "do": [
+              {
+                "buff": {
+                  "key": "chen-qianyu:gangban:3",
+                  "mods": {
+                    "aspd": 30,
+                    "defFlat": 200
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "when": "deploy",
+            "if": {
+              "bondActive": {
+                "id": "bond_x_chen_qianyu_gangban",
+                "tier": 4
+              }
+            },
+            "do": [
+              {
+                "buff": {
+                  "key": "chen-qianyu:gangban:4",
+                  "mods": {
+                    "aspd": 30,
+                    "defFlat": 1200
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "op": 1,
+    "charId": "char_4058_pepe",
+    "trait": {
+      "desc": "【钢板】在场2/4/6/8名不同【钢板】干员时，攻击速度+20/+40/+70/+100，防御力+200/+400/+600/+1800；盟约激活时，每层【钢板】盟约层数使防御力再+20",
+      "dsl": {
+        "dsl": 1,
+        "talents": [
+          {
+            "when": "deploy",
+            "if": {
+              "bondActive": {
+                "id": "bond_x_chen_qianyu_gangban",
+                "tier": 1
+              }
+            },
+            "do": [
+              {
+                "buff": {
+                  "key": "chen-qianyu:gangban:1",
+                  "mods": {
+                    "aspd": 20,
+                    "defFlat": 200
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "when": "deploy",
+            "if": {
+              "bondActive": {
+                "id": "bond_x_chen_qianyu_gangban",
+                "tier": 2
+              }
+            },
+            "do": [
+              {
+                "buff": {
+                  "key": "chen-qianyu:gangban:2",
+                  "mods": {
+                    "aspd": 20,
+                    "defFlat": 200
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "when": "deploy",
+            "if": {
+              "bondActive": {
+                "id": "bond_x_chen_qianyu_gangban",
+                "tier": 3
+              }
+            },
+            "do": [
+              {
+                "buff": {
+                  "key": "chen-qianyu:gangban:3",
+                  "mods": {
+                    "aspd": 30,
+                    "defFlat": 200
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "when": "deploy",
+            "if": {
+              "bondActive": {
+                "id": "bond_x_chen_qianyu_gangban",
+                "tier": 4
+              }
+            },
+            "do": [
+              {
+                "buff": {
+                  "key": "chen-qianyu:gangban:4",
+                  "mods": {
+                    "aspd": 30,
+                    "defFlat": 1200
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "op": 1,
+    "charId": "char_4146_nymph",
+    "trait": {
+      "desc": "【钢板】在场2/4/6/8名不同【钢板】干员时，攻击速度+20/+40/+70/+100，防御力+200/+400/+600/+1800；盟约激活时，每层【钢板】盟约层数使防御力再+20",
+      "dsl": {
+        "dsl": 1,
+        "talents": [
+          {
+            "when": "deploy",
+            "if": {
+              "bondActive": {
+                "id": "bond_x_chen_qianyu_gangban",
+                "tier": 1
+              }
+            },
+            "do": [
+              {
+                "buff": {
+                  "key": "chen-qianyu:gangban:1",
+                  "mods": {
+                    "aspd": 20,
+                    "defFlat": 200
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "when": "deploy",
+            "if": {
+              "bondActive": {
+                "id": "bond_x_chen_qianyu_gangban",
+                "tier": 2
+              }
+            },
+            "do": [
+              {
+                "buff": {
+                  "key": "chen-qianyu:gangban:2",
+                  "mods": {
+                    "aspd": 20,
+                    "defFlat": 200
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "when": "deploy",
+            "if": {
+              "bondActive": {
+                "id": "bond_x_chen_qianyu_gangban",
+                "tier": 3
+              }
+            },
+            "do": [
+              {
+                "buff": {
+                  "key": "chen-qianyu:gangban:3",
+                  "mods": {
+                    "aspd": 30,
+                    "defFlat": 200
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "when": "deploy",
+            "if": {
+              "bondActive": {
+                "id": "bond_x_chen_qianyu_gangban",
+                "tier": 4
+              }
+            },
+            "do": [
+              {
+                "buff": {
+                  "key": "chen-qianyu:gangban:4",
+                  "mods": {
+                    "aspd": 30,
+                    "defFlat": 1200
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "op": 1,
+    "charId": "char_4191_tippi",
+    "trait": {
+      "desc": "【钢板】在场2/4/6/8名不同【钢板】干员时，攻击速度+20/+40/+70/+100，防御力+200/+400/+600/+1800；盟约激活时，每层【钢板】盟约层数使防御力再+20",
+      "dsl": {
+        "dsl": 1,
+        "talents": [
+          {
+            "when": "deploy",
+            "if": {
+              "bondActive": {
+                "id": "bond_x_chen_qianyu_gangban",
+                "tier": 1
+              }
+            },
+            "do": [
+              {
+                "buff": {
+                  "key": "chen-qianyu:gangban:1",
+                  "mods": {
+                    "aspd": 20,
+                    "defFlat": 200
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "when": "deploy",
+            "if": {
+              "bondActive": {
+                "id": "bond_x_chen_qianyu_gangban",
+                "tier": 2
+              }
+            },
+            "do": [
+              {
+                "buff": {
+                  "key": "chen-qianyu:gangban:2",
+                  "mods": {
+                    "aspd": 20,
+                    "defFlat": 200
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "when": "deploy",
+            "if": {
+              "bondActive": {
+                "id": "bond_x_chen_qianyu_gangban",
+                "tier": 3
+              }
+            },
+            "do": [
+              {
+                "buff": {
+                  "key": "chen-qianyu:gangban:3",
+                  "mods": {
+                    "aspd": 30,
+                    "defFlat": 200
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "when": "deploy",
+            "if": {
+              "bondActive": {
+                "id": "bond_x_chen_qianyu_gangban",
+                "tier": 4
+              }
+            },
+            "do": [
+              {
+                "buff": {
+                  "key": "chen-qianyu:gangban:4",
+                  "mods": {
+                    "aspd": 30,
+                    "defFlat": 1200
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "op": 1,
+    "charId": "char_4026_vulpis",
+    "trait": {
+      "desc": "【钢板】在场2/4/6/8名不同【钢板】干员时，攻击速度+20/+40/+70/+100，防御力+200/+400/+600/+1800；盟约激活时，每层【钢板】盟约层数使防御力再+20",
+      "dsl": {
+        "dsl": 1,
+        "talents": [
+          {
+            "when": "deploy",
+            "if": {
+              "bondActive": {
+                "id": "bond_x_chen_qianyu_gangban",
+                "tier": 1
+              }
+            },
+            "do": [
+              {
+                "buff": {
+                  "key": "chen-qianyu:gangban:1",
+                  "mods": {
+                    "aspd": 20,
+                    "defFlat": 200
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "when": "deploy",
+            "if": {
+              "bondActive": {
+                "id": "bond_x_chen_qianyu_gangban",
+                "tier": 2
+              }
+            },
+            "do": [
+              {
+                "buff": {
+                  "key": "chen-qianyu:gangban:2",
+                  "mods": {
+                    "aspd": 20,
+                    "defFlat": 200
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "when": "deploy",
+            "if": {
+              "bondActive": {
+                "id": "bond_x_chen_qianyu_gangban",
+                "tier": 3
+              }
+            },
+            "do": [
+              {
+                "buff": {
+                  "key": "chen-qianyu:gangban:3",
+                  "mods": {
+                    "aspd": 30,
+                    "defFlat": 200
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "when": "deploy",
+            "if": {
+              "bondActive": {
+                "id": "bond_x_chen_qianyu_gangban",
+                "tier": 4
+              }
+            },
+            "do": [
+              {
+                "buff": {
+                  "key": "chen-qianyu:gangban:4",
+                  "mods": {
+                    "aspd": 30,
+                    "defFlat": 1200
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "op": 1,
+    "charId": "char_306_leizi",
     "trait": {
       "desc": "【钢板】在场2/4/6/8名不同【钢板】干员时，攻击速度+20/+40/+70/+100，防御力+200/+400/+600/+1800；盟约激活时，每层【钢板】盟约层数使防御力再+20",
       "dsl": {

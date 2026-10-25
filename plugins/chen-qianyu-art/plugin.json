@@ -6,7 +6,7 @@
     "zh": "陈千语 · 立绘、头像、战斗模型与语音",
     "en": "Chen Qianyu art, battle model and voice"
   },
-  "version": "1.1.10",
+  "version": "1.1.12",
   "app": ">=0.3.0 <0.4.0",
   "api": 1,
   "class": "cosmetic",
@@ -77,6 +77,9 @@
           "resultLose": "art/voice/lose_xiexie.mp3"
         }
       }
+    },
+    "bands": {
+      "band_x_chen_qianyu_chen": "art/band_chen_qianyu.png"
     }
   }
 }

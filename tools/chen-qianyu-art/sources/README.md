@@ -1,5 +1,15 @@
 # Chen Qianyu battle outfit sources
 
+## Strategy portrait — 当当
+
+`strategy-dangdang.png` is the 180×180 strategy icon, edited from the maintainer's supplied chibi portrait using
+the built-in imagegen tool. The bottom-right logo was removed; the portrait received the mint hologram badge,
+horizontal scan lines and transparent perimeter of the existing strategy icons. The exact prompt and input roles
+are recorded in [strategy-prompt.json](strategy-prompt.json). Official strategy icons were style references only
+and are not copied into this sources directory. The output is consumed as `art/band_chen_qianyu.png` by the newer
+`chen-qianyu-art` pack, separately from the operator avatar/portrait. The strategy's visible effect label is
+`当当`; its mechanics remain the same. Existing copyright/source notices remain applicable.
+
 The maintainer supplied the close-up Chen Qianyu figure reference and authorized publication of this existing
 cosmetic pack. Original Ch'en rig/boot art: © Hypergryph. The pack's existing notices remain applicable.
 

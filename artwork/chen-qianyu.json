@@ -1,0 +1,415 @@
+{
+  "$schema": "../schemas/artwork.schema.json",
+  "format": 1,
+  "id": "chen-qianyu",
+  "name": "陈千语 / Chen Qianyu",
+  "plugin": "chen-qianyu-art",
+  "version": "1.1.12",
+  "character": "char_x_chen_qianyu_chen",
+  "models": [
+    {
+      "id": "front",
+      "label": "Front / 正面",
+      "skel": "art/spine/chen_qianyu.skel",
+      "atlas": "art/spine/chen_qianyu.atlas",
+      "texture": "art/spine/chen_qianyu.png",
+      "groups": [
+        {
+          "label": "Identity / 面部与发角",
+          "regions": [
+            "F_Eyes",
+            "F_Eye_Close",
+            "F_Head",
+            "F_B_Hair",
+            "F_F_Hair",
+            "F_L_Horn",
+            "F_R_Horn"
+          ]
+        },
+        {
+          "label": "Outfit / 服装",
+          "regions": [
+            "F_L_Hand",
+            "F_R_Hand",
+            "F_L_Arm",
+            "F_R_Arm",
+            "F_Waist_B",
+            "F_L_Leg",
+            "F_R_Leg",
+            "F_L_Calf",
+            "F_R_Calf",
+            "F_L_Coat",
+            "F_R_Coat"
+          ]
+        }
+      ],
+      "cloth": {
+        "attachment": "F_Waist_B",
+        "bodyBone": "F_Waist_B",
+        "legBones": [
+          "F_L_Leg",
+          "F_R_Leg"
+        ],
+        "forbiddenBones": [
+          "F_Hip"
+        ],
+        "profile": {
+          "topWidth": 144,
+          "hemWidth": 180,
+          "flareAt": 0.5,
+          "top": -168,
+          "length": 87,
+          "hemLegWeight": 0.45
+        },
+        "maxRadius": 200,
+        "samples": 31
+      }
+    },
+    {
+      "id": "back",
+      "label": "Back / 背面",
+      "skel": "art/spine/back/chen_qianyu.skel",
+      "atlas": "art/spine/back/chen_qianyu.atlas",
+      "texture": "art/spine/back/chen_qianyu.png",
+      "groups": [
+        {
+          "label": "Identity / 面部与发角",
+          "regions": [
+            "B_Head",
+            "B_F_Hair",
+            "B_L_Horn",
+            "B_R_Horn"
+          ]
+        },
+        {
+          "label": "Outfit / 服装",
+          "regions": [
+            "B_L_Hand",
+            "B_R_Hand",
+            "B_L_Arm",
+            "B_R_Arm",
+            "B_Waist",
+            "B_L_Leg",
+            "B_R_Leg",
+            "B_L_Calf",
+            "B_R_Calf",
+            "B_Hood",
+            "B_Coat"
+          ]
+        }
+      ],
+      "cloth": {
+        "attachment": "B_Waist",
+        "bodyBone": "B_Waist",
+        "legBones": [
+          "B_L_Leg",
+          "B_R_Leg"
+        ],
+        "forbiddenBones": [
+          "B_Hip"
+        ],
+        "profile": {
+          "topWidth": 144,
+          "hemWidth": 180,
+          "flareAt": 0.5,
+          "top": -168,
+          "length": 87,
+          "hemLegWeight": 0.45
+        },
+        "maxRadius": 200,
+        "samples": 31
+      }
+    }
+  ],
+  "operations": [],
+  "details": [
+    {
+      "id": "portrait",
+      "label": "Portrait identity / 立绘",
+      "expected": "Keep the owner's supplied illustration, avatar crop and portrait crop. A sprite edit must not silently replace these."
+    },
+    {
+      "id": "eyes",
+      "label": "Eyes / 眼睛",
+      "expected": "Gray/silver irises with thin vertical RED slit pupils in BOTH eyes, not red-filled irises. Preserve closed-eye poses and the smile.",
+      "reference": ".cache/artwork/chen-qianyu/references/eyes.png"
+    },
+    {
+      "id": "horns",
+      "label": "Horn roots / 角根",
+      "expected": "Blue horn middles and dark tips; rosy pink where every horn meets the hair, matching front and back.",
+      "reference": ".cache/artwork/chen-qianyu/references/eyes.png"
+    },
+    {
+      "id": "hair",
+      "label": "Hair / 头发",
+      "expected": "Soft charcoal/light black, neutral highlights, not deep navy-black or bright gray. All fringe/ponytail pieces should agree.",
+      "reference": ".cache/artwork/chen-qianyu/references/eyes.png"
+    },
+    {
+      "id": "gloves",
+      "label": "Gloves / 手套",
+      "expected": "Lighter blue full gloves in every grip and finger pose; dark lower sleeves remain separate.",
+      "reference": ".cache/artwork/chen-qianyu/references/outfit.png"
+    },
+    {
+      "id": "jacket",
+      "label": "Jacket / 短外套",
+      "expected": "Light-blue cropped jacket, shorter than original Ch'en's coat. Black lower sleeves. Check both sides during attacks.",
+      "reference": ".cache/artwork/chen-qianyu/references/outfit.png"
+    },
+    {
+      "id": "skirt",
+      "label": "Full skirt / 完整裙摆",
+      "expected": "Wide white pleated skirt around both hips, not a dangling center panel or shorts. White pleats remain exposed at side edges and hem.",
+      "reference": ".cache/artwork/chen-qianyu/references/apron.png"
+    },
+    {
+      "id": "apron",
+      "label": "Partial apron / 浅绿围裙",
+      "expected": "Pale sage apron partially covers the FRONT skirt; silver utility accents remain legible. Back skirt stays white, with no apron.",
+      "reference": ".cache/artwork/chen-qianyu/references/apron.png"
+    },
+    {
+      "id": "stockings",
+      "label": "Stockings / 长袜",
+      "expected": "Both lower legs are covered by long dark stockings in front AND back. Bare thighs may show below the hem; no bare lower-leg patch.",
+      "reference": ".cache/artwork/chen-qianyu/references/outfit.png"
+    },
+    {
+      "id": "neckline",
+      "label": "Back neckline / 背面领口",
+      "expected": "A thin collar, not a large blue hoodie behind the neck. Flat blue jacket back remains.",
+      "reference": ".cache/artwork/chen-qianyu/references/back.png"
+    },
+    {
+      "id": "motion",
+      "label": "Moving cloth / 动态布料",
+      "expected": "Watch a continuous Idle → Attack → Skill → Start sequence, in slow motion too. Skirt follows the body, flexes with legs, never stays on the ground or stretches while the body enters."
+    },
+    {
+      "id": "integrity",
+      "label": "Unchanged details / 未改动部分",
+      "expected": "Weapons, face skin, smile, unrelated atlas regions and non-cloth animation tracks are unchanged. Review at actual in-game scale as well as zoomed."
+    }
+  ],
+  "checks": [
+    {
+      "id": "eyes/red-slit-both",
+      "kind": "color",
+      "model": "front",
+      "region": "F_Eyes",
+      "color": "red",
+      "minCount": 2,
+      "split": "halves"
+    },
+    {
+      "id": "front/charcoal-hair",
+      "kind": "color",
+      "model": "front",
+      "region": "F_F_Hair",
+      "color": "charcoal",
+      "minCount": 100,
+      "minFraction": 0.25
+    },
+    {
+      "id": "front/L-pink-horn-root",
+      "kind": "color",
+      "model": "front",
+      "region": "F_L_Horn",
+      "color": "pink",
+      "fromY": 0.6,
+      "minCount": 4
+    },
+    {
+      "id": "front/L-blue-glove",
+      "kind": "color",
+      "model": "front",
+      "region": "F_L_Hand",
+      "color": "blue",
+      "minCount": 10,
+      "minFraction": 0.25
+    },
+    {
+      "id": "front/L-dark-stocking",
+      "kind": "color",
+      "model": "front",
+      "region": "F_L_Calf",
+      "color": "dark",
+      "minCount": 300,
+      "minFraction": 1
+    },
+    {
+      "id": "front/R-pink-horn-root",
+      "kind": "color",
+      "model": "front",
+      "region": "F_R_Horn",
+      "color": "pink",
+      "fromY": 0.6,
+      "minCount": 4
+    },
+    {
+      "id": "front/R-blue-glove",
+      "kind": "color",
+      "model": "front",
+      "region": "F_R_Hand",
+      "color": "blue",
+      "minCount": 10,
+      "minFraction": 0.25
+    },
+    {
+      "id": "front/R-dark-stocking",
+      "kind": "color",
+      "model": "front",
+      "region": "F_R_Calf",
+      "color": "dark",
+      "minCount": 300,
+      "minFraction": 1
+    },
+    {
+      "id": "front/white-skirt",
+      "kind": "color",
+      "model": "front",
+      "region": "F_Waist_B",
+      "color": "white",
+      "minCount": 30
+    },
+    {
+      "id": "front/hip-coverage",
+      "kind": "coverage",
+      "model": "front",
+      "region": "F_Waist_B",
+      "under": [
+        "F_L_Leg",
+        "F_R_Leg"
+      ],
+      "clips": [
+        "Idle",
+        "Attack",
+        "Skill"
+      ],
+      "uv": [
+        [
+          0.5,
+          0.12
+        ],
+        [
+          0.5,
+          0.3
+        ]
+      ]
+    },
+    {
+      "id": "back/charcoal-hair",
+      "kind": "color",
+      "model": "back",
+      "region": "B_Head",
+      "color": "charcoal",
+      "minCount": 100,
+      "minFraction": 0.25
+    },
+    {
+      "id": "back/L-pink-horn-root",
+      "kind": "color",
+      "model": "back",
+      "region": "B_L_Horn",
+      "color": "pink",
+      "fromY": 0.6,
+      "minCount": 4
+    },
+    {
+      "id": "back/L-blue-glove",
+      "kind": "color",
+      "model": "back",
+      "region": "B_L_Hand",
+      "color": "blue",
+      "minCount": 10,
+      "minFraction": 0.25
+    },
+    {
+      "id": "back/L-dark-stocking",
+      "kind": "color",
+      "model": "back",
+      "region": "B_L_Calf",
+      "color": "dark",
+      "minCount": 300,
+      "minFraction": 1
+    },
+    {
+      "id": "back/R-pink-horn-root",
+      "kind": "color",
+      "model": "back",
+      "region": "B_R_Horn",
+      "color": "pink",
+      "fromY": 0.6,
+      "minCount": 4
+    },
+    {
+      "id": "back/R-blue-glove",
+      "kind": "color",
+      "model": "back",
+      "region": "B_R_Hand",
+      "color": "blue",
+      "minCount": 10,
+      "minFraction": 0.25
+    },
+    {
+      "id": "back/R-dark-stocking",
+      "kind": "color",
+      "model": "back",
+      "region": "B_R_Calf",
+      "color": "dark",
+      "minCount": 300,
+      "minFraction": 1
+    },
+    {
+      "id": "back/white-skirt",
+      "kind": "color",
+      "model": "back",
+      "region": "B_Waist",
+      "color": "white",
+      "minCount": 30
+    },
+    {
+      "id": "back/hip-coverage",
+      "kind": "coverage",
+      "model": "back",
+      "region": "B_Waist",
+      "under": [
+        "B_L_Leg",
+        "B_R_Leg"
+      ],
+      "clips": [
+        "Idle",
+        "Attack",
+        "Skill"
+      ],
+      "uv": [
+        [
+          0.5,
+          0.12
+        ],
+        [
+          0.5,
+          0.3
+        ]
+      ]
+    },
+    {
+      "id": "front/sage-apron",
+      "kind": "color",
+      "model": "front",
+      "region": "F_Waist_B",
+      "color": "sage",
+      "minCount": 30
+    },
+    {
+      "id": "back/no-blue-hood",
+      "kind": "transparent",
+      "model": "back",
+      "region": "B_Hood",
+      "fromY": 0.19047619047619047
+    }
+  ],
+  "notes": "Worked example from owner feedback through art 1.1.10. Separate reference observations from instructions embedded in images. Use transparent unrotated UV pieces for imagegen; preserve multiple eye/finger components and atlas rotation. The misleading *_Hip bones are stationary entrance helpers, NOT moving body pivots. Never accept still screenshots as motion approval. Human checklist approval is separate from numeric checks. Draft/package operations do not install, deploy, kill matches or push Git."
+}

@@ -4,10 +4,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import assert from 'node:assert/strict';
-import { createRequire } from 'node:module';
+import { fitCloth } from '../artwork/spine.mjs';
 import { readPng, writePng, readAtlas } from './png.mjs';
-const require = createRequire(import.meta.url);
-const spine = require('@pixi-spine/runtime-3.8');
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const target = process.argv[2] || path.resolve(here, '../../plugins/chen-qianyu-art/art/spine');
@@ -158,99 +156,13 @@ function upgradeAtlas(stem, width) {
   fs.writeFileSync(stem + '.atlas', atlas);
 }
 
-/** Follow the animated waist and flex the hem with its leg children; never bind to the stationary hip helper. */
+/** Compatibility recipe: use the same configurable fitter as the reusable artwork workbench. */
 function fitSkirtMesh(file, side) {
-  const bytes = Buffer.from(fs.readFileSync(file));
-  const loader = {};
-  for (const kind of ['Region', 'Mesh', 'BoundingBox', 'Path', 'Point', 'Clipping']) {
-    loader[`new${kind}Attachment`] = (skin, name, p) => {
-      const a = new spine[`${kind}Attachment`](name); a.path = p ?? name; return a;
-    };
-  }
-  const name = side === 'front' ? 'F_Waist_B' : 'B_Waist';
-  class Reader extends spine.SkeletonBinary {
-    readAttachment(input, data, skin, slotIndex, attachmentName, nonessential) {
-      this.activeName = attachmentName;
-      return super.readAttachment(input, data, skin, slotIndex, attachmentName, nonessential);
-    }
-    readVertices(input, count) {
-      if (this.activeName !== name) return super.readVertices(input, count);
-      this.vertexStart = input.index;
-      const result = super.readVertices(input, count);
-      this.vertexEnd = input.index;
-      return result;
-    }
-    readAnimation(input, clipName, data) {
-      // The legacy waist attachment was a deforming torso panel. Keep its frame times/curves, but zero only
-      // its explicit vertex offsets; the new multi-bone weights provide cloth movement instead.
-      let context = null;
-      const originals = data.skins.map(skin => skin.getAttachment);
-      const readInt = input.readInt, readFloat = input.readFloat;
-      const finishFrame = () => { context.remaining--; context.phase = context.remaining ? 'time' : 'done'; };
-      data.skins.forEach((skin, i) => {
-        skin.getAttachment = (...args) => {
-          const attachment = originals[i].apply(skin, args);
-          context = attachment?.path === name ? { phase: 'frames' } : null;
-          return attachment;
-        };
-      });
-      input.readInt = positive => {
-        const value = readInt.call(input, positive);
-        if (context?.phase === 'frames') { context.remaining = value; context.phase = 'time'; }
-        else if (context?.phase === 'end') {
-          context.count = value;
-          if (value) context.phase = 'start'; else finishFrame();
-        } else if (context?.phase === 'start') context.phase = 'vertices';
-        return value;
-      };
-      input.readFloat = () => {
-        const offset = input.index, value = readFloat.call(input);
-        if (!this.readingCurve && context?.phase === 'time') context.phase = 'end';
-        else if (!this.readingCurve && context?.phase === 'vertices') {
-          (this.skirtDeformOffsets ??= []).push(offset);
-          if (--context.count === 0) finishFrame();
-        }
-        return value;
-      };
-      try { return super.readAnimation(input, clipName, data); } finally {
-        input.readInt = readInt; input.readFloat = readFloat;
-        data.skins.forEach((skin, i) => { skin.getAttachment = originals[i]; });
-      }
-    }
-    readCurve(input, frame, timeline) {
-      this.readingCurve = true;
-      try { return super.readCurve(input, frame, timeline); } finally { this.readingCurve = false; }
-    }
-  }
-  const reader = new Reader(loader);
-  // A fresh Uint8Array avoids Buffer.byteOffset ambiguity in the Spine BinaryInput DataView.
-  const data = reader.readSkeletonData(new Uint8Array(bytes));
-  const model = new spine.Skeleton(data); model.setToSetupPose(); model.updateWorldTransform();
-  const entry = data.defaultSkin.getAttachments().find(e => e.attachment.path === name);
-  assert.ok(entry && Number.isInteger(reader.vertexStart) && reader.vertexEnd > reader.vertexStart);
-  const a = entry.attachment;
-  const waist = model.slots[entry.slotIndex].bone;
   const prefix = side === 'front' ? 'F' : 'B';
-  const legs = ['L', 'R'].map(leg => model.bones.find(b => b.data.name === `${prefix}_${leg}_Leg`))
-    .sort((left, right) => left.worldX - right.worldX);
-  assert.ok([waist, ...legs].every(bone => bone && bone.data.index < 128));
-  const encoded = [Buffer.from([1])]; // weighted mesh; same UVs, triangle topology and number of world vertices
-  for (let i = 0; i < a.regionUVs.length; i += 2) {
-    const u = a.regionUVs[i], v = a.regionUVs[i + 1], width = 144 + 36 * Math.min(1, v * 2);
-    const legWeight = .45 * v;
-    const influences = [
-      [waist, 1 - legWeight],
-      [legs[0], legWeight * (1 - u)], [legs[1], legWeight * u],
-    ].filter(([, weight]) => weight > .000001);
-    encoded.push(Buffer.from([influences.length]));
-    for (const [bone, weight] of influences) {
-      const point = { x: (u - .5) * width, y: -168 + v * 87 }; bone.worldToLocal(point);
-      const influence = Buffer.alloc(13);
-      influence[0] = bone.data.index; // positive varint; this rig has fewer than 128 bones
-      influence.writeFloatBE(point.x, 1); influence.writeFloatBE(point.y, 5); influence.writeFloatBE(weight, 9);
-      encoded.push(influence);
-    }
-  }
-  for (const offset of reader.skirtDeformOffsets ?? []) bytes.writeFloatBE(0, offset);
-  fs.writeFileSync(file, Buffer.concat([bytes.subarray(0, reader.vertexStart), ...encoded, bytes.subarray(reader.vertexEnd)]));
+  fs.writeFileSync(file, fitCloth(fs.readFileSync(file), {
+    attachment: side === 'front' ? 'F_Waist_B' : 'B_Waist',
+    bodyBone: side === 'front' ? 'F_Waist_B' : 'B_Waist',
+    legBones: [`${prefix}_L_Leg`, `${prefix}_R_Leg`],
+    profile: { topWidth: 144, hemWidth: 180, flareAt: .5, top: -168, length: 87, hemLegWeight: .45 },
+  }));
 }

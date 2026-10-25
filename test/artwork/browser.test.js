@@ -1,0 +1,36 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import path from 'node:path';
+import fs from 'node:fs';
+import { fixture } from '../helpers/artwork.js';
+import { startWorkbench } from '../../tools/artwork/server.mjs';
+import { findChrome } from '../../tools/artwork/render.mjs';
+import { fileSnapshot } from '../../tools/artwork/project.mjs';
+import puppeteer from 'puppeteer-core';
+
+test('browser: synchronized poses, bone inspection, JSON build and review gating use the real Pixi renderer', { skip: process.env.SP_ARTWORK_E2E !== '1', timeout: 90000 }, async t => {
+  const ctx = fixture(t), before = fileSnapshot(ctx.pluginDir), service = await startWorkbench(ctx);
+  const browser = await puppeteer.launch({ executablePath: findChrome(), headless: true, args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
+  t.after(async () => { await browser.close(); await service.close(); });
+  const page = await browser.newPage(), errors = []; page.on('pageerror', e => errors.push(e.message));
+  await page.setViewport({ width: 1500, height: 1100 });
+  await page.goto(service.url.replace('/#', '/?lang=en#'), { waitUntil: 'networkidle0' });
+  await page.evaluate(() => window.artwork.ready);
+  assert.equal(await page.title(), 'Artwork workbench');
+  assert.equal(await page.$eval('#pack', el => el.disabled), true);
+  assert.equal(await page.$eval('#review-save', el => el.disabled), true);
+  await page.click('#play'); await page.select('#clip', 'Attack'); await page.evaluate(() => window.artwork.setTime(.35));
+  const snap = await page.evaluate(() => window.artwork.snapshot()); assert.equal(snap.clip, 'Attack'); assert.equal(snap.time, .35); assert.deepEqual(snap.models.map(m => m.clips.length), [13, 8]);
+  await page.click('#bones'); await page.click('#mesh'); await page.select('#bone-pick', 'F_Hip');
+  assert.match(await page.$eval('#bone-meta', el => el.textContent), /"Start"/);
+  const height = await page.$eval('#model-pick', el => el.getBoundingClientRect().height); assert.ok(height < 60, `Select stretched to ${height}px`);
+  const sheet = await page.evaluate(() => window.artwork.contactSheet()); assert.match(sheet, /^data:image\/png;base64,/);
+  await page.evaluate(() => { const e = document.getElementById('project-json'), p = JSON.parse(e.value); p.notes += '\nBrowser fixture'; e.value = JSON.stringify(p); e.dispatchEvent(new Event('input', { bubbles: true })); });
+  await page.click('#build'); await page.waitForFunction(() => window.artwork.snapshot().candidate && !document.getElementById('build').disabled);
+  assert.equal(await page.$eval('#pack', el => el.disabled), true); assert.equal(await page.$eval('#review-save', el => el.disabled), false);
+  assert.match(fs.readFileSync(ctx.projectFile, 'utf8'), /Browser fixture/); assert.deepEqual(fileSnapshot(ctx.pluginDir), before);
+  await page.screenshot({ path: path.join(ctx.root, 'browser.png') });
+  await page.select('#language', 'ja'); await page.waitForNavigation({ waitUntil: 'networkidle0' }).catch(() => {});
+  await page.evaluate(() => window.artwork.ready); assert.equal(await page.title(), 'アートワーク編集台');
+  assert.deepEqual(errors, []);
+});

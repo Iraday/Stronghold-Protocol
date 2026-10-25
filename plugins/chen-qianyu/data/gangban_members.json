@@ -70,28 +70,6 @@
     {
       "op": "append",
       "file": "chess",
-      "id": "chess_char_6_20_a",
-      "path": [
-        "bonds"
-      ],
-      "value": [
-        "bond_x_chen_qianyu_gangban"
-      ]
-    },
-    {
-      "op": "append",
-      "file": "chess",
-      "id": "chess_char_6_20_b",
-      "path": [
-        "bonds"
-      ],
-      "value": [
-        "bond_x_chen_qianyu_gangban"
-      ]
-    },
-    {
-      "op": "append",
-      "file": "chess",
       "id": "chess_char_4_02_a",
       "path": [
         "bonds"
@@ -104,50 +82,6 @@
       "op": "append",
       "file": "chess",
       "id": "chess_char_4_02_b",
-      "path": [
-        "bonds"
-      ],
-      "value": [
-        "bond_x_chen_qianyu_gangban"
-      ]
-    },
-    {
-      "op": "append",
-      "file": "chess",
-      "id": "chess_char_3_03_a",
-      "path": [
-        "bonds"
-      ],
-      "value": [
-        "bond_x_chen_qianyu_gangban"
-      ]
-    },
-    {
-      "op": "append",
-      "file": "chess",
-      "id": "chess_char_3_03_b",
-      "path": [
-        "bonds"
-      ],
-      "value": [
-        "bond_x_chen_qianyu_gangban"
-      ]
-    },
-    {
-      "op": "append",
-      "file": "chess",
-      "id": "chess_char_3_04_a",
-      "path": [
-        "bonds"
-      ],
-      "value": [
-        "bond_x_chen_qianyu_gangban"
-      ]
-    },
-    {
-      "op": "append",
-      "file": "chess",
-      "id": "chess_char_3_04_b",
       "path": [
         "bonds"
       ],
@@ -202,7 +136,7 @@
     {
       "op": "append",
       "file": "chess",
-      "id": "chess_char_6_11_a",
+      "id": "chess_char_2_02_a",
       "path": [
         "bonds"
       ],
@@ -213,7 +147,7 @@
     {
       "op": "append",
       "file": "chess",
-      "id": "chess_char_6_11_b",
+      "id": "chess_char_2_02_b",
       "path": [
         "bonds"
       ],
@@ -224,7 +158,7 @@
     {
       "op": "append",
       "file": "chess",
-      "id": "chess_char_1_08_a",
+      "id": "chess_char_5_12_a",
       "path": [
         "bonds"
       ],
@@ -235,7 +169,7 @@
     {
       "op": "append",
       "file": "chess",
-      "id": "chess_char_1_08_b",
+      "id": "chess_char_5_12_b",
       "path": [
         "bonds"
       ],
@@ -246,7 +180,7 @@
     {
       "op": "append",
       "file": "chess",
-      "id": "chess_char_2_16_a",
+      "id": "chess_char_4_26_a",
       "path": [
         "bonds"
       ],
@@ -257,7 +191,227 @@
     {
       "op": "append",
       "file": "chess",
-      "id": "chess_char_2_16_b",
+      "id": "chess_char_4_26_b",
+      "path": [
+        "bonds"
+      ],
+      "value": [
+        "bond_x_chen_qianyu_gangban"
+      ]
+    },
+    {
+      "op": "append",
+      "file": "chess",
+      "id": "chess_char_5_04_a",
+      "path": [
+        "bonds"
+      ],
+      "value": [
+        "bond_x_chen_qianyu_gangban"
+      ]
+    },
+    {
+      "op": "append",
+      "file": "chess",
+      "id": "chess_char_5_04_b",
+      "path": [
+        "bonds"
+      ],
+      "value": [
+        "bond_x_chen_qianyu_gangban"
+      ]
+    },
+    {
+      "op": "append",
+      "file": "chess",
+      "id": "chess_char_2_08_a",
+      "path": [
+        "bonds"
+      ],
+      "value": [
+        "bond_x_chen_qianyu_gangban"
+      ]
+    },
+    {
+      "op": "append",
+      "file": "chess",
+      "id": "chess_char_2_08_b",
+      "path": [
+        "bonds"
+      ],
+      "value": [
+        "bond_x_chen_qianyu_gangban"
+      ]
+    },
+    {
+      "op": "append",
+      "file": "chess",
+      "id": "chess_char_5_10_a",
+      "path": [
+        "bonds"
+      ],
+      "value": [
+        "bond_x_chen_qianyu_gangban"
+      ]
+    },
+    {
+      "op": "append",
+      "file": "chess",
+      "id": "chess_char_5_10_b",
+      "path": [
+        "bonds"
+      ],
+      "value": [
+        "bond_x_chen_qianyu_gangban"
+      ]
+    },
+    {
+      "op": "append",
+      "file": "chess",
+      "id": "chess_char_1_10_a",
+      "path": [
+        "bonds"
+      ],
+      "value": [
+        "bond_x_chen_qianyu_gangban"
+      ]
+    },
+    {
+      "op": "append",
+      "file": "chess",
+      "id": "chess_char_1_10_b",
+      "path": [
+        "bonds"
+      ],
+      "value": [
+        "bond_x_chen_qianyu_gangban"
+      ]
+    },
+    {
+      "op": "append",
+      "file": "chess",
+      "id": "chess_char_6_06_a",
+      "path": [
+        "bonds"
+      ],
+      "value": [
+        "bond_x_chen_qianyu_gangban"
+      ]
+    },
+    {
+      "op": "append",
+      "file": "chess",
+      "id": "chess_char_6_06_b",
+      "path": [
+        "bonds"
+      ],
+      "value": [
+        "bond_x_chen_qianyu_gangban"
+      ]
+    },
+    {
+      "op": "append",
+      "file": "chess",
+      "id": "chess_char_5_22_a",
+      "path": [
+        "bonds"
+      ],
+      "value": [
+        "bond_x_chen_qianyu_gangban"
+      ]
+    },
+    {
+      "op": "append",
+      "file": "chess",
+      "id": "chess_char_5_22_b",
+      "path": [
+        "bonds"
+      ],
+      "value": [
+        "bond_x_chen_qianyu_gangban"
+      ]
+    },
+    {
+      "op": "append",
+      "file": "chess",
+      "id": "chess_char_6_10_a",
+      "path": [
+        "bonds"
+      ],
+      "value": [
+        "bond_x_chen_qianyu_gangban"
+      ]
+    },
+    {
+      "op": "append",
+      "file": "chess",
+      "id": "chess_char_6_10_b",
+      "path": [
+        "bonds"
+      ],
+      "value": [
+        "bond_x_chen_qianyu_gangban"
+      ]
+    },
+    {
+      "op": "append",
+      "file": "chess",
+      "id": "chess_char_2_13_a",
+      "path": [
+        "bonds"
+      ],
+      "value": [
+        "bond_x_chen_qianyu_gangban"
+      ]
+    },
+    {
+      "op": "append",
+      "file": "chess",
+      "id": "chess_char_2_13_b",
+      "path": [
+        "bonds"
+      ],
+      "value": [
+        "bond_x_chen_qianyu_gangban"
+      ]
+    },
+    {
+      "op": "append",
+      "file": "chess",
+      "id": "chess_char_3_18_a",
+      "path": [
+        "bonds"
+      ],
+      "value": [
+        "bond_x_chen_qianyu_gangban"
+      ]
+    },
+    {
+      "op": "append",
+      "file": "chess",
+      "id": "chess_char_3_18_b",
+      "path": [
+        "bonds"
+      ],
+      "value": [
+        "bond_x_chen_qianyu_gangban"
+      ]
+    },
+    {
+      "op": "append",
+      "file": "chess",
+      "id": "chess_char_1_03_a",
+      "path": [
+        "bonds"
+      ],
+      "value": [
+        "bond_x_chen_qianyu_gangban"
+      ]
+    },
+    {
+      "op": "append",
+      "file": "chess",
+      "id": "chess_char_1_03_b",
       "path": [
         "bonds"
       ],
