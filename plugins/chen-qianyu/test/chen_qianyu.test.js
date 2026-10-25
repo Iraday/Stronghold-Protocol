@@ -256,9 +256,9 @@ test('陈千语 texts follow the 普通 / 精锐 tab; 【钢板】 shows its liv
     assert.ok(skill.desc.includes(`攻击力${slash}的物理伤害，随后终结一击造成攻击力${fin}的物理伤害并使目标${stun}`), skill.desc);
     assert.equal(skill.spCost, sp);
     assert.ok(c.trait.desc.startsWith(`普通攻击连续造成两次伤害；每次造成伤害时，${guard}`), c.trait.desc);
-    assert.deepEqual(c.talents.map((t) => t.name), ['斩锋', '当弃即弃', '真锋']);
+    assert.deepEqual(c.talents.map((t) => t.name), ['斩锋', '当弃即弃', '不演了']);
     assert.ok(c.talents[0].desc.includes(`1层斩锋（攻击力${edge}`) && c.talents[1].desc.includes(`每层攻击力${per}`));
-    assert.equal(c.talents[2].desc, '在场6名以上不同【钢板】干员时，陈千语造成的所有伤害变为真实伤害');
+    assert.equal(c.talents[2].desc, '在场至少6名不同【钢板】干员时，陈千语造成的所有伤害变为真实伤害');
     const garrisons = (c.garrisonIds ?? []).map((id) => data.garrisons[id].desc);
     assert.deepEqual(garrisons.filter((d) => d.startsWith('【钢板】')).length, 1, `${form}: the 钢板 驻守 text`);
   }
@@ -319,21 +319,34 @@ test('strategy 陈千语 当当: 6 active bonds ⇒ every operator ignores 80% o
   assert.deepEqual(pierce('band_pith', 6), ids.map(() => [0, 0]), 'another strategy');
 });
 
-// 真锋: 【钢板】's count (the battle's bond snapshot) at 6 or more ⇒ her normal attacks and every skill hit are true damage
-test('陈千语 真锋: with 6 【钢板】 members on the field all her damage is true damage', run, async () => {
+// 不演了: 【钢板】's count (the battle's bond snapshot) at 6 or more ⇒ her normal attacks and every skill hit are true damage
+test('陈千语 不演了: real board counts of 5 / exactly 6 / 7 gate normal and skill true damage', run, async (t) => {
   const { makeBattle, checkInvariants } = await import('../../../test/helpers/battleHarness.js');
+  const { getData } = await import('../../../server/data.js');
+  const { GameData } = await import('../../../server/match/gamedata.js');
+  const { computeBonds } = await import('../../../server/match/bondsMeta.js');
   const BID = 'bond_x_chen_qianyu_gangban';
-  const types = (count) => {
+  const data = getData(), gd = new GameData(data, 'mode_multi_hard');
+  const seen = new Set(['char_x_chen_qianyu_chen']);
+  const otherMembers = Object.values(data.chess).filter(c => {
+    if (!c.visible || c.isGolden || !c.bonds.includes(BID) || seen.has(c.charId)) return false;
+    seen.add(c.charId); return true;
+  }).slice(0, 6);
+  assert.equal(otherMembers.length, 6, 'six other distinct 钢板 operators are available');
+  const types = (count, chenId) => {
+    const members = [data.chess[chenId], ...otherMembers.slice(0, count - 1)];
+    const bonds = computeBonds(gd, { board: new Map(members.map((c, i) => [`${9 + i % 4},${2 + Math.floor(i / 4)}`, { kind: 'chess', id: c.chessId, uid: i + 1, items: [] }])), hand: [], layers: {} });
+    assert.equal(bonds[BID]?.count, count, 'production board counting includes 陈千语 once');
     const h = makeBattle({
       seed: 7, timeLimit: 60,
-      units: [{ chessId: 'chess_x_chen_qianyu_chen_b', row: 9, col: 5 }],
-      bonds: { [BID]: { count, active: true, tier: count >= 6 ? 3 : 2, layers: 0 } },
+      units: [{ chessId: chenId, row: 9, col: 5 }],
+      bonds,
       enemies: [{ key: 'enemy_1422_lrsldr', time: 0, route: 0, count: 6, interval: 1.2, mods: { hpMul: 30 } }],
       hooks: ['damaged', 'skillStart'],
       captureNoisy: true,
     });
     h.step();
-    const chen = h.unit('chess_x_chen_qianyu_chen_b');
+    const chen = h.unit(chenId);
     h.runUntil(() => h.hooksOf('skillStart').some((e) => e.unit === chen), 60);
     h.run(3);
     checkInvariants(h.b);
@@ -341,8 +354,10 @@ test('陈千语 真锋: with 6 【钢板】 members on the field all her damage 
     const kinds = (list) => [...new Set(list.map((e) => e.type))];
     return { normal: kinds(mine.filter((e) => !e.dmg?.isSkill)), skill: kinds(mine.filter((e) => e.dmg?.isSkill)), skillHits: mine.filter((e) => e.dmg?.isSkill).length };
   };
-  const on = types(6), off = types(5);
-  assert.deepEqual({ normal: on.normal, skill: on.skill }, { normal: ['true'], skill: ['true'] }, '6 members');
-  assert.ok(on.skillHits >= 7, 'the 6 slashes and the final strike');
-  assert.deepEqual({ normal: off.normal, skill: off.skill }, { normal: ['phys'], skill: ['phys'] }, '5 members');
+  for (const form of ['a', 'b']) for (const count of [5, 6, 7]) {
+    const result = types(count, `chess_x_chen_qianyu_chen_${form}`), expected = count >= 6 ? 'true' : 'phys';
+    assert.deepEqual({ normal: result.normal, skill: result.skill }, { normal: [expected], skill: [expected] }, `${form}: ${count} distinct members`);
+    assert.ok(result.skillHits >= 7, 'the 6 slashes and the final strike were observed');
+    t.diagnostic(`${form}: ${count} distinct 钢板 members => normal ${result.normal}, skill ${result.skill}`);
+  }
 });

@@ -3,8 +3,10 @@
 ## Strategy portrait — 当当
 
 `strategy-dangdang.png` is the 180×180 strategy icon, edited from the maintainer's supplied chibi portrait using
-the built-in imagegen tool. The bottom-right logo was removed; the portrait received the mint hologram badge,
-horizontal scan lines and transparent perimeter of the existing strategy icons. The exact prompt and input roles
+the built-in imagegen tool. It uses subdued gray-blue/cyan shading, fine scan lines and softly fading transparency,
+with no bottom-right logo or neon badge/ring. It was compared beside the original strategy portraits using the
+actual 128–130px card CSS, then framed to match their display scale. The earlier 1.1.12 badge was too opaque and
+bright; its rejected prompt remains in the provenance record to prevent repeating that treatment. The exact prompt and input roles
 are recorded in [strategy-prompt.json](strategy-prompt.json). Official strategy icons were style references only
 and are not copied into this sources directory. The output is consumed as `art/band_chen_qianyu.png` by the newer
 `chen-qianyu-art` pack, separately from the operator avatar/portrait. The strategy's visible effect label is

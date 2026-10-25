@@ -1,7 +1,7 @@
 {
   "lock": 1,
   "id": "chen-qianyu",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "generator": "tools/plugin.mjs pack",
   "files": {
     "data/band.json": {
@@ -21,20 +21,20 @@
       "bytes": 39251
     },
     "operators/chen_qianyu.json": {
-      "sha256": "ec7fa8eeb23db0d23e4ba66ddadf11eabd665d3567f45777fc90b580a9b94ba2",
-      "bytes": 6460
+      "sha256": "72d750060fcaff6969faa3183dfcc4e6c11d460eb7aff7bcbb74199fcca99cf0",
+      "bytes": 6466
     },
     "plugin.json": {
-      "sha256": "a27c48bb0e7f04481cb7c85fd05420c0308de5f67b9f44f2b246e99f45ba34b8",
-      "bytes": 2377
+      "sha256": "ce77d6d56e419795a140826b727db1f73c95434075e183da76412bf6b942160c",
+      "bytes": 2395
     },
     "sim/index.js": {
-      "sha256": "840d30f2e4fbc2635d4633d4530b8291428009b588935af3a89a8d3ab0159715",
-      "bytes": 11957
+      "sha256": "fe1d73097db38f254b2dc7837387f054b6700d70b6a3e4bd18dab2abcb0b1fe4",
+      "bytes": 11969
     },
     "test/chen_qianyu.test.js": {
-      "sha256": "00a4a5ac17ca64bd1e8c0b1dd24288fd99b74324c7691d718658645915c9e0e0",
-      "bytes": 22418
+      "sha256": "d46391df6831df9a89604997f3b2bbd930622649b6e14ae3bcacc38e90de6a00",
+      "bytes": 23543
     }
   },
   "spine": {}

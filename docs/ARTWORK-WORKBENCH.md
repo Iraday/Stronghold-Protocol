@@ -189,6 +189,10 @@ Automation: await `window.artwork.ready`, then `setClip(name)`, `setTime(seconds
 
 ## 6. Verify editor changes
 
+For a routine artwork release, use [the short deployment guide](CHEN-QIANYU-DEPLOY.md). The checks below are for
+changes to the editor and its shared fitting code; a strategy portrait edit needs native-size UI comparison and
+strict plugin packing, followed by the existing server helper.
+
 ```sh
 node --test test/artwork/*.test.js test/plugins/chen-qianyu-outfit.test.js
 # PowerShell: $env:SP_ARTWORK_E2E='1'; node --test test/artwork/browser.test.js

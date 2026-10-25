@@ -25,9 +25,10 @@ folders (manifest, file types, sizes, paths, JSON).
   SES inside browser Workers and restricted server children, without a trusted pin or per-player consent; public
   listeners are allowed. Native `trusted` execution needs review, a lock pin in `config.json` and each player's consent;
   public/wildcard listeners or a public reverse proxy require `trusted-force` (PLUGINS.md §13);
-- this fork also versions the maintained `chen-qianyu/` gameplay plugin (1.0.17) and `chen-qianyu-art/` cosmetic pack
-  (1.1.12), including their matching locks, with the maintainer's explicit authorization. The strategy 陈千语 uses
-  the `当当` effect label and the owner's logo-free portrait in the same mint hologram style as other strategies.
+- this fork also versions the maintained `chen-qianyu/` gameplay plugin (1.0.18) and `chen-qianyu-art/` cosmetic pack
+  (1.1.13), including their matching locks, with the maintainer's explicit authorization. The strategy 陈千语 uses
+  the `当当` effect label and the owner's logo-free portrait with muted cyan scan lines and softly fading edges,
+  matching the other strategy cards at their actual display size.
   Their source and copyright
   notices remain in the manifests. Other installed plugins, policy files, studio keys and packed archives stay ignored.
 

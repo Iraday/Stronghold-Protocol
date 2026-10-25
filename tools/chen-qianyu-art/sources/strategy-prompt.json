@@ -1,13 +1,12 @@
 {
   "mode": "built-in image_gen",
-  "kind": "precise-object-edit",
+  "kind": "style-transfer",
   "editTarget": "Owner attachment codex-clipboard-22199404-0b72-446a-bfaa-8e3312172222.png",
   "styleReferences": [
-    "band_bldsk",
-    "band_amiya",
-    "band_orchid"
+    "Owner screenshot codex-clipboard-fd00d980-09cc-4fa9-9cfa-a236bf4cf08a.png (top-row strategy cards)",
+    "band_fang"
   ],
-  "prompt": "Use case: precise-object-edit with style matching. Asset: square strategy portrait icon for Stronghold Protocol. Image 1 is the EDIT TARGET and the exact character drawing to preserve. Images 2, 3, 4 are STYLE REFERENCES ONLY; do not copy their faces or hair. Produce ONE finished 1:1 PNG icon on genuinely transparent background. Remove the white ©GRYPHLINE logo/lettering from the bottom right of Image 1 and reconstruct the underlying hair/neck naturally. Preserve Image 1's chibi Chen Qianyu: charcoal hair, horn silhouette and pink roots, enormous gray/brown eyes with thick black outlines and white eye margins, tiny peach O mouth, small gold hair clip, original head angle and funny surprised expression. Keep this exact source-art character identity; no redrawing into the reference characters' realistic face style. Match the other strategy icon treatment: closely cropped portrait inside a rounded mint/teal holographic badge silhouette, mint green cyan tint, thin dense horizontal scan lines over portrait and badge, luminous mint edge with small pixel/glitch steps on the silhouette, darker lower vignette. Match reference icon composition, green color treatment, proportions and overall frame coverage. Keep face readable at 180 by 180 pixels. No new surrounding panel, square background, text, typography, copyright lettering, watermark, logos or extra characters. Transparent area outside the holographic badge. Final asset only, no contact sheet.",
+  "prompt": "Use case: style-transfer, precise portrait correction. Asset: Stronghold Protocol strategy icon, ONE square transparent PNG. Image 1 is the ORIGINAL CHARACTER EDIT TARGET. Image 2 is the user's actual game screenshot: the five portraits along the top row are the POSITIVE STYLE TARGET; the bright green round Chen Qianyu portrait at bottom left is the NEGATIVE EXAMPLE to fix. Image 3 is a correctly styled original strategy asset (Fang); its subtle partially transparent portrait shading and alpha falloff matter. Preserve the source character from image 1: charcoal hair and blue/pink horns, gold hair clip, huge gray-brown eyes, surprised little O mouth, original chibi identity and head angle. Remove the bottom-right copyright logo; no text or watermark in the output. Change the image treatment to the OTHER portraits in the screenshot: a small centered head-and-shoulders holographic portrait, subdued desaturated gray-blue/cyan colors, soft detailed anime shading and fine horizontal monitor scan lines. The portrait must be roughly 70–75% of the canvas height and width with comfortable transparent margins all around, matching the visual scale of the top-row faces, not an oversized face filling the entire tile. Fade the hair, horns, cheeks' outer silhouette, neck and shoulders gently into true transparency, with a dim semi-transparent cyan haze close to the face. Keep the eyes readable but do not make the whites neon-bright. Absolutely NO luminous green circular border, NO ring, NO green disc behind the face, NO thick glowing outline, NO bright pixel/glitch rim, NO badge silhouette, NO opaque rectangle or background panel. The outer edge should disappear softly with no visible cutout contour. Do not recreate any UI cards, words, frames or numbers from the screenshot. Keep just the portrait, intended to sit quietly on the game's near-black #111513 background. Style-match the restrained, low-opacity top-row portraits in image 2, not the loud bottom icon. Check legibility and consistency at 130px and 180px.",
   "transparent_background": true,
   "generatedSize": [
     1254,
@@ -17,10 +16,25 @@
     180,
     180
   ],
-  "resampling": "Premultiplied-alpha bilinear; no additional creative edits",
+  "resampling": "Premultiplied-alpha bilinear to 180×180; preserve generated transparency",
   "output": "strategy-dangdang.png",
   "consumer": "chen-qianyu-art/art/band_chen_qianyu.png",
   "strategy": "band_x_chen_qianyu_chen",
   "effectName": "当当",
-  "copyright": "Owner-supplied fan-game artwork. Retain the cosmetic plugin's source/copyright notices; logo removal is only in the rendered icon."
+  "copyright": "Owner-supplied fan-game artwork. Retain the cosmetic plugin's source/copyright notices; logo removal is only in the rendered icon.",
+  "framing": {
+    "masterCrop": [
+      128,
+      128,
+      998,
+      998
+    ],
+    "reason": "Match the original strategy portraits at the actual 128–130px card size"
+  },
+  "visualCheck": "Compared beside Fang, Mlynar, Chiave, Narantuya and Touch using the actual strategy-card CSS. Subdued cyan, fading edges, no luminous ring.",
+  "supersedes": {
+    "version": "1.1.12",
+    "reason": "The opaque neon badge/rim looked too bright and large in the actual game grid.",
+    "prompt": "Use case: precise-object-edit with style matching. Asset: square strategy portrait icon for Stronghold Protocol. Image 1 is the EDIT TARGET and the exact character drawing to preserve. Images 2, 3, 4 are STYLE REFERENCES ONLY; do not copy their faces or hair. Produce ONE finished 1:1 PNG icon on genuinely transparent background. Remove the white ©GRYPHLINE logo/lettering from the bottom right of Image 1 and reconstruct the underlying hair/neck naturally. Preserve Image 1's chibi Chen Qianyu: charcoal hair, horn silhouette and pink roots, enormous gray/brown eyes with thick black outlines and white eye margins, tiny peach O mouth, small gold hair clip, original head angle and funny surprised expression. Keep this exact source-art character identity; no redrawing into the reference characters' realistic face style. Match the other strategy icon treatment: closely cropped portrait inside a rounded mint/teal holographic badge silhouette, mint green cyan tint, thin dense horizontal scan lines over portrait and badge, luminous mint edge with small pixel/glitch steps on the silhouette, darker lower vignette. Match reference icon composition, green color treatment, proportions and overall frame coverage. Keep face readable at 180 by 180 pixels. No new surrounding panel, square background, text, typography, copyright lettering, watermark, logos or extra characters. Transparent area outside the holographic badge. Final asset only, no contact sheet."
+  }
 }

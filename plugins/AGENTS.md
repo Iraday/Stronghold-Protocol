@@ -7,6 +7,11 @@ people read [docs/PLUGIN-GUIDE.md](../docs/PLUGIN-GUIDE.md).
 
 ## The loop
 
+Routine Chen Qianyu releases use [the short deployment guide](../docs/CHEN-QIANYU-DEPLOY.md): pack the changed
+plugin, upload its archive, run the existing server helper, then commit/push. Artwork-only changes deploy only
+`chen-qianyu-art`; use native-size visual review, strict packing and the helper's room probe. Broaden checks when
+the editor, gameplay or engine changed, or when a check fails; do not repeat full CI/golden for a texture edit.
+
 For texture pieces and rigged outfits, use [the artwork workbench](../docs/ARTWORK-WORKBENCH.md):
 `node tools/artwork.mjs inspect --json` → extract → isolated build → checks → moving render → explicit visual review →
 pack. `artwork/chen-qianyu.json` records the example. Inspect moving bone ancestry before fitting cloth; stationary

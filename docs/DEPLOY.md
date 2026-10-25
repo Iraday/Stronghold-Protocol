@@ -1,5 +1,8 @@
 # 部署指南
 
+**已有 colorcrossingNY，只更新陈千语插件：**直接看 [陈千语例行更新](CHEN-QIANYU-DEPLOY.md)
+的打包 → 上传 → 现有部署脚本 → Git 推送。下面的内容用于安装或维护整个游戏服务。
+
 目标：在一台家用 Windows 小主机上长期开服，让朋友通过局域网或公网来玩。macOS / Linux / Docker 放在后面。
 所有命令都在项目根目录执行。遇到问题先运行 `node tools/doctor.mjs`（只读诊断）。
 

@@ -20,6 +20,8 @@ rooms) and a deterministic battle sim shared by the server and the browser. It a
    [docs/I18N.md](docs/I18N.md) (interface strings), `server/sim/content/kits/README.md` (operator kits).
 4. Artwork/sprite edits: [docs/ARTWORK-WORKBENCH.md](docs/ARTWORK-WORKBENCH.md) — local visual editor,
    JSON/CLI workflow, 陈千语 detail checklist, cloth motion regressions and isolated reviewed drafts.
+   Routine releases: [docs/CHEN-QIANYU-DEPLOY.md](docs/CHEN-QIANYU-DEPLOY.md) — pack → upload → existing deploy
+   helper → push; artwork-only updates need only the art helper and focused visual/pack checks.
 
 ## Hard rules
 

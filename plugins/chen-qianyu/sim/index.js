@@ -11,7 +11,7 @@
 // battle-wide `damaged` hook pays for every hit on the board — 2 a hit for the two of 1.0.13, spent after ~2 minutes of
 // a busy battle — so the kit hooks no battle-wide event: the skill's own callback does 斩锋, and one timer reads her own
 // counters (attacks, damage, kills, redeploys) every POLL seconds for the 特性 and 当弃即弃.
-// Talent 3 真锋 (the owner's choice of 2026-10-25): with 6 or more 【钢板】 members on the field (the bond's count, a
+// Talent 3 不演了 (the owner's choice of 2026-10-25): with 6 or more 【钢板】 members on the field (the bond's count, a
 // snapshot of the battle) all the damage she deals is true damage — her attack type is switched once at install, so it
 // costs nothing per hit. The strategy 陈千语 (data/band.json, Pith's round-1 grant with her chess, 20 LP) adds 当当:
 // with 6 or more active bonds every operator of its player ignores 80% of DEF and RES (阿米娅's count of active bonds at
@@ -42,7 +42,7 @@ const POLL = 0.5;                  // seconds between two looks at her counters:
 const BOND_ID = 'bond_x_chen_qianyu_gangban';
 const LAYER_KEY = 'chen-qianyu:gangban:layers';
 const LAYER_DEF = 20;              // 【钢板】: DEF per layer of the bond, while it is active
-const TRUE_COUNT = 6;              // 真锋: 【钢板】 members on the field for true damage
+const TRUE_COUNT = 6;              // 不演了: 【钢板】 members on the field for true damage
 const BAND_ID = 'band_x_chen_qianyu_chen';
 const BAND_KEY = 'chen-qianyu:band';
 const BAND_BONDS = 6;              // 当当: active bonds needed
@@ -97,7 +97,7 @@ export default function setup(sp) {
         spCost: f ? 22 : 25,
         initSp: 10,
         attack: {
-          // no dmgType: the attack takes her profile's (physical, or true under 真锋)
+          // no dmgType: the attack takes her profile's (physical, or true under 不演了)
           atkScale: SLASH[f],
           hits: 1,
           // the attack is the first slash; the other 5 and the final strike are dealt here, so that 斩锋 stacks and heals
@@ -182,7 +182,7 @@ export default function setup(sp) {
           }, { owner: unit });
         },
       }, {
-        // 真锋: 【钢板】's count of her player (the bond snapshot, fixed for the battle) at 6 or more ⇒ her attacks (normal
+        // 不演了: 【钢板】's count of her player (the bond snapshot, fixed for the battle) at 6 or more ⇒ her attacks (normal
         // and skill) take the true type, and so do the slashes and the final strike she deals in the skill's callback
         install(battle, unit) {
           const p = battle.players.find((x) => x.playerId === unit.ownerId);
