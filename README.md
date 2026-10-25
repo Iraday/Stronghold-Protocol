@@ -1,5 +1,7 @@
 # 卫戍协议：盟约 · Stronghold Protocol: Alliance
 
+维护者的可选私有编辑器和自定义内容：见 [独立仓库与新电脑设置](https://github.com/Iraday/Stronghold-Protocol/blob/main/docs/EDITOR.md)。公共游戏无需私有访问即可运行。
+
 《明日方舟》季节性自走棋塔防玩法「卫戍协议：盟约」的**非官方同人复刻**：浏览器即开即玩，单人或 1–4 人联机合作。
 
 ![version](https://img.shields.io/badge/version-0.3.1-2ea44f)

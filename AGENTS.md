@@ -18,10 +18,9 @@ rooms) and a deterministic battle sim shared by the server and the browser. It a
 3. The reference for the part you touch: [docs/SIM.md](docs/SIM.md) (battle engine API, hooks, test harness),
    [docs/META.md](docs/META.md) (match flow, shop, protocol), [docs/DATA.md](docs/DATA.md) (generated data),
    [docs/I18N.md](docs/I18N.md) (interface strings), `server/sim/content/kits/README.md` (operator kits).
-4. Artwork/sprite edits: [docs/ARTWORK-WORKBENCH.md](docs/ARTWORK-WORKBENCH.md) — local visual editor,
-   JSON/CLI workflow, 陈千语 detail checklist, cloth motion regressions and isolated reviewed drafts.
-   Routine releases: [docs/CHEN-QIANYU-DEPLOY.md](docs/CHEN-QIANYU-DEPLOY.md) — pack → upload → existing deploy
-   helper → push; artwork-only updates need only the art helper and focused visual/pack checks.
+4. Optional private editor/custom content: [docs/EDITOR.md](docs/EDITOR.md). Authorized agents initialize `editor/`
+   and read its own AGENTS.md/README for detailed laptop setup, artwork and release instructions. Private changes
+   are committed there; this public fork tracks only its gitlink. Never copy private payload into this tree.
 
 ## Hard rules
 
@@ -35,8 +34,8 @@ rooms) and a deterministic battle sim shared by the server and the browser. It a
   `npm run golden:update` in the same commit, and the commit / PR names every moved scenario and why
   ([test/golden/README.md](test/golden/README.md)).
 - **Generated data.** Never hand-edit `data/*.json`: change `tools/build-data.mjs` and regenerate.
-- **Game art in this fork.** `public/assets/` is ignored. The maintainer explicitly authorized versioning
-  `plugins/chen-qianyu-art/`; retain its source and copyright notices. Do not commit other extracted or downloaded game files.
+- **No game art or private packs in public Git.** `public/assets/` and installed custom plugins are ignored.
+  Private authored assets and packs belong to `editor/`; retain their notices and never commit runtime copies here.
 - **Interface strings** go through `t('…')`, with entries in every pack under `public/i18n/`
   (`node tools/i18n.mjs check --all --strict`).
 - **Docs follow the code.** A rule change updates `docs/design/`, the current `docs/history/` file and the reference

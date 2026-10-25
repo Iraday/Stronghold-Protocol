@@ -1,8 +1,7 @@
 # plugins/ — 插件 · plugins
 
-For detailed sprite/outfit edits, run `npm run artwork`: the [artwork workbench](../docs/ARTWORK-WORKBENCH.md)
-provides front/back motion previews, atlas-piece replacement, rig checks and a JSON/CLI agent workflow, with 陈千语
-as the worked example. Its drafts leave installed plugins untouched.
+For private custom content and editing, see [the optional editor setup](https://github.com/Iraday/Stronghold-Protocol/blob/main/docs/EDITOR.md). Its source is kept in
+a separate private repository; this public folder contains only ignored installed runtime packs and public templates.
 
 A server owner puts plugins here, one folder each: `plugins/<id>/plugin.json` (the manifest) next to the files it names.
 The server lists what it finds at `/plugins/index.json` and notices a new or changed plugin on the next page load.
@@ -25,12 +24,8 @@ folders (manifest, file types, sizes, paths, JSON).
   SES inside browser Workers and restricted server children, without a trusted pin or per-player consent; public
   listeners are allowed. Native `trusted` execution needs review, a lock pin in `config.json` and each player's consent;
   public/wildcard listeners or a public reverse proxy require `trusted-force` (PLUGINS.md §13);
-- this fork also versions the maintained `chen-qianyu/` gameplay plugin (1.0.18) and `chen-qianyu-art/` cosmetic pack
-  (1.1.13), including their matching locks, with the maintainer's explicit authorization. The strategy 陈千语 uses
-  the `当当` effect label and the owner's logo-free portrait with muted cyan scan lines and softly fading edges,
-  matching the other strategy cards at their actual display size.
-  Their source and copyright
-  notices remain in the manifests. Other installed plugins, policy files, studio keys and packed archives stay ignored.
+- installed plugins, policy, keys and archives stay ignored. Custom source, art and operational details belong to
+  the private editor repository; the public fork tracks only its optional submodule pointer.
 
 **Make one in the browser:** open `/studio/` of the running server — the plugin studio 插件工作台 (this machine and the local
 network only): pick a template, find what to change by its official name, drop your files on their places, compare with
@@ -45,20 +40,6 @@ every finding in plain words, `pack <dir> --zip` writes the `plugin.lock.json` a
 For data, copy `_template/content/` to `data-demo/` (PLUGINS.md §10: a bond patch and a kitRef operator); a server owner
 may limit what rooms take in `config.json` here (PLUGINS.md §11, DEPLOY.md). The same file's `allowDownloadHosts`
 is the operator's https download allowlist (PLUGINS.md §17); it is not a room-policy field.
-
-The Chen Qianyu cosmetic pack includes matching front and back battle models. With the official Ch'en back model
-available locally, `node tools/chen-qianyu-art/recolor-back.mjs` rebuilds the back model using the front's palette
-transforms while preserving the original skeleton and atlas layout. Then run
-`node tools/chen-qianyu-art/apply-outfit.mjs` to fit the lighter cropped jacket, black lower sleeves, blue gloves,
-wider/longer white skirt with a sage front apron, soft charcoal hair, red slit pupils, pink horn roots and dark long
-stockings in both views; a thin back collar replaces the hood. It upgrades the UV pages once to 1024px front / 512px
-back for detail. The skirt retains its 180-unit hem, with a wider upper fit overlapping beneath the jacket. It follows
-the animated waist; hem weights gradually blend toward both legs so the skirt moves with the body and flexes.
-The stationary `*_Hip` helper must not anchor it (it remains on the ground during the entrance jump).
-Obsolete shirt-panel deformations remain zeroed. Existing bones, poses and non-skirt animation data are unchanged.
-Unselected atlas regions preserve their original pixels by nearest-neighbor enlargement. Editable sheets and exact prompts are
-in [tools/chen-qianyu-art/sources](../tools/chen-qianyu-art/sources/README.md).
-Run `node tools/plugin.mjs pack chen-qianyu-art --zip` after changing its assets to refresh the lock.
 
 ```json
 {
@@ -78,8 +59,8 @@ Run `node tools/plugin.mjs pack chen-qianyu-art --zip` after changing its assets
 ```
 
 The id is the folder name: 2–32 lower-case letters, digits and `-`. A folder whose name starts with `_` (the templates)
-is never loaded. For new plugins, refer to the official art the installation already has; the existing `chen-qianyu-art/`
-pack is the explicit publication exception in this fork.
+is never loaded. For new plugins, refer to the official art the installation already has. Authored private packs
+and their source/copyright notices remain in the optional private companion repository.
 
 Install a local zip with `node tools/plugin.mjs install <zip>`; an HTTPS URL also needs `--sha256 <hash>`.
 `catalog <file|https URL>` inspects a community catalogue; `/studio/` offers 从目录安装. `--force` preserves the old

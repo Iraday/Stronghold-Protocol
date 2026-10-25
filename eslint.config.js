@@ -58,6 +58,7 @@ export default [
   {
     ignores: [
       'node_modules/**',
+      'editor/**',
       'public/vendor/**',
       'public/assets/**',
       'public/fonts/**',
@@ -76,7 +77,7 @@ export default [
     rules,
   },
   {
-    files: ['public/js/**/*.js', 'public/studio/**/*.js', 'tools/artwork/ui/**/*.js'],
+    files: ['public/js/**/*.js', 'public/studio/**/*.js'],
     languageOptions: {
       ecmaVersion: 2024,
       sourceType: 'module',

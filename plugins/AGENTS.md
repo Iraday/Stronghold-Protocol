@@ -7,16 +7,8 @@ people read [docs/PLUGIN-GUIDE.md](../docs/PLUGIN-GUIDE.md).
 
 ## The loop
 
-Routine Chen Qianyu releases use [the short deployment guide](../docs/CHEN-QIANYU-DEPLOY.md): pack the changed
-plugin, upload its archive, run the existing server helper, then commit/push. Artwork-only changes deploy only
-`chen-qianyu-art`; use native-size visual review, strict packing and the helper's room probe. Broaden checks when
-the editor, gameplay or engine changed, or when a check fails; do not repeat full CI/golden for a texture edit.
-
-For texture pieces and rigged outfits, use [the artwork workbench](../docs/ARTWORK-WORKBENCH.md):
-`node tools/artwork.mjs inspect --json` → extract → isolated build → checks → moving render → explicit visual review →
-pack. `artwork/chen-qianyu.json` records the example. Inspect moving bone ancestry before fitting cloth; stationary
-hip helpers made the old skirt stay on the ground during Start. Numeric checks do not approve appearance.
-The workbench writes drafts/locks in its cache and never installs or deploys them.
+Custom source belongs to the optional private editor. See [setup and ownership](https://github.com/Iraday/Stronghold-Protocol/blob/main/docs/EDITOR.md), then read
+`editor/AGENTS.md` after authorized initialization. This public folder holds ignored runtime copies, never private source.
 
 1. **Start from a template** — never from a blank file:
    `node tools/plugin.mjs new <art|spine|voice|audio|numbers|operator|dsl|meta|mode|ui|script> <id> --target <official name or id> --name "<name>"`
@@ -41,8 +33,8 @@ The workbench writes drafts/locks in its cache and never installs or deploys the
   and its pages in `m/`; or a reference `{ "ref": "<key>" }` to the installation's own entry of the same container.
 - Never write a Spine model's `animations`, `events`, `hits`, `bounds` or `anims` by hand (`"anims": "auto"` at most):
   `pack` reads them. Never hand-edit `plugin.lock.json`.
-- Use references to borrow the installation's official art. The maintainer explicitly authorized the existing
-  `chen-qianyu-art/` pack in this fork; retain its source and copyright notices. Do not add official-game files to other plugins.
+- Never put official-game files into a public plugin. Use references to borrow installed art; keep private authored
+  assets and their source/copyright notices in the private companion repository.
 - Keys you do not know are found by name: `GET /studio/api/targets?q=德克萨斯` on a running server (local network only;
   a read needs no key), or the template's `--target`.
 
@@ -59,8 +51,8 @@ plugin's state with `check.issues` (the same coded issues as `check --json`).
 - Do not invent fields or permissions (unknown fields are warnings; unknown permissions are problems).
 - Do not copy plugin folders across with links (a link inside a plugin folder keeps it out; a plugin folder that is
   itself a link is never opened by the studio).
-- This fork explicitly tracks `chen-qianyu/` and `chen-qianyu-art/`. Other server plugins, policy files and studio keys
-  remain git-ignored; do not commit them.
+- Installed custom packs, policy files and studio keys remain git-ignored. Private authoring source is tracked only
+  inside the optional `editor/` submodule; never force-add runtime copies to the public index.
 
 
 ## Script plugins

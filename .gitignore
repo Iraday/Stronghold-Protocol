@@ -1,4 +1,6 @@
 # --- dependencies & generated client libs -------------------------------------------------------
+# Optional private submodule: track only its gitlink, never its working-tree contents.
+/editor/
 node_modules/
 # a local npm cache (npm_config_cache=./.npm-cache, npm ci --cache .npm-cache — GitHub #258)
 .npm-cache/
@@ -38,14 +40,24 @@ __pycache__/
 packs/index.json
 
 # --- plugins (docs/PLUGINS.md): a server's own plugins and its policy file live in plugins/ and are never committed;
-# this fork also versions its maintained Chen Qianyu gameplay and cosmetic packs, explicitly authorized by the owner.
+# custom packs are versioned only in the optional private editor submodule.
 # plugins/_dist/ (packed zips), policy files and all other installed plugins stay ignored.
 plugins/*
 !plugins/README.md
 !plugins/AGENTS.md
 !plugins/_template/
-!plugins/chen-qianyu/
-!plugins/chen-qianyu-art/
+
+# Private authoring source is owned by editor/. Legacy materialized paths must never be staged publicly.
+/artwork/
+/tools/artwork.mjs
+/tools/artwork/
+/tools/chen-qianyu-art/
+/test/artwork/
+/test/helpers/artwork.js
+/test/plugins/chen-qianyu-outfit.test.js
+/schemas/artwork.schema.json
+/docs/ARTWORK-WORKBENCH.md
+/docs/CHEN-QIANYU-DEPLOY.md
 
 # --- tests & logs ----------------------------------------------------------------------------------
 test/e2e/out/
