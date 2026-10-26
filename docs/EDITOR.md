@@ -24,6 +24,10 @@ After initialization read `editor/AGENTS.md` and `editor/README.md`. They contai
 ownership rules, native plugin installation, artwork checks, deployment and upstream synchronization. Setup writes
 ignored runtime plugin copies and preserves existing local policy; it never deploys or uploads credentials.
 
+Every future custom plugin, including gameplay, data and cosmetic/art packs, follows the private editor's version
+policy: `MAJOR.MINOR.PATCH`, with MINOR and PATCH limited to 0–9 (`1.1.9 → 1.2.0`, `1.9.9 → 2.0.0`). Use its
+pack/verify workflow for new plugins as well as updates. This policy does not change upstream engine versioning.
+
 ## Keep the public boundary intact
 
 - Public: upstream engine/client/data, generic docs and this optional integration.
