@@ -384,7 +384,8 @@ function openValidationView({ root, dataDir, pluginsDir, stage }) {
       try { st = fs.statSync(abs); } catch { return; }
       if (!st.isDirectory()) return;
       if (!fs.existsSync(path.join(abs, PLUGIN_MANIFEST))) return;
-      fs.symlinkSync(abs, dest);
+      // A Windows directory junction does not need the privilege required for a symbolic link.
+      fs.symlinkSync(path.resolve(abs), dest, process.platform === 'win32' ? 'junction' : 'dir');
     };
     if (pluginsDir && fs.existsSync(pluginsDir)) {
       for (const name of fs.readdirSync(pluginsDir)) take(name, path.join(pluginsDir, name));
