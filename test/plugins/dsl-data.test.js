@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { makeBattle } from '../helpers/battleHarness.js';
+import { makeBattle, enemyRec } from '../helpers/battleHarness.js';
 import { fixture } from '../helpers/contentFixtures.js';
 import { buildContentSet, contentSetFiles } from '../../server/plugins/contentSet.js';
 import { DataSource } from '../../server/sim/simdata.js';
@@ -199,6 +199,60 @@ test('DSL in two data plugins spends each plugin id budget', (t) => {
   assert.notEqual(budgetUsed(h.battle, 'wideplug'), budgetUsed(h.battle, 'tinyplug'));
   assert.equal(h.battle.errors.filter((e) => e.label === 'plugin:wideplug').length, 0);
   assert.equal(h.battle.errors.filter((e) => e.label === 'plugin:tinyplug').length, 1);
+});
+
+test('a duration skill on.attack aims "target" at the attacked enemy, only while the skill runs', (t) => {
+  const f = fixture(t);
+  const dsl = {
+    dsl: 1,
+    skill: {
+      kind: 'duration', duration: 5, spCost: 3,
+      on: { attack: [
+        { damage: { target: 'target', amount: 300, type: 'arts' } },
+        { status: { target: 'target', key: 'stun', duration: 0.5 } },
+      ] },
+    },
+  };
+  f.put('atk-target', { permissions: ['data.add', 'dsl'], operators: ['op.json'] }, { 'op.json': melee('atk-target', dsl) });
+  const set = buildContentSet({ registry: f.registry, ids: ['atk-target'] });
+  assert.deepEqual(set.problems, [], JSON.stringify(set.problems));
+  setGameData(set.data);
+  t.after(() => setGameData(null));
+  const id = 'chess_x_atk_target_keep_a';
+  const foe = 'enemy_x_dummy';
+  const h = makeBattle({
+    data: new DataSource({ ...set.data, enemies: { ...set.data.enemies, [foe]: enemyRec({ key: foe, hp: 1e6, atk: 0 }) } }),
+    autoFinish: false, timeLimit: 20, captureNoisy: true,
+    units: [{ chessId: id, row: 10, col: 5 }],
+    enemies: [{ key: foe, time: 0, pos: [10, 6] }],
+  });
+  // SP 3 by time: the skill runs 4–9 s and is ready again at 12 s; stop before that second cast.
+  h.run(11);
+  const u = h.unit(id);
+  const e = h.enemy(foe);
+  const starts = h.hooksOf('skillStart').filter((c) => c.unit === u);
+  const ends = h.hooksOf('skillEnd').filter((c) => c.unit === u);
+  assert.equal(starts.length, 1);
+  assert.equal(ends.length, 1);
+  const [start] = starts;
+  const [end] = ends;
+  const inSkill = (c) => c.t >= start.t - 1e-9 && c.t <= end.t + 1e-9;
+  const attacks = h.hooksOf('attack').filter((c) => c.attacker === u);
+  assert.ok(attacks.some((c) => c.t < start.t), 'it attacked before the skill');
+  assert.ok(attacks.some((c) => c.t > end.t), 'it attacked after the skill');
+  const during = attacks.filter(inSkill);
+  assert.ok(during.length > 0, 'it attacked during the skill');
+  assert.ok(during.every((c) => c.targets[0] === e));
+  const arts = h.hooksOf('hit').filter((c) => c.source === u && c.dmg && c.dmg.type === 'arts');
+  const stuns = h.hooksOf('statusApplied').filter((c) => c.source === u && c.status === 'stun');
+  assert.equal(arts.length, during.length, 'one arts hit per skill attack');
+  assert.equal(stuns.length, during.length, 'one stun per skill attack');
+  for (const c of [...arts, ...stuns]) {
+    assert.equal(c.target, e);
+    assert.ok(inSkill(c), `effect at ${c.t} outside the skill ${start.t}–${end.t}`);
+  }
+  assert.ok(arts.every((c) => c.dmg.tags.includes('dsl')));
+  assert.equal(h.battle.errors.length, 0, JSON.stringify(h.battle.errors));
 });
 
 test('a PLUGIN_DSL_* kit throw ends the battle; any other throw is still the generic kit', () => {

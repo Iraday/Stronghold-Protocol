@@ -236,7 +236,8 @@ function bondOf(rt, id) {
  * scans `battle.enemies` in that order and skips `!alive`, `hidden` and `untargetable`. Stealth is skipped via
  * enemyStealthed unless `includeStealth`. Chebyshev uses `cheb` (≤ r). The other shape is euclidean on the centre.
  * [ASSUMED] `allAllies` is alliesFor(unit, unit.ownerId): the same owner only, including on a unite field.
- * `lowestHpAlly` is lowestHpAllyInRange (injured allies only). `target` is the hook target, or the victim of a kill.
+ * `lowestHpAlly` is lowestHpAllyInRange (injured allies only). `target` is the hook target, the victim of a kill, or
+ * the first target of an attack (the `attack` trigger and a skill's on.attack); none in on.start / on.end / on.tick.
  * `source` is the hook source, the killer, or the attacker.
  */
 export function resolveTargets(spec, rt) {
@@ -483,7 +484,8 @@ export function runActions(list, rt, depth = 0) {
 }
 
 export function makeRuntime(battle, unit, env, ctx = {}) {
-  const target = ctx.target ?? ctx.victim ?? null;
+  // A skill's on.attack ctx carries only `targets`: its target is the first one, as the `attack` trigger's.
+  const target = ctx.target ?? ctx.victim ?? (ctx.targets && ctx.targets[0]) ?? null;
   const source = ctx.source ?? ctx.killer ?? ctx.attacker ?? null;
   return {
     battle,
@@ -625,7 +627,10 @@ export function installTrigger(talent, battle, unit, env) {
   }
 }
 
-/** Bind a skill `on.*` list to a SkillSpec callback. */
+/**
+ * Bind a skill `on.*` list to a SkillSpec callback. `target`: on.hit the unit hit (or healed), on.attack the attack's
+ * first target, on.start / on.end / on.tick none. No callback has a `source`.
+ */
 export function skillCallback(actions, env) {
   return (ctx) => {
     const rt = makeRuntime(ctx.battle, ctx.unit, env, ctx);

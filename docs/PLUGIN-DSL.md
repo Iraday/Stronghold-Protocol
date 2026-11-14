@@ -22,6 +22,7 @@
 - `budget` 可省略。[ASSUMED] 省略时每场战斗、每个插件 8000 次动作。写了就必须是 1 到 10000000 的整数。
 - `skill` 是当前选中的默认技能。`skills` 按技能 id 再给别的技能。持续、技力、初始技力省略时沿用干员数据；弹药省略会被引擎当成 0，所以弹药技能必须写 `ammo`。`kind` 不要省，省了引擎会当成瞬发。
 - 技能回调写在 `on` 里：`start` / `end` / `hit` / `attack` / `tick`。`on.start` 在引擎发出 `skillStart` 之前运行，不要再写一条 `skillStart` 天赋去做同一件事。
+- 回调里的目标 `target`（动作的 `target`、`targetHas`、`stat.of`、`at`）：`hit` 是这一下打中的单位（治疗攻击是被治疗的友方）；`attack` 是这次攻击的第一个目标，和 `attack` 天赋相同（治疗攻击是第一个被治疗的友方）；`start`、`end`、`tick` 没有目标，写 `target` 的动作谁也不选。`attack` 在这次攻击发出后马上运行，远程攻击的投射物可能还没落地。技能回调都没有 `source`，打自己写 `self` 或省略目标。
 
 不接受 `loop`、`while`、`for`、`code`、`js`、`eval`、`external`、`script`、`import`。没有循环，也没有战斗之外的状态。
 
@@ -212,7 +213,7 @@
 ] }
 ```
 
-`elementBurst` 使用 damage.js 已有爆发事件，携带 `target` 和 `source`；不再造伤害或爆发事件。
+`elementBurst` 使用 attack/element.js 已有爆发事件，携带 `target` 和 `source`；不再造伤害或爆发事件。
 [ASSUMED] `element` 是封闭词表：neural（神经，SANITY/1）、erosion（侵蚀，WATER/2）、burn（灼燃，FIRE/3）、
 apoptosis（凋亡，DARK/4）、necrosis（引擎旧有坏死，无新增官方数字 id）。不得用 WATER 等别名或猜测的新元素。
 `targetOnField`、`selfOnField` 必须为布尔值：在场表示存活、未隐藏／移除，友方还必须已部署。

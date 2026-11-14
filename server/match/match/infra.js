@@ -81,7 +81,12 @@ export class MatchInfra {
    * the timers only ever made humans wait on each other; AI seats act at once. A server started with SP_UNTIMED=1
    * (opts.untimed) runs every match this way.
    */
-  get soloUntimed() { return this.isSolo || this.loneHuman || this.untimed; }
+  get soloUntimed() {
+    if (this.untimed) return true;
+    // Maintainer decision: historical solo uses its timer unless 「不限时」 is opted into;
+    // the single-human convenience rule still applies to co-op.
+    return this.isSolo ? this.gd.config.version?.rules?.soloTimed !== true || this.opts.soloUnlimited === true : this.loneHuman;
+  }
 
   nextUid() { return ++this.uidSeq; }
 
@@ -141,6 +146,7 @@ export class MatchInfra {
   }
 
   dispatch(ps, hook, ev = {}, opts = {}) {
+    this.externalAI?.observe(ps, hook, ev);
     try { return this.dispatcher.dispatch(ps, hook, ev, opts); } catch (e) { this.reportError(`dispatch ${hook}`, e); return ev; }
   }
 

@@ -1,7 +1,7 @@
 ﻿<#
   卫戍协议：盟约 · 用 Docker 在本机开服，给同一 Wi-Fi / 局域网的设备玩（Windows）。文档：docs\DEPLOY.md 第 3 节
   运行：双击 scripts\start-docker-lan.bat，或
-        powershell -ExecutionPolicy Bypass -File scripts\start-docker-lan.ps1 [-Port 3001] [-Assets] [-NoFirewall] [-Stop]
+        powershell -ExecutionPolicy Bypass -File scripts\start-docker-lan.ps1 [-Port 3001] [-Assets] [-NoFirewall] [-SandboxPlugins] [-Stop]
   需要 Docker Desktop（Linux 容器）和源码目录（git clone；整合包没有 Dockerfile），本机不需要 Node.js。
     1. Docker 引擎没有运行时启动 Docker Desktop
     2. 首次（或 -Assets）：用 node:22-alpine 容器把素材下载到 public\assets（tools\fetch-assets.mjs；和 setup 一样，
@@ -19,6 +19,7 @@ param(
   [int]$Port = 0,
   [switch]$Assets,
   [switch]$NoFirewall,
+  [switch]$SandboxPlugins,
   [switch]$Stop
 )
 $ErrorActionPreference = 'Continue'   # native tools report through $LASTEXITCODE
@@ -155,7 +156,9 @@ if (Test-PortBusy $Port) {
 }
 Write-Host ''
 Write-Host "[启动] 容器 $Name，端口 $Port ..."
-docker run -d --name $Name -p "${Port}:3000" -e "SP_UNTIMED=$Untimed" -e "SP_HIDDEN_CORE=$HiddenCore" `
+$pluginArgs = @()
+if ($SandboxPlugins) { $pluginArgs = @('-e', 'SP_PLUGIN_SCRIPTS=sandbox') }
+docker run -d --name $Name -p "${Port}:3000" -e "SP_UNTIMED=$Untimed" -e "SP_HIDDEN_CORE=$HiddenCore" @pluginArgs `
   -v "${Root}\public\assets:/app/public/assets:ro" -v stronghold-plugins:/app/plugins $Image | Out-Null
 if ($LASTEXITCODE -ne 0) { Fail "容器启动失败（端口 $Port）：请查看上面的错误信息，或用 -Port 换一个端口。" }
 

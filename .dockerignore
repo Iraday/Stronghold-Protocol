@@ -2,6 +2,7 @@
 .git
 .github
 .claude
+editor
 node_modules
 .cache
 .venv*
